@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CS 280A Project 1 : Colorizing the Prokudin-Gorskii</title>
+    <!-- <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+        header {
+            background-color: #f4f4f4;
+            padding: 1rem;
+            text-align: center;
+        }
+        main {
+            padding: 1rem;
+        }
+        footer {
+            background-color: #f4f4f4;
+            text-align: center;
+            padding: 1rem;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+    </style> -->
+</head>
+<body>
+    <header>
+        <h1>CS 280A Project 1 : Colorizing the Prokudin-Gorskii by Phudish Prateepamornkul</h1>
+    </header>
+    <main>
+        <h2>Background</h2>
+        <p>Sergei Mikhailovich Prokudin-Gorskii (1863-1944) [Сергей Михайлович Прокудин-Горский, to his Russian friends] was a man well ahead of his time. Convinced, as early as 1907, that color photography 
+            was the wave of the future, he won Tzar's special permission to travel across the vast Russian Empire and take color photographs of everything he saw including the only color portrait of Leo Tolstoy. 
+            And he really photographed everything: people, buildings, landscapes, railroads, bridges... thousands of color pictures! His idea was simple: record three exposures of every scene onto a glass plate 
+            using a red, a green, and a blue filter. Never mind that there was no way to print color photographs until much later -- he envisioned special projectors to be installed in "multimedia" classrooms 
+            all across Russia where the children would be able to learn about their vast country. Alas, his plans never materialized: he left Russia in 1918, right after the revolution, never to return again. 
+            Luckily, his RGB glass plate negatives, capturing the last years of the Russian Empire, survived and were purchased in 1948 by the Library of Congress. The LoC has recently digitized the negatives and 
+            made them available on-line.</p>
+        
+        <h2>Overview</h2>
+        <p> Our goal is to extract the three color channel images and place them on top of each other and align them so that they are going to form a single RGB color image.</p>
+
+        <h2>Implementation</h2>
+        <p> The first thing we have to do is that we will read the glass plate negatives image which are each of a single grayscale image where the filter order from top to bottom is Blue, Green and Red
+            respectively. Then we return the three color channel images and in this case we can already align them. However, the problem is that these images will not align perfectly and therefore the combined
+            image will not look good. Therefore, inorder to align the image better is we will use the exhaustively search over a window of possible displacements and we score each of the displacements and we will
+            take the best one. We will try to use two different metric to score the displacements which are the L2 norm which is essentially the Euclidean distance and we will also use the L1 norm which is very similar
+            to the L2 norm but instead of the square the different and take square root we instead take the absolute different. In all of the case we are using the Blue image as the baseline. For the possible displacements
+            we are using different range for the x and y axis and for each of the we do it base on the 10% of the each image dimension. So for example if the image has the dimension of 100x150 then the x-axis displacements 
+            will be [-10, 10] and the y-axis displacements will be [-15, 15].
+        </p>
+
+        <h2>Initial Results on the Low Resolution image</h2>
+        <p> 
+            We applied our algorithm to the low resolutio image and the result is show below. From what we can see is that the method is able to align the image quite well on some of the images 
+            but might not be well to all the image we will try to fix this at the end. Also from this we will use the L2 norm as the metric to score the displacements as it seems to work better than the L1 norm.
+        </p>
+
+        <div class="image-container">
+            <figure>
+                <img src="images\\cathedral_l1_norm_0.jpg" alt="Cathedral with L1 norm" style="width: 100%;">
+                <figcaption>
+                    Cathedral with L1 norm
+                    <br>
+                    with best offset for green to be [1, 0]
+                    <br>
+                    with best offset for red to be [8, -1]
+                </figcaption>
+            </figure>
+            <figure>
+                <img src="images\\cathedral_l2_norm_0.jpg" alt="Cathedral with L2 norm" style="width: 100%;">
+                <figcaption>
+                    Cathedral with L2 norm
+                    <br>
+                    with best offset for green to be [1, -1]
+                    <br>
+                    with best offset for red to be [7,-1]
+                </figcaption>
+            </figure>
+        </div>
+        <style>
+        .image-container {
+            display: flex;
+            justify-content: space-between;
+        }
+        .image-container img {
+            max-width: 100%;
+            height: auto;
+        }
+        .image-container figure {
+            text-align: center;
+        }
+        </style>
+
+         <div class="image-container">
+            <figure>
+                <img src="images\\monastery_l1_norm_0.jpg" alt="Monastery with L1 norm" style="width: 100%;">
+                <figcaption>
+                    Monastery with L1 norm
+                    <br>
+                    with best offset for green to be [-3, 1]
+                    <br>
+                    with best offset for red to be [9, 1]
+                </figcaption>
+            </figure>
+            <figure>
+                <img src="images\\monastery_l2_norm_0.jpg" alt="Monastery with L2 norm" style="width: 100%;">
+                <figcaption>
+                    Monastery with L2 norm
+                    <br>
+                    with best offset for green to be [-6, 0]
+                    <br>
+                    with best offset for red to be [9, 1]
+                </figcaption>
+            </figure>
+        </div>
+        <style>
+        .image-container {
+            display: flex;
+            justify-content: space-between;
+        }
+        .image-container img {
+            max-width: 100%;
+            height: auto;
+        }
+        .image-container figure {
+            text-align: center;
+        }
+        </style>
+
+         <div class="image-container">
+            <figure>
+                <img src="images\\tobolsk_l1_norm_0.jpg" alt="Tobolsk with L1 norm" style="width: 100%;">
+                <figcaption>
+                     Tobolsk with L1 norm
+                    <br>
+                    with best offset for green to be [3, 2]
+                    <br>
+                    with best offset for red to be [6, 3]
+                </figcaption>
+            </figure>
+            <figure>
+                <img src="images\\tobolsk_l2_norm_0.jpg" alt="Tobolsk with L2 norm" style="width: 100%;">
+                <figcaption>
+                    Tobolsk with L2 norm
+                    <br>
+                    with best offset for green to be [3, 2]
+                    <br>
+                    with best offset for red to be [6, 3]
+                </figcaption>
+            </figure>
+        </div>
+        <style>
+        .image-container {
+            display: flex;
+            justify-content: space-between;
+        }
+        .image-container img {
+            max-width: 100%;
+            height: auto;
+        }
+        .image-container figure {
+            text-align: center;
+        }
+        </style>
+
+        <h2> Image Pyramid</h2>
+        <p>  
+            As we can probably guess the exhaustive search is essentially is the brute force method which can be very slow especially for the large image.
+            Therefore we will have to do something that is different and we will need to use image pyramid. The idea is that we scaled the image down by the scale of 2 and then we will align the image for the small 
+            image and then we estimated the displacments backup to the original image. In our case we have that we rescale the image down by the factor of 2 for 3 times and then once we have the best displacements 
+            for the smallest image then we make the best offset by multiply it by 2 and shifted the image by that amount. Additionally, we also might need to shift the image a little bit more to make sure that the 
+            image can aligned better so we will also have to do the exhaustive search for a small amount of displacements in the range [-4, 4] for both x and y axis. Then we will adjust the best offset base on this 
+            search. And then we recursively do this for the next scale until we reach the original image size. The image below is the result of the image pyramid to the large image size. From the result we can see that
+            some of the image is good but
+
+        </p>
+
+        </style>
+        <div style="text-align: center;">
+            <img src="images\\church_pyramid_0.jpg" alt="Description of the image" width="25%">
+            <p>
+                Church image with the best offset for green to be [0, -5]
+                <br>
+                Church image with the best offset for red to be [52, -6]
+            </p>
+        </div>
+        <style>        
+       
+        </style>
+        <div style="text-align: center;">
+            <img src="images\\emir_pyramid_0.jpg" alt="Description of the image" width="25%">
+            <p>
+                Emir image with the best offset for green to be [-3, 7]
+                <br>
+                Emir image with the best offset for red to be [107, 17]
+            </p>
+        </div>
+        <style>        
+       
+         </style>
+        <div style="text-align: center;">
+            <img src="images\\harvesters_pyramid_0.jpg" alt="Description of the image" width="25%">
+            <p>
+                Harvesters image with the best offset for green to be [118, -3]
+                <br>
+                Harvesters image with the best offset for red to be [120, 7]
+            </p>
+        </div>
+        <style>        
+        
+        </style>
+        <div style="text-align: center;">
+            <img src="images\\lady_pyramid_0.jpg" alt="Description of the image" width="25%">
+            <p>
+                Lady image with the best offset for green to be [42, 16]
+                <br>
+                Lady image with the best offset for red to be [89, 22]
+            </p>
+        </div>
+        <style>        
+
+        </style>
+        <div style="text-align: center;">
+            <img src="images\\Melons_pyramid_0.jpg" alt="Description of the image" width="25%">
+            <p>
+                Melons image with the best offset for green to be [83, 4]
+                <br>
+                Melons image with the best offset for red to be [176, 7]
+            </p>
+        </div>
+        <style>        
+
+        </style>
+        <div style="text-align: center;">
+            <img src="images\\onion_church_pyramid_0.jpg" alt="Description of the image" width="25%">
+            <p>
+                Onion Church image with the best offset for green to be [52, 22]
+                <br>
+                Onion Church image with the best offset for red to be [108, 0]
+            </p>
+        </div>
+        <style>
+        
+         </style>
+        <div style="text-align: center;">
+            <img src="images\\sculpture_pyramid_0.jpg" alt="Description of the image" width="25%">
+            <p>
+                Sculpture image with the best offset for green to be [33, -11]
+                <br>
+                Sculpture image with the best offset for red to be [140, -26]
+            </p>
+        </div>
+        <style>        
+
+         </style>
+        <div style="text-align: center;">
+            <img src="images\\self_portrait_pyramid_0.jpg" alt="Description of the image" width="25%">
+            <p>
+                Self Portrait image with the best offset for green to be [50, -2]
+                <br>
+                Self Portrait image with the best offset for red to be [130, -5]
+            </p>
+        </div>
+        <style>        
+
+         </style>
+        <div style="text-align: center;">
+            <img src="images\\three_generations_pyramid_0.jpg" alt="Description of the image" width="25%">
+            <p>
+                Three Generations image with the best offset for green to be [52, 5]
+                <br>
+                Three Generations image with the best offset for red to be [108, 7]
+            </p>
+        </div>
+        <style>        
+
+         </style>
+        <div style="text-align: center;">
+            <img src="images\\train_pyramid_0.jpg" alt="Description of the image" width="25%">
+            <p>
+                Train image with the best offset for green to be [111, -7]
+                <br>
+                Train image with the best offset for red to be [107, 1]
+            </p>
+        </div>
+        <style>        
+        
+            
+        </style>
+
+        <h2> Improvement </h2>
+        <p>  We will try to improve the result the first thing I decided to do is that I notice that we have a lot f very high value of image pixels especially in the edge of the image.
+            Therefore, I decided to crop the image to focus only about 80% of the image so that the calculation will also be faster and does not get effected by the high value of the image pixels. That is for the 
+            low resolution images. However, for the higher resolution images for the smallest image I crop the image to 90% of the image and then for the rest of them I crop the image to 80% of the image.
+            The result is shown below. As we can see that the result is much better than before. But then there is one image that we still have not align that well which is the Emir image. 
+            We will try to fix this in the next section.
+        </p>
+
+    
+        <div class="image-container">
+            <figure>
+                <img src="images\\cathedral_l2_norm_0.jpg" alt="Cathedral with L1 norm" style="width: 100%;">
+                <figcaption>
+                    Cathedral with 0% crop
+                    with best offset for green to be [1, -1]
+                    <br>
+                    with best offset for red to be [7, -1]
+                </figcaption>
+            </figure>
+            <figure>
+                <img src="images\\cathedral_l2_norm_0.1.jpg" alt="Cathedral with L2 norm" style="width: 100%;">
+                <figcaption>
+                    Cathedral with 10% crop each edge
+                    <br>
+                    with best offset for green to be [5, 2]
+                    <br>
+                    with best offset for red to be [12, 3]
+                </figcaption>
+            </figure>
+        </div>
+        <style>
+        .image-container {
+            display: flex;
+            justify-content: space-between;
+        }
+        .image-container img {
+            max-width: 100%;
+            height: auto;
+        }
+        .image-container figure {
+            text-align: center;
+        }
+        </style>
+
+         <div class="image-container">
+            <figure>
+                <img src="images\\monastery_l2_norm_0.jpg" alt="Monastery with L1 norm" style="width: 100%;">
+                <figcaption>
+                    Monastery with 0% crop
+                    <br>
+                    with best offset for green to be [-6, 0]
+                    <br>
+                    with best offset for red to be [9, 1]
+                </figcaption>
+            </figure>
+            <figure>
+                <img src="images\\monastery_l2_norm_0.1.jpg" alt="Monastery with L2 norm" style="width: 100%;">
+                <figcaption>
+                    Monastery with 10% crop each edge
+                    <br>
+                    with best offset for green to be [-3, 2]
+                    <br>
+                    with best offset for red to be [3, 2]
+                </figcaption>
+            </figure>
+        </div>
+        <style>
+        .image-container {
+            display: flex;
+            justify-content: space-between;
+        }
+        .image-container img {
+            max-width: 100%;
+            height: auto;
+        }
+        .image-container figure {
+            text-align: center;
+        }
+        </style>
+
+         <div class="image-container">
+            <figure>
+                <img src="images\\tobolsk_l2_norm_0.jpg" alt="Tobolsk with L1 norm" style="width: 100%;">
+                <figcaption>
+                     Tobolsk with 0% crop
+                    <br>
+                    with best offset for green to be [3, 2]
+                    <br>
+                    with best offset for red to be [6, 3]
+                </figcaption>
+            </figure>
+            <figure>
+                <img src="images\\tobolsk_l2_norm_0.1.jpg" alt="Tobolsk with L2 norm" style="width: 100%;">
+                <figcaption>
+                    Tobolsk with 10% crop each edge
+                    <br>
+                    with best offset for green to be [3, 3]
+                    <br>
+                    with best offset for red to be [6, 3]
+                </figcaption>
+            </figure>
+        </div>
+        <style>
+        .image-container {
+            display: flex;
+            justify-content: space-between;
+        }
+        .image-container img {
+            max-width: 100%;
+            height: auto;
+        }
+        .image-container figure {
+            text-align: center;
+        }
+        </style>        
+        
+
+        <div class="image-container">
+            <figure>
+                <img src="images\\church_pyramid_0.jpg" alt="Description of the image" width="100%">
+                <figcaption>
+                    Church with 0% crop
+                    <br>
+                    with the best offset for green to be [0, -5]
+                    <br>
+                    with the best offset for red to be [52, -6]
+                </figcaption>
+            </figure>
+            <figure>
+                <img src="images\\church_pyramid_0.05.jpg" alt="Tobolsk with L2 norm" style="width: 100%;">
+                <figcaption>
+                    Church with cropping 
+                    <br>
+                    with best offset for green to be [25, 4]
+                    <br>
+                    with best offset for red to be [58, -4]
+                </figcaption>
+            </figure>
+        </div>
+        <style>
+        .image-container {
+            display: flex;
+            justify-content: space-between;
+        }
+        .image-container img {
+            max-width: 100%;
+            height: auto;
+        }
+        .image-container figure {
+            text-align: center;
+        }
+        </style>        
+       
+        <div class="image-container">
+            <figure>
+                <img src="images\\emir_pyramid_0.jpg" alt="Description of the image" width="100%">
+                <figcaption>
+                    Emir with 0% crop
+                    <br>
+                    with the best offset for green to be [-3, 7]
+                    <br>
+                    with the best offset for red to be [107, 17]
+                </figcaption>
+            </figure>
+            <figure>
+                <img src="images\\emir_pyramid_0.05.jpg" alt="Tobolsk with L2 norm" style="width: 100%;">
+                <figcaption>
+                    Emir with cropping 
+                    <br>
+                    with best offset for green to be [49, 24]
+                    <br>
+                    with best offset for red to be [28, -328]
+                </figcaption>
+            </figure>
+        </div>
+        <style>
+        .image-container {
+            display: flex;
+            justify-content: space-between;
+        }
+        .image-container img {
+            max-width: 100%;
+            height: auto;
+        }
+        .image-container figure {
+            text-align: center;
+        }
+        </style>        
+       
+
+        <div class="image-container">
+            <figure>
+                <img src="images\\harvesters_pyramid_0.jpg" alt="Description of the image" width="100%">
+                <figcaption>
+                    Harvesters with 0% crop
+                    <br>
+                    with the best offset for green to be [118, -3]
+                    <br>
+                    with the best offset for red to be [120, 7]
+                </figcaption>
+            </figure>
+            <figure>
+                <img src="images\\harvesters_pyramid_0.05.jpg" alt="Tobolsk with L2 norm" style="width: 100%;">
+                <figcaption>
+                    Harvesters with cropping 
+                    <br>
+                    with best offset for green to be [60, 17]
+                    <br>
+                    with best offset for red to be [124, 14]
+                </figcaption>
+            </figure>
+        </div>
+        <style>
+        .image-container {
+            display: flex;
+            justify-content: space-between;
+        }
+        .image-container img {
+            max-width: 100%;
+            height: auto;
+        }
+        .image-container figure {
+            text-align: center;
+        }
+        </style>        
+       
+       
+       
+        <div class="image-container">
+            <figure>
+                <img src="images\\icon_pyramid_0.jpg" alt="Description of the image" width="100%">
+                <figcaption>
+                    Icon with 0% crop
+                    <br>
+                    with the best offset for green to be [42, 16]
+                    <br>
+                    with the best offset for red to be [89, 22]
+                </figcaption>
+            </figure>
+            <figure>
+                <img src="images\\icon_pyramid_0.05.jpg" alt="Tobolsk with L2 norm" style="width: 100%;">
+                <figcaption>
+                    Icon with cropping 
+                    <br>
+                    with best offset for green to be [41, 17]
+                    <br>
+                    with best offset for red to be [90, 23]
+                </figcaption>
+            </figure>
+        </div>
+        <style>
+        .image-container {
+            display: flex;
+            justify-content: space-between;
+        }
+        .image-container img {
+            max-width: 100%;
+            height: auto;
+        }
+        .image-container figure {
+            text-align: center;
+        }
+        </style>        
+      
+         <div class="image-container">
+            <figure>
+                <img src="images\\lady_pyramid_0.jpg" alt="Description of the image" width="100%">
+                <figcaption>
+                    Lady with 0% crop
+                    <br>
+                    with the best offset for green to be [57, -6]
+                    <br>
+                    with the best offset for red to be [123, -7]
+                </figcaption>
+            </figure>
+            <figure>
+                <img src="images\\lady_pyramid_0.05.jpg" alt="Tobolsk with L2 norm" style="width: 100%;">
+                <figcaption>
+                    Lady with cropping 
+                    <br>
+                    with best offset for green to be [56, 8]
+                    <br>
+                    with best offset for red to be [112, 12]
+                </figcaption>
+            </figure>
+        </div>
+        <style>
+        .image-container {
+            display: flex;
+            justify-content: space-between;
+        }
+        .image-container img {
+            max-width: 100%;
+            height: auto;
+        }
+        .image-container figure {
+            text-align: center;
+        }
+        </style>               
+        
+     <div class="image-container">
+            <figure>
+                <img src="images\\melons_pyramid_0.jpg" alt="Description of the image" width="100%">
+                <figcaption>
+                    Melon with 0% crop
+                    <br>
+                    with the best offset for green to be [83, 4]
+                    <br>
+                    with the best offset for red to be [176, 7]
+                </figcaption>
+            </figure>
+            <figure>
+                <img src="images\\melons_pyramid_0.05.jpg" alt="Tobolsk with L2 norm" style="width: 100%;">
+                <figcaption>
+                    Melon with cropping 
+                    <br>
+                    with best offset for green to be [82, 10]
+                    <br>
+                    with best offset for red to be [178, 13]
+                </figcaption>
+            </figure>
+        </div>
+        <style>
+        .image-container {
+            display: flex;
+            justify-content: space-between;
+        }
+        .image-container img {
+            max-width: 100%;
+            height: auto;
+        }
+        .image-container figure {
+            text-align: center;
+        }
+        </style>        
+
+     <div class="image-container">
+            <figure>
+                <img src="images\\onion_church_pyramid_0.jpg" alt="Description of the image" width="100%">
+                <figcaption>
+                    Onion Church with 0% crop
+                    <br>
+                    with the best offset for green to be [52, 22]
+                    <br>
+                    with the best offset for red to be [108, 0]
+                </figcaption>
+            </figure>
+            <figure>
+                <img src="images\\onion_church_pyramid_0.05.jpg" alt="Tobolsk with L2 norm" style="width: 100%;">
+                <figcaption>
+                    Onion Church with cropping 
+                    <br>
+                    with best offset for green to be [52, 26]
+                    <br>
+                    with best offset for red to be [112, 12]
+                </figcaption>
+            </figure>
+        </div>
+        <style>
+        .image-container {
+            display: flex;
+            justify-content: space-between;
+        }
+        .image-container img {
+            max-width: 100%;
+            height: auto;
+        }
+        .image-container figure {
+            text-align: center;
+        }
+        </style>        
+
+
+     <div class="image-container">
+            <figure>
+                <img src="images\\sculpture_pyramid_0.jpg" alt="Description of the image" width="100%">
+                <figcaption>
+                    Sculpture with 0% crop
+                    <br>
+                    with the best offset for green to be [33, -11]
+                    <br>
+                    with the best offset for red to be [140, -26]
+                </figcaption>
+            </figure>
+            <figure>
+                <img src="images\\sculpture_pyramid_0.05.jpg" alt="Tobolsk with L2 norm" style="width: 100%;">
+                <figcaption>
+                    Sculpture with cropping 
+                    <br>
+                    with best offset for green to be [33, -11]
+                    <br>
+                    with best offset for red to be [140, -27]
+                </figcaption>
+            </figure>
+        </div>
+        <style>
+        .image-container {
+            display: flex;
+            justify-content: space-between;
+        }
+        .image-container img {
+            max-width: 100%;
+            height: auto;
+        }
+        .image-container figure {
+            text-align: center;
+        }
+        </style>        
+
+
+     <div class="image-container">
+            <figure>
+                <img src="images\\self_portrait_pyramid_0.jpg" alt="Description of the image" width="100%">
+                <figcaption>
+                    Self Portrait with 0% crop
+                    <br>
+                    with the best offset for green to be [50, -2]
+                    <br>
+                    with the best offset for red to be [130, -5]
+                </figcaption>
+            </figure>
+            <figure>
+                <img src="images\\self_portrait_pyramid_0.05.jpg" alt="Tobolsk with L2 norm" style="width: 100%;">
+                <figcaption>
+                    Self Portrait with cropping 
+                    <br>
+                    with best offset for green to be [79, 29]
+                    <br>
+                    with best offset for red to be [176, 37]
+                </figcaption>
+            </figure>
+        </div>
+        <style>
+        .image-container {
+            display: flex;
+            justify-content: space-between;
+        }
+        .image-container img {
+            max-width: 100%;
+            height: auto;
+        }
+        .image-container figure {
+            text-align: center;
+        }
+        </style>        
+
+
+    <div class="image-container">
+            <figure>
+                <img src="images\\three_generations_pyramid_0.jpg" alt="Description of the image" width="100%">
+                <figcaption>
+                    Three Generations with 0% crop
+                    <br>
+                    with the best offset for green to be [52, 5]
+                    <br>
+                    with the best offset for red to be [108, 7]
+                </figcaption>
+            </figure>
+            <figure>
+                <img src="images\\three_generations_pyramid_0.05.jpg" alt="Tobolsk with L2 norm" style="width: 100%;">
+                <figcaption>
+                    Three Generations with cropping 
+                    <br>
+                    with best offset for green to be [53, 14]
+                    <br>
+                    with best offset for red to be [112, 11]
+                </figcaption>
+            </figure>
+        </div>
+        <style>
+        .image-container {
+            display: flex;
+            justify-content: space-between;
+        }
+        .image-container img {
+            max-width: 100%;
+            height: auto;
+        }
+        .image-container figure {
+            text-align: center;
+        }
+        </style>        
+
+     <div class="image-container">
+            <figure>
+                <img src="images\\train_pyramid_0.jpg" alt="Description of the image" width="100%">
+                <figcaption>
+                    Train with 0% crop
+                    <br>
+                    with the best offset for green to be [111, -7]
+                    <br>
+                    with the best offset for red to be [107, 1]
+                </figcaption>
+            </figure>
+            <figure>
+                <img src="images\\train_pyramid_0.05.jpg" alt="Tobolsk with L2 norm" style="width: 100%;">
+                <figcaption>
+                    Train with cropping 
+                    <br>
+                    with best offset for green to be [42, 6]
+                    <br>
+                    with best offset for red to be [87, 32]
+                </figcaption>
+            </figure>
+        </div>
+        <style>
+        .image-container {
+            display: flex;
+            justify-content: space-between;
+        }
+        .image-container img {
+            max-width: 100%;
+            height: auto;
+        }
+        .image-container figure {
+            text-align: center;
+        }
+        </style>        
+
+
+
+
+     <h2> Bells & Whistles (2) </h2>
+        <p>  We will try to improve one of the image and we found out that using different metric might be a good idea so we decided to use the structural similarity metric from skimage.metrics to score the displacements instead.
+            The result is show below. From the result we can see that the Emir image is now align much better than before but this come with the cost of the computtion time is way longer than before.
+        </p>
+         <div class="image-container">
+            <figure>
+                <img src="images\\emir_pyramid_0.05.jpg" alt="Description of the image" width="100%">
+                <figcaption>
+                    Emir with cropping 
+                    <br>
+                    with the best offset for green to be [49, 24]
+                    <br>
+                    with the best offset for red to be [28, -328]
+                </figcaption>
+            </figure>
+            <figure>
+                <img src="images\\emir_pyramid_0.05_ssim.jpg" alt="Tobolsk with L2 norm" style="width: 100%;">
+                <figcaption>
+                    Emir with cropping and structural similarity metric
+                    <br>
+                    with best offset for green to be [50, 23]
+                    <br>
+                    with best offset for red to be [105, 40]
+                </figcaption>
+            </figure>
+        </div>
+        <style>
+        .image-container {
+            display: flex;
+            justify-content: space-between;
+        }
+        .image-container img {
+            max-width: 100%;
+            height: auto;
+        }
+        .image-container figure {
+            text-align: center;
+        }
+        </style>        
+       
+
+
+
+    </main>
+</body>
+</html>
