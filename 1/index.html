@@ -53,7 +53,7 @@
             take the best one. We will try to use two different metric to score the displacements which are the L2 norm which is essentially the Euclidean distance and we will also use the L1 norm which is very similar
             to the L2 norm but instead of the square the different and take square root we instead take the absolute different. In all of the case we are using the Blue image as the baseline. For the possible displacements
             we are using different range for the x and y axis and for each of the we do it base on the 10% of the each image dimension. So for example if the image has the dimension of 100x150 then the x-axis displacements 
-            will be [-10, 10] and the y-axis displacements will be [-15, 15].
+            will be [-10, 10] and the y-axis displacements will be [-15, 15]. In our case I did use the displacments to be in range of 10% of the image dimension.
         </p>
 
         <h2>Initial Results on the Low Resolution image</h2>
@@ -178,7 +178,7 @@
             for the smallest image then we make the best offset by multiply it by 2 and shifted the image by that amount. Additionally, we also might need to shift the image a little bit more to make sure that the 
             image can aligned better so we will also have to do the exhaustive search for a small amount of displacements in the range [-4, 4] for both x and y axis. Then we will adjust the best offset base on this 
             search. And then we recursively do this for the next scale until we reach the original image size. The image below is the result of the image pyramid to the large image size. From the result we can see that
-            some of the image is good but
+            some of the image is good but it still did not align too well. We did use depth of 3 and also we make our search to be in range of the size of the image divide by power of 2 of the depth and multiply by 0.1.
 
         </p>
 
