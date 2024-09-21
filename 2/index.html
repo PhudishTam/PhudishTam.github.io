@@ -1,0 +1,1187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CS 280A Project 2</title>
+    <style>
+        .row {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+        }
+        .column {
+            flex: 1;
+            padding: 5px;
+        }
+        img {
+            width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>CS 280A Project 1 : Colorizing the Prokudin-Gorskii by Phudish Prateepamornkul</h1>
+    </header>
+    <main>
+        <h2>Part 1: Fun with Filters </h2>
+        <h2>Part 1.1 : Finite Difference Operator</h2>
+        <p> We applied the partial derivative in x and y direction where D_x = [1, -1] and D_y = [[1], [-1]]. Then we compute the gradient magnitude image by computing the sqrt((df/dx)^2 + (df/dy)^2) and
+            then I binarize my image using the threshold to be 0.25 all the image will show below
+        </p>
+        <div class="row">
+            <div class="column">
+                <img src="images//convolved_cameraman_d_x.png" alt="Cameraman with partial derivative in x" style="width: 100%;">
+                <figcaption>
+                    Cameraman with partial derivative in x
+                </figcaption> 
+            </div>
+            <div class="column">
+                 <img src="images//convolved_cameraman_d_y.png" alt="Cameraman with partial derivative in y" style="width: 100%;">
+                <figcaption>
+                    Cameraman with partial derivative in y
+                </figcaption>
+            </div>
+            <div class="column">
+                 <img src="images//grad_magnitude.png" alt="Cameraman with gradient magnitude" style="width: 100%;">
+                <figcaption>
+                    Cameraman with gradient magnitude
+                </figcaption>
+            </div>
+            <div class="column">
+                 <img src="images//binary_grad_magnitude.png" alt="Cameraman with binarize the gradient magnitude" style="width: 100%;">
+                <figcaption>
+                    Cameraman with binarize the gradient magnitude
+                </figcaption>
+            </div>
+        </div>
+    
+        <h2>Part 1.2 : Derivative of Gaussian (DoG) Filter </h2>
+        <p> 
+            We applied the gaussian filter with kernel size 12 and the sigma to be 2 and then we applied the same partial derivative in x and y direction where D_x = [1, -1] and D_y = [[1], [-1]]. Then we compute the gradient magnitude image by computing the sqrt((df/dx)^2 + (df/dy)^2) and
+            then I binarize my image using the threshold to be 0.05 all the image will show below. The difference from the first part is that the images are smoother and the gradient magnitude is more clear.
+        </p>        
+       
+        
+         <div class="row">
+            <div class="column">
+                <img src="images//convolved_cameraman_gaussian.png" alt="Cameraman with Gaussian Filter" style="width: 100%;">
+                <figcaption>
+                    Cameraman with Gaussian Filter 
+                </figcaption> 
+            </div>
+            <div class="column">
+                 <img src="images//convolved_cameraman_gaussian_d_x.png" alt="Cameraman with Gaussain Filter and convolve with partial derivative in x" style="width: 100%;">
+                <figcaption>
+                   Cameraman with Gaussain Filter and convolve with partial derivative in x 
+                </figcaption>
+            </div>
+            <div class="column">
+                 <img src="images//convolved_cameraman_gaussian_d_y.png" alt="Cameraman with Gaussain Filter and convolve with partial derivative in y" style="width: 100%;">
+                <figcaption>
+                    Cameraman with Gaussain Filter and convolve with partial derivative in y
+                </figcaption>
+            </div>
+            <div class="column">
+                 <img src="images//grad_magnitude_gaussian.png" alt="Cameraman with Gaussian Filter and applied gradient magnitude" style="width: 100%;">
+                <figcaption>
+                    Cameraman with Gaussian Filter and applied gradient magnitude
+                </figcaption>
+            </div>
+
+            <div class="column">
+                 <img src="images//binary_grad_magnitude_gaussian.png" alt="Cameraman with Gaussian Filter and applied binarize gradient magnitude" style="width: 100%;">
+                <figcaption>
+                    Cameraman with Gaussian Filter and applied binarize gradient magnitude
+                </figcaption>
+            </div>
+        </div>
+
+        <p>
+            We can also get the same result by creating a derivative of the gaussian filter and then convolve the image. The result show below which we can see that the result is the same as above.
+        </p>
+        <div class="row">
+            <div class="column">
+                <img src="images//gaussian_two_d.png" alt="Image of the Gaussian two dimension" style="width: 100%;">
+                <figcaption>
+                    Image of the Gaussian two dimension
+                </figcaption>
+            </div>
+            <div class="column">
+                <img src="images//gaussian_two_d_x.png" alt="Image of the Gaussian convolve with partial derivative in x" style="width: 100%;">
+                <figcaption>
+                    Image of the Gaussian convolve with partial derivative in x
+                </figcaption>
+            </div>
+            <div class="column">
+                <img src="images//gaussian_two_d_y.png" alt="Image of the Gaussian convolve with partial derivative in y" style="width: 100%;">
+                <figcaption>
+                    Image of the Gaussian convolve with partial derivative in y
+                </figcaption>
+            </div>
+            <div class="column">
+                <img src="images//convolved_cameraman_gaussian_d_x.png" alt="Image of the convolved Cameraman Gaussian convolve with partial derivative in x" style="width: 100%;">
+                <figcaption>
+                    Image of the convolved Cameraman Gaussian convolve with partial derivative in x
+                </figcaption>
+            </div>
+            <div class="column">
+                <img src="images//convolved_cameraman_gaussian_d_y.png" alt="Image of the convolved Cameraman Gaussian convolve with partial derivative in y" style="width: 100%;">
+                <figcaption>
+                    Image of the convolved Cameraman Gaussian convolve with partial derivative in y
+                </figcaption>
+            </div>
+            <div class="column">
+                <img src="images//grad_magnitude_gaussian_2.png" alt="Image of the convolved Cameraman Gaussian with gradient magnitude" style="width: 100%;">
+                <figcaption>
+                    Image of the convolved Cameraman Gaussian with gradient magnitude
+                </figcaption>
+            </div>
+            <div class="column">
+                <img src="images//binary_grad_magnitude_gaussian_2.png" alt="Image of the convolved Cameraman Gaussian with binarize gradient magnitude" style="width: 100%;">
+                <figcaption>
+                    Image of the convolved Cameraman Gaussian with binarize gradient magnitude
+                </figcaption> 
+            </div>
+        </div> 
+        <h2>Part 2: Fun with Frequencies! </h2>
+
+        <h2>Part 2.1 : Image "Sharpening" </h2>
+        <p>
+            We applied the low pass filter then we subtract the low pass filter with kernel size 12 and sigma to be 2 from the original image to get the high pass filter. Then we add the high pass filter to the original image to get the sharpened image. 
+            We picked the alpha value to be 2.
+        </p>
+        
+        <div class="row">
+            <div class="column">
+                <img src="images//low_frequency_taj.png" alt="Low Frequency of Taj Mahal" style="width: 100%;">
+                <figcaption>
+                    Low Frequency of Taj Mahal 
+                </figcaption> 
+            </div>
+            <div class="column">
+                 <img src="images//detail_taj.png" alt="High Frequency of Taj Mahal" style="width: 100%;">
+                <figcaption>
+                   High Frequency of Taj Mahal
+                </figcaption>
+            </div>
+            <div class="column">
+                 <img src="images//sharpened_taj.png" alt="Sharpened Image of Taj Mahal" style="width: 100%;">
+                <figcaption>
+                    Sharpened Image of Taj Mahal
+                </figcaption>
+            </div>
+        </div>
+
+        <p>
+            Then we applied this technique to the the new image and then applied the same technique to the image where we use kernel size to be 12 and sigma is 2. Then we applied various alpha value to the image to see the different result.
+        </p>
+
+        <div class="row">
+            <div class="column">
+                <img src="images//moo_deng.jpg" alt="Original Image of Moo Deng" style="width: 100%;">
+                <figcaption>
+                    Original Image of Moo Deng
+                </figcaption> 
+            </div>
+            <div class="column">
+                 <img src="images//low_frequency_moo_deng.png" alt="Low Frequency of Moo Deng" style="width: 100%;">
+                <figcaption>
+                    Low Frequency of Moo Deng
+                </figcaption>
+            </div>
+            <div class="column">
+                 <img src="images//detail_moo_deng.png" alt="High Frequency of Moo Deng" style="width: 100%;">
+                <figcaption>
+                    High Frequency of Moo Deng
+                </figcaption>
+            </div>
+
+            <div class="column">
+                 <img src="images//sharpened_moo_deng_0.png" alt="Sharpened Image of Moo Deng with alpha is 0" style="width: 100%;">
+                <figcaption>
+                    Sharpened Image of Moo Deng with alpha is 0
+                </figcaption>
+            </div>
+
+            <div class="column">
+                 <img src="images//sharpened_moo_deng_1.png" alt="Sharpened Image of Moo Deng with alpha is 1" style="width: 100%;">
+                <figcaption>
+                    Sharpened Image of Moo Deng with alpha is 1
+                </figcaption>
+            </div>
+
+            <div class="column">
+                 <img src="images//sharpened_moo_deng_2.png" alt="Sharpened Image of Moo Deng with alpha is 2" style="width: 100%;">
+                <figcaption>
+                    Sharpened Image of Moo Deng with alpha is 2
+                </figcaption>
+            </div>
+
+            <div class="column">
+                 <img src="images//sharpened_moo_deng_3.png" alt="Sharpened Image of Moo Deng with alpha is 3" style="width: 100%;">
+                <figcaption>
+                    Sharpened Image of Moo Deng with alpha is 3
+                </figcaption>
+            </div>
+
+            <div class="column">
+                 <img src="images//sharpened_moo_deng_4.png" alt="Sharpened Image of Moo Deng with alpha is 4" style="width: 100%;">
+                <figcaption>
+                    Sharpened Image of Moo Deng with alpha is 4
+                </figcaption>
+            </div>
+
+            <div class="column">
+                 <img src="images//sharpened_moo_deng_5.png" alt="Sharpened Image of Moo Deng with alpha is 5" style="width: 100%;">
+                <figcaption>
+                    Sharpened Image of Moo Deng with alpha is 5
+                </figcaption>
+            </div>
+
+            <div class="column">
+                 <img src="images//sharpened_moo_deng_6.png" alt="Sharpened Image of Moo Deng with alpha is 6" style="width: 100%;">
+                <figcaption>
+                    Sharpened Image of Moo Deng with alpha is 6
+                </figcaption>
+            </div>
+
+            <div class="column">
+                 <img src="images//sharpened_moo_deng_7.png" alt="Sharpened Image of Moo Deng with alpha is 7" style="width: 100%;">
+                <figcaption>
+                    Sharpened Image of Moo Deng with alpha is 7
+                </figcaption>
+            </div>
+
+            <div class="column">
+                 <img src="images//sharpened_moo_deng_8.png" alt="Sharpened Image of Moo Deng with alpha is 8" style="width: 100%;">
+                <figcaption>
+                    Sharpened Image of Moo Deng with alpha is 8
+                </figcaption>
+            </div>
+
+            <div class="column">
+                 <img src="images//sharpened_moo_deng_9.png" alt="Sharpened Image of Moo Deng with alpha is 9" style="width: 100%;">
+                <figcaption>
+                    Sharpened Image of Moo Deng with alpha is 9
+                </figcaption>
+            </div>
+        </div>
+
+        <h2>Part 2.2 : Hybrid Images </h2>
+
+        <p>
+            We applied the low pass filter to derek image where we applied kernel size of 54 and sigma to be 9 and high pass filter we applied kernel size to be 36 and sigma to be 6 to the cat image. Then we add the two image together to get the hybrid image. 
+        </p>
+        
+        <div class="row">
+            <div class="column">
+                <img src="images//derek_aligned.png" alt="Image of Derek Aligned" style="width: 100%;">
+                <figcaption>
+                    Image of Derek Aligned
+                </figcaption>
+            </div>
+
+            <div class="column">
+                <img src="images//nut_meg_aligned.png" alt="Image of Nut Meg Aligned" style="width: 100%;">
+                <figcaption>
+                    Image of Nut Meg Aligned
+                </figcaption>
+            </div>
+        </div>
+
+         <div class="row">
+            <div class="column">
+                <img src="images//low_frequency_derek.png" alt="Low Frequency of Derek" style="width: 100%;">
+                <figcaption>
+                    Image of Derek with Low Frequency
+                </figcaption>
+            </div>
+
+            <div class="column">
+                <img src="images//high_frequency_nut_meg.png" alt="High Frequency of Nut Meg" style="width: 100%;">
+                <figcaption>
+                    Image of Nut Meg with High Frequency
+                </figcaption>
+            </div>
+
+            <div class="column">
+                <img src="images//hybrid_image.png" alt="Hybrid Image of Derek and Nut Meg" style="width: 100%;">
+                <figcaption>
+                    Hybrid Image of Derek and Nut Meg
+                </figcaption>
+            </div>
+        </div>
+
+        <p>
+            We then applied this technique to a few more pictures and we will use that in some case the hybrid image works but in some case it does not work where the last case is failed case.
+        </p>
+
+        
+        <div class="row">
+            <div class="column">
+                <img src="images//tam_image_aligned.png" alt="Image of Tam Aligned" style="width: 100%;">
+                <figcaption>
+                    Image of Tam Aligned
+                </figcaption>
+            </div>
+
+            <div class="column">
+                <img src="images//moo_deng_aligned.png" alt="Image of Moo Deng Aligned" style="width: 100%;">
+                <figcaption>
+                    Image of Moo Deng Aligned
+                </figcaption>
+            </div>
+        </div>
+
+         <div class="row">
+            <div class="column">
+                <img src="images//low_frequency_tam.png" alt="Low Frequency of Tam" style="width: 100%;">
+                <figcaption>
+                    Image of Tam with Low Frequency
+                </figcaption>
+            </div>
+
+            <div class="column">
+                <img src="images//high_frequency_moo_deng.png" alt="High Frequency of Moo Deng" style="width: 100%;">
+                <figcaption>
+                    Image of Moo Deng with High Frequency
+                </figcaption>
+            </div>
+
+            <div class="column">
+                <img src="images//hybrid_image_2.png" alt="Hybrid Image of Tam and Moo Deng" style="width: 100%;">
+                <figcaption>
+                    Hybrid Image of Tam and Moo Deng
+                </figcaption>
+            </div>
+        </div>
+
+         <div class="row">
+            <div class="column">
+                <img src="images//tom_holland_aligned.png" alt="Image of Tom Holland Aligned" style="width: 100%;">
+                <figcaption>
+                    Image of Tom Holland Aligned
+                </figcaption>
+            </div>
+
+            <div class="column">
+                <img src="images//rdj_aligned.png" alt="Image of Robert Downey Jr Aligned" style="width: 100%;">
+                <figcaption>
+                    Image of Robert Downey Jr Aligned
+                </figcaption>
+            </div>
+        </div>
+
+          <div class="row">
+            <div class="column">
+                <img src="images//low_frequency_tom_holland.png" alt="Low Frequency of Tom Holland" style="width: 100%;">
+                <figcaption>
+                    Image of Tom Holland with Low Frequency
+                </figcaption>
+            </div>
+
+            <div class="column">
+                <img src="images//high_frequency_rdj.png" alt="High Frequency of Robert Downey Jr" style="width: 100%;">
+                <figcaption>
+                    Image of Robert Downey Jr with High Frequency
+                </figcaption>
+            </div>
+
+            <div class="column">
+                <img src="images//hybrid_image_3.png" alt="Hybrid Image of Tom Holland and Robert Downey Jr" style="width: 100%;">
+                <figcaption>
+                    Hybrid Image of Tom Holland and Robert Downey Jr
+                </figcaption>
+            </div>
+        </div>
+
+         <div class="row">
+            <div class="column">
+                <img src="images//elderly_aligned.png" alt="Image of Elderly Aligned" style="width: 100%;">
+                <figcaption>
+                    Image of Elderly Aligned
+                </figcaption>
+            </div>
+
+            <div class="column">
+                <img src="images//young_aligned.png" alt="Image of Young Aligned" style="width: 100%;">
+                <figcaption>
+                    Image of Young
+                </figcaption>
+            </div>
+        </div>
+
+         <div class="row">
+            <div class="column">
+                <img src="images//low_frequency_elderly.png" alt="Low Frequency of Elderly" style="width: 100%;">
+                <figcaption>
+                    Image of Elderly with Low Frequency
+                </figcaption>
+            </div>
+
+            <div class="column">
+                <img src="images//high_frequency_young.png" alt="High Frequency of Young" style="width: 100%;">
+                <figcaption>
+                    Image of Young with High Frequency
+                </figcaption>
+            </div>
+
+            <div class="column">
+                <img src="images//hybrid_image_failed.png" alt="Hybrid Image of Elderly and Young" style="width: 100%;">
+                <figcaption>
+                    Hybrid Image of Elderly and Young
+                </figcaption>
+            </div>
+        </div>
+
+        <p>
+            Then we show the log magnitude of the Fourier Transform of the two input images, the filter images and the hybrid image.
+        </p>
+
+         <div class="row">
+            <div class="column">
+                <img src="images//fourier_transfom_tam_aliged.png" alt="Fourier Transform of Tam Aligned" style="width: 100%;">
+                <figcaption>
+                    Image of Fourier Transform of Tam Aligned
+                </figcaption>
+            </div>
+
+            <div class="column">
+                <img src="images//fourier_transfom_moo_deng.png" alt="Fourier Transform of Moo Deng" style="width: 100%;">
+                <figcaption>
+                    Image of Fourier Transform of Moo Deng
+                </figcaption>
+            </div>
+
+            <div class="column">
+                <img src="images//fourier_transfom_tam_low_frequency.png" alt="Fourier Transform of Low Frequency Tam" style="width: 100%;">
+                <figcaption>
+                    Image of Fourier Transform of Low Frequency Tam
+                </figcaption>
+            </div>
+
+            <div class="column">
+                <img src="images//fourier_transfom_moo_deng_high_freq.png" alt="Fourier Transform of High Frequency Moo Deng" style="width: 100%;">
+                <figcaption>
+                    Image of Fourier Transform of High Frequency Moo Deng
+                </figcaption>
+            </div>
+
+            <div class="column">
+                <img src="images//fourier_transfom_hybrid.png" alt="Fourier Transform of Hybrid Image of Tam and Moo Deng" style="width: 100%;">
+                <figcaption>
+                    Image of Fourier Transform of Hybrid Image of Tam and Moo Deng
+                </figcaption>
+            </div>
+        </div>
+
+
+        <h2>Part 2.3 : Gaussian and Laplacian Stacks </h2>
+
+        <p>
+            We implement a Gaussian and Laplacian stack and we apply it to the apple and orange image where we use kernel size to be 18 and sigma to be 3 for both of the images. 
+        </p>     
+        
+        <div class="row">
+            <div class="column">
+                <img src="images//apple_gaussian_stack_0.png" alt="Image of Apple Gaussain Stack 0" style="width: 100%;">
+                <figcaption>
+                    Image of Apple gaussian stack 0
+                </figcaption>
+            </div>
+
+            <div class="column">
+                <img src="images//apple_gaussian_stack_1.png" alt="Image of Apple Gaussian Stack 1" style="width: 100%;">
+                <figcaption>
+                    Image of Apple Gaussian Stack 1
+                </figcaption>
+            </div>
+
+            <div class="column">
+                <img src="images//apple_gaussian_stack_2.png" alt="Image of Apple Gaussian Stack 2" style="width: 100%;">
+                <figcaption>
+                    Image of Apple Gaussian Stack 2
+                </figcaption>
+            </div>
+
+            <div class="column">
+                <img src="images//apple_gaussian_stack_3.png" alt="Image of Apple Gaussian Stack 3" style="width: 100%;">
+                <figcaption>
+                    Image of Apple Gaussian Stack 3
+                </figcaption>
+            </div>
+
+            <div class="column">
+                <img src="images//apple_gaussian_stack_4.png" alt="Image of Apple Gaussian Stack 4" style="width: 100%;">
+                <figcaption>
+                    Image of Apple Gaussian Stack 4
+                </figcaption>
+            </div>
+        </div>
+
+         <div class="row">
+            <div class="column">
+                <img src="images//orange_gaussian_stack_0.png" alt="Image of Orange Gaussain Stack 0" style="width: 100%;">
+                <figcaption>
+                    Image of Orange gaussian stack 0
+                </figcaption>
+            </div>
+
+            <div class="column">
+                <img src="images//orange_gaussian_stack_1.png" alt="Image of Orange Gaussian Stack 1" style="width: 100%;">
+                <figcaption>
+                    Image of Orange Gaussian Stack 1
+                </figcaption>
+            </div>
+
+            <div class="column">
+                <img src="images//orange_gaussian_stack_2.png" alt="Image of Orange Gaussian Stack 2" style="width: 100%;">
+                <figcaption>
+                    Image of Orange Gaussian Stack 2
+                </figcaption>
+            </div>
+
+            <div class="column">
+                <img src="images//orange_gaussian_stack_3.png" alt="Image of Orange Gaussian Stack 3" style="width: 100%;">
+                <figcaption>
+                    Image of Orange Gaussian Stack 3
+                </figcaption>
+            </div>
+
+            <div class="column">
+                <img src="images//orange_gaussian_stack_4.png" alt="Image of Orange Gaussian Stack 4" style="width: 100%;">
+                <figcaption>
+                    Image of Orange Gaussian Stack 4
+                </figcaption>
+            </div>
+        </div>
+
+
+         <div class="row">
+            <div class="column">
+                <img src="images//apple_laplacian_stack_0.png" alt="Image of Apple Laplacian Stack 0" style="width: 100%;">
+                <figcaption>
+                    Image of Apple Laplacian stack 0
+                </figcaption>
+            </div>
+
+            <div class="column">
+                <img src="images//apple_laplacian_stack_1.png" alt="Image of Apple Laplacian Stack 1" style="width: 100%;">
+                <figcaption>
+                    Image of Apple Laplacian Stack 1
+                </figcaption>
+            </div>
+
+            <div class="column">
+                <img src="images//apple_laplacian_stack_2.png" alt="Image of Apple Laplacian Stack 2" style="width: 100%;">
+                <figcaption>
+                    Image of Apple Laplacian Stack 2
+                </figcaption>
+            </div>
+
+            <div class="column">
+                <img src="images//apple_laplacian_stack_3.png" alt="Image of Apple Laplacian Stack 3" style="width: 100%;">
+                <figcaption>
+                    Image of Apple Laplacian Stack 3
+                </figcaption>
+            </div>
+
+            <div class="column">
+                <img src="images//apple_laplacian_stack_4.png" alt="Image of Apple Laplacian Stack 4" style="width: 100%;">
+                <figcaption>
+                    Image of Apple Laplacian Stack 4
+                </figcaption>
+            </div>
+
+        </div>
+
+         <div class="row">
+            <div class="column">
+                <img src="images//orange_laplacian_stack_0.png" alt="Image of Orange Laplacian Stack 0" style="width: 100%;">
+                <figcaption>
+                    Image of Orange Laplacian stack 0
+                </figcaption>
+            </div>
+
+            <div class="column">
+                <img src="images//orange_laplacian_stack_1.png" alt="Image of Orange Laplacian Stack 1" style="width: 100%;">
+                <figcaption>
+                    Image of Orange Laplacian Stack 1
+                </figcaption>
+            </div>
+
+            <div class="column">
+                <img src="images//orange_laplacian_stack_2.png" alt="Image of Orange Laplacian Stack 2" style="width: 100%;">
+                <figcaption>
+                    Image of Orange Laplacian Stack 2
+                </figcaption>
+            </div>
+
+            <div class="column">
+                <img src="images//orange_laplacian_stack_3.png" alt="Image of Orange Laplacian Stack 3" style="width: 100%;">
+                <figcaption>
+                    Image of Orange Laplacian Stack 3
+                </figcaption>
+            </div>
+
+            <div class="column">
+                <img src="images//orange_laplacian_stack_4.png" alt="Image of Orange Laplacian Stack 4" style="width: 100%;">
+                <figcaption>
+                    Image of Orange Laplacian Stack 4
+                </figcaption>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="column">
+                <img src="images//gaussian_mask_0.png" alt="Image of Mask Gaussain Stack 0 " style="width: 100%;">
+                <figcaption>
+                    Image of Mask Gaussain Stack 0
+                </figcaption>
+            </div>
+
+            <div class="column">
+                <img src="images//gaussian_mask_1.png" alt="Image of Mask Gaussain Stack 1" style="width: 100%;">
+                <figcaption>
+                    Image of Mask Gaussain Stack 1
+                </figcaption>
+            </div>
+
+            <div class="column">
+                <img src="images//gaussian_mask_2.png" alt="Image of Mask Gaussain Stack 2" style="width: 100%;">
+                <figcaption>
+                    Image of Mask Gaussain Stack 2
+                </figcaption>
+            </div>
+
+            <div class="column">
+                <img src="images//gaussian_mask_3.png" alt="Image of Mask Gaussain Stack 3" style="width: 100%;">
+                <figcaption>
+                    Image of Mask Gaussain Stack 3
+                </figcaption>
+            </div>
+
+            <div class="column">
+                <img src="images//gaussian_mask_4.png" alt="Image of Mask Gaussain Stack 4" style="width: 100%;">
+                <figcaption>
+                    Image of Mask Gaussain Stack 4
+                </figcaption>
+            </div>
+
+
+        </div>
+
+        <div class="row">
+            <div class="column">
+                <img src="images//blend_stack_0.png" alt="Image of Blendding level 0 " style="width: 100%;">
+                <figcaption>
+                    Image of Blendding level 0
+                </figcaption>
+            </div>
+
+            <div class="column">
+                <img src="images//blend_stack_1.png" alt="Image of Blendding level 1" style="width: 100%;">
+                <figcaption>
+                    Image of Blendding level 1
+                </figcaption>
+            </div>
+
+            <div class="column">
+                <img src="images//blend_stack_2.png" alt="Image of Blendding level 2" style="width: 100%;">
+                <figcaption>
+                    Image of Blendding level 2
+                </figcaption>
+            </div>
+
+            <div class="column">
+                <img src="images//blend_stack_3.png" alt="Image of Blendding level 3" style="width: 100%;">
+                <figcaption>
+                    Image of Blendding level 3
+                </figcaption>
+            </div>
+
+            <div class="column">
+                <img src="images//blend_stack_4.png" alt="Image of Blendding level 4" style="width: 100%;">
+                <figcaption>
+                    Image of Blendding level 4
+                </figcaption>
+            </div>
+            <div class="column">
+                <img src="images//blended_image.png" alt="Image of Blended " style="width: 100%;">
+                <figcaption>
+                    Image of Blended
+                </figcaption>
+            </div>
+        </div>
+
+        <h2>Part 2.4: Multiresolution Blending</h2>
+        <p>
+            We applied the previous technique to two more images and we use kernel size of 18 and sigma to be 3 for both images.
+        </p>
+
+        <div class="row">
+            <div class="column">
+                <img src="images//beach_gaussian_stack_0.png" alt="Image of Beach Gaussain Stack 0 " style="width: 100%;">
+                <figcaption>
+                    Image of Beach Gaussain Stack 0 or Original Image
+                </figcaption>
+            </div>
+
+            <div class="column">
+                <img src="images//beach_gaussian_stack_1.png" alt="Image of Beach Gaussain Stack 1" style="width: 100%;">
+                <figcaption>
+                    Image of Beach Gaussain Stack 1
+                </figcaption>
+            </div>
+
+            <div class="column">
+                <img src="images//beach_gaussian_stack_2.png" alt="Image of Beach Gaussain Stack 2" style="width: 100%;">
+                <figcaption>
+                    Image of Beach Gaussain Stack 2
+                </figcaption>
+            </div>
+
+            <div class="column">
+                <img src="images//beach_gaussian_stack_3.png" alt="Image of Beach Gaussain Stack 3" style="width: 100%;">
+                <figcaption>
+                    Image of Beach Gaussain Stack 3
+                </figcaption>
+            </div>
+
+            <div class="column">
+                <img src="images//beach_gaussian_stack_4.png" alt="Image of Beach Gaussain Stack 4" style="width: 100%;">
+                <figcaption>
+                    Image of Beach Gaussain Stack 4
+                </figcaption>
+            </div>
+        </div>
+
+         <div class="row">
+            <div class="column">
+                <img src="images//desert_gaussian_stack_0.png" alt="Image of Desert Gaussain Stack 0" style="width: 100%;">
+                <figcaption>
+                    Image of Desert Stack 0 or Original Image
+                </figcaption>
+            </div>
+
+            <div class="column">
+                <img src="images//desert_gaussian_stack_1.png" alt="Image of Desert Gaussain Stack 1" style="width: 100%;">
+                <figcaption>
+                    Image of Desert Gaussain Stack 1
+                </figcaption>
+            </div>
+
+            <div class="column">
+                <img src="images//desert_gaussian_stack_2.png" alt="Image of Desert Gaussain Stack 2" style="width: 100%;">
+                <figcaption>
+                    Image of Desert Gaussain Stack 2
+                </figcaption>
+            </div>
+
+            <div class="column">
+                <img src="images//desert_gaussian_stack_3.png" alt="Image of Desert Gaussain Stack 3" style="width: 100%;">
+                <figcaption>
+                    Image of Desert Gaussain Stack 3
+                </figcaption>
+            </div>
+
+            <div class="column">
+                <img src="images//desert_gaussian_stack_4.png" alt="Image of Desert Gaussain Stack 4" style="width: 100%;">
+                <figcaption>
+                    Image of Desert Gaussain Stack 4
+                </figcaption>
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="column">
+                <img src="images//beach_laplacian_stack_0.png" alt="Image of Beach Laplacian Stack 0" style="width: 100%;">
+                <figcaption>
+                    Image of Beach Laplacian Stack 0
+                </figcaption>
+            </div>
+
+            <div class="column">
+                <img src="images//beach_laplacian_stack_1.png" alt="Image of Beach Laplacian Stack 1" style="width: 100%;">
+                <figcaption>
+                    Image of Beach Laplacian Stack 1
+                </figcaption>
+            </div>
+
+            <div class="column">
+                <img src="images//beach_laplacian_stack_2.png" alt="Image of Beach Laplacian Stack 2" style="width: 100%;">
+                <figcaption>
+                    Image of Beach Laplacian Stack 2
+                </figcaption>
+            </div>
+
+            <div class="column">
+                <img src="images//beach_laplacian_stack_3.png" alt="Image of Beach Laplacian Stack 3" style="width: 100%;">
+                <figcaption>
+                    Image of Beach Laplacian Stack 3
+                </figcaption>
+            </div>
+
+            <div class="column">
+                <img src="images//beach_laplacian_stack_4.png" alt="Image of Beach Laplacian Stack 4" style="width: 100%;">
+                <figcaption>
+                    Image of Beach Laplacian Stack 4
+                </figcaption>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="column">
+                <img src="images//desert_laplacian_stack_0.png" alt="Image of Desert Laplacian Stack 0" style="width: 100%;">
+                <figcaption>
+                    Image of Desert Laplacian Stack 0
+                </figcaption>
+            </div>
+
+            <div class="column">
+                <img src="images//desert_laplacian_stack_1.png" alt="Image of Desert Laplacian Stack 1" style="width: 100%;">
+                <figcaption>
+                    Image of Desert Laplacian Stack 1
+                </figcaption>
+            </div>
+
+            <div class="column">
+                <img src="images//desert_laplacian_stack_2.png" alt="Image of Desert Laplacian Stack 2" style="width: 100%;">
+                <figcaption>
+                    Image of Desert Laplacian Stack 2
+                </figcaption>
+            </div>
+
+            <div class="column">
+                <img src="images//desert_laplacian_stack_3.png" alt="Image of Desert Laplacian Stack 3" style="width: 100%;">
+                <figcaption>
+                    Image of Desert Laplacian Stack 3
+                </figcaption>
+            </div>
+
+            <div class="column">
+                <img src="images//desert_laplacian_stack_4.png" alt="Image of Desert Laplacian Stack 4" style="width: 100%;">
+                <figcaption>
+                    Image of Desert Laplacian Stack 4
+                </figcaption>
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="column">
+                <img src="images//gaussian_mask_10.png" alt="Image of Mask Gaussian Stack level 0 " style="width: 100%;">
+                <figcaption>
+                    Image of Mask Gaussian Stack level 0
+                </figcaption>
+            </div>
+
+            <div class="column">
+                <img src="images//gaussian_mask_11.png" alt="Image of Mask Gaussian Stack level 1" style="width: 100%;">
+                <figcaption>
+                    Image of Mask Gaussian Stack level 1
+                </figcaption>
+            </div>
+
+            <div class="column">
+                <img src="images//gaussian_mask_12.png" alt="Image of Mask Gaussian Stack level 2" style="width: 100%;">
+                <figcaption>
+                    Image of Mask Gaussian Stack level 2
+                </figcaption>
+            </div>
+
+            <div class="column">
+                <img src="images//gaussian_mask_13.png" alt="Image of Mask Gaussian Stack level 3" style="width: 100%;">
+                <figcaption>
+                    Image of Mask Gaussian Stack level 3
+                </figcaption>
+            </div>
+
+            <div class="column">
+                <img src="images//gaussian_mask_14.png" alt="Image of Mask Gaussian Stack level 4" style="width: 100%;">
+                <figcaption>
+                    Image of Mask Gaussian Stack level 4
+                </figcaption>
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="column">
+                <img src="images//blend_stack_1_0.png" alt="Image of Blendding level 0 " style="width: 100%;">
+                <figcaption>
+                    Image of Blendding level 0 
+                </figcaption>
+            </div>
+
+            <div class="column">
+                <img src="images//blend_stack_1_1.png" alt="Image of Blendding level 1" style="width: 100%;">
+                <figcaption>
+                    Image of Blendding level 1
+                </figcaption>
+            </div>
+
+            <div class="column">
+                <img src="images//blend_stack_1_2.png" alt="Image of Blendding level 2" style="width: 100%;">
+                <figcaption>
+                    Image of Blendding level 2
+                </figcaption>
+            </div>
+
+            <div class="column">
+                <img src="images//blend_stack_1_3.png" alt="Image of Blendding level 3" style="width: 100%;">
+                <figcaption>
+                    Image of Blendding level 3
+                </figcaption>
+            </div>
+
+            <div class="column">
+                <img src="images//blend_stack_1_4.png" alt="Image of Blendding level 4" style="width: 100%;">
+                <figcaption>
+                    Image of Blendding level 4
+                </figcaption>
+            </div>
+
+            <div class="column">
+                <img src="images//blended_image_1.png" alt="Image of Blended " style="width: 100%;">
+                <figcaption>
+                    Image of Blended
+                </figcaption>
+            </div>
+
+        </div>
+
+
+        <div class="row">
+            <div class="column">
+                <img src="images//soccer_gaussian_stack_0.png" alt="Image of Soccer Gaussain Stack 0 " style="width: 100%;">
+                <figcaption>
+                    Image of Soccer Gaussain Stack 0 or Original Image
+                </figcaption>
+            </div>
+
+            <div class="column">
+                <img src="images//soccer_gaussian_stack_1.png" alt="Image of Soccer Gaussain Stack 1" style="width: 100%;">
+                <figcaption>
+                    Image of Soccer Gaussain Stack 1
+                </figcaption>
+            </div>
+
+            <div class="column">
+                <img src="images//soccer_gaussian_stack_2.png" alt="Image of Soccer Gaussain Stack 2" style="width: 100%;">
+                <figcaption>
+                    Image of Soccer Gaussain Stack 2
+                </figcaption>
+            </div>
+
+            <div class="column">
+                <img src="images//soccer_gaussian_stack_3.png" alt="Image of Soccer Gaussain Stack 3" style="width: 100%;">
+                <figcaption>
+                    Image of Soccer Gaussain Stack 3
+                </figcaption>
+            </div>
+
+            <div class="column">
+                <img src="images//soccer_gaussian_stack_4.png" alt="Image of Soccer Gaussain Stack 4" style="width: 100%;">
+                <figcaption>
+                    Image of Soccer Gaussain Stack 4
+                </figcaption>
+            </div>
+
+        </div>
+
+        <div class = "row">
+            <div class="column">
+                <img src="images//dark_sky_gaussian_stack_0.png" alt="Image of Dark Sky Gaussain Stack 0" style="width: 100%;">
+                <figcaption>
+                    Image of Dark Sky Stack 0 or Original Image
+                </figcaption>
+            </div>
+
+            <div class="column">
+                <img src="images//dark_sky_gaussian_stack_1.png" alt="Image of Dark Sky Gaussain Stack 1" style="width: 100%;">
+                <figcaption>
+                    Image of Dark Sky Gaussain Stack 1
+                </figcaption>
+            </div>
+
+            <div class="column">
+                <img src="images//dark_sky_gaussian_stack_2.png" alt="Image of Dark Sky Gaussain Stack 2" style="width: 100%;">
+                <figcaption>
+                    Image of Dark Sky Gaussain Stack 2
+                </figcaption>
+            </div>
+
+            <div class="column">
+                <img src="images//dark_sky_gaussian_stack_3.png" alt="Image of Dark Sky Gaussain Stack 3" style="width: 100%;">
+                <figcaption>
+                    Image of Dark Sky Gaussain Stack 3
+                </figcaption>
+            </div>
+
+            <div class="column">
+                <img src="images//dark_sky_gaussian_stack_4.png" alt="Image of Dark Sky Gaussain Stack 4" style="width: 100%;">
+                <figcaption>
+                    Image of Dark Sky Gaussain Stack 4
+                </figcaption>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="column">
+                <img src="images//soccer_laplacian_stack_0.png" alt="Image of Soccer Laplacian Stack 0" style="width: 100%;">
+                <figcaption>
+                    Image of Soccer Laplacian Stack 0
+                </figcaption>
+            </div>
+            <div class="column">
+                <img src="images//soccer_laplacian_stack_1.png" alt="Image of Soccer Laplacian Stack 1" style="width: 100%;">
+                <figcaption>
+                    Image of Soccer Laplacian Stack 1
+                </figcaption>
+            </div>
+            <div class="column">
+                <img src="images//soccer_laplacian_stack_2.png" alt="Image of Soccer Laplacian Stack 2" style="width: 100%;">
+                <figcaption>
+                    Image of Soccer Laplacian Stack 2
+                </figcaption>
+            </div>
+            <div class="column">
+                <img src="images//soccer_laplacian_stack_3.png" alt="Image of Soccer Laplacian Stack 3" style="width: 100%;">
+                <figcaption>
+                    Image of Soccer Laplacian Stack 3
+                </figcaption>
+            </div>
+            <div class="column">
+                <img src="images//soccer_laplacian_stack_4.png" alt="Image of Soccer Laplacian Stack 4" style="width: 100%;">
+                <figcaption>
+                    Image of Soccer Laplacian Stack 4
+                </figcaption>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="column">
+                <img src="images//dark_sky_laplacian_stack_0.png" alt="Image of Dark Sky Laplacian Stack 0" style="width: 100%;">
+                <figcaption>
+                    Image of Dark Sky Laplacian Stack 0
+                </figcaption>
+            </div>
+
+            <div class="column">
+                <img src="images//dark_sky_laplacian_stack_1.png" alt="Image of Dark Sky Laplacian Stack 1" style="width: 100%;">
+                <figcaption>
+                    Image of Dark Sky Laplacian Stack 1
+                </figcaption>
+            </div>
+
+            <div class="column">
+                <img src="images//dark_sky_laplacian_stack_2.png" alt="Image of Dark Sky Laplacian Stack 2" style="width: 100%;">
+                <figcaption>
+                    Image of Dark Sky Laplacian Stack 2
+                </figcaption>
+            </div>
+
+            <div class="column">
+                <img src="images//dark_sky_laplacian_stack_3.png" alt="Image of Dark Sky Laplacian Stack 3" style="width: 100%;">
+                <figcaption>
+                    Image of Dark Sky Laplacian Stack 3
+                </figcaption>
+            </div>
+
+            <div class="column">
+                <img src="images//dark_sky_laplacian_stack_4.png" alt="Image of Dark Sky Laplacian Stack 4" style="width: 100%;">
+                <figcaption>
+                    Image of Dark Sky Laplacian Stack 4
+                </figcaption>
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="column">
+                <img src="images//gaussian_mask_1_0.png" alt="Image of Mask Gaussian Stack level 0 " style="width: 100%;">
+                <figcaption>
+                    Image of Mask Gaussian Stack level 0
+                </figcaption>
+            </div>
+
+            <div class="column">
+                <img src="images//gaussian_mask_1_1.png" alt="Image of Mask Gaussian Stack level 1" style="width: 100%;">
+                <figcaption>
+                    Image of Mask Gaussian Stack level 1
+                </figcaption>
+            </div>
+
+            <div class="column">
+                <img src="images//gaussian_mask_1_2.png" alt="Image of Mask Gaussian Stack level 2" style="width: 100%;">
+                <figcaption>
+                    Image of Mask Gaussian Stack level 2
+                </figcaption>
+            </div>
+
+            <div class="column">
+                <img src="images//gaussian_mask_1_3.png" alt="Image of Mask Gaussian Stack level 3" style="width: 100%;">
+                <figcaption>
+                    Image of Mask Gaussian Stack level 3
+                </figcaption>
+            </div>
+
+            <div class="column">
+                <img src="images//gaussian_mask_1_4.png" alt="Image of Mask Gaussian Stack level 4" style="width: 100%;">
+                <figcaption>
+                    Image of Mask Gaussian Stack level 4
+                </figcaption>
+            </div>
+            
+        </div>
+        <div class="row">
+            <div class="column">
+                <img src="images//blend_image_2_0.png" alt="Image of Blendding level 0 " style="width: 100%;">
+                <figcaption>
+                    Image of Blendding level 0 
+                </figcaption>
+            </div>
+
+            <div class="column">
+                <img src="images//blend_image_2_1.png" alt="Image of Blendding level 1" style="width: 100%;">
+                <figcaption>
+                    Image of Blendding level 1
+                </figcaption>
+            </div>
+
+            <div class="column">
+                <img src="images//blend_image_2_2.png" alt="Image of Blendding level 2" style="width: 100%;">
+                <figcaption>
+                    Image of Blendding level 2
+                </figcaption>
+            </div>
+
+            <div class="column">
+                <img src="images//blend_image_2_3.png" alt="Image of Blendding level 3" style="width: 100%;">
+                <figcaption>
+                    Image of Blendding level 3
+                </figcaption>
+            </div>
+
+            <div class="column">
+                <img src="images//blend_image_2_4.png" alt="Image of Blendding level 4" style="width: 100%;">
+                <figcaption>
+                    Image of Blendding level 4
+                </figcaption>
+            </div>
+
+            <div class="column">
+                <img src="images//blended_image_2.png" alt="Image of Blended " style="width: 100%;">
+                <figcaption>
+                    Image of Blended
+                </figcaption>
+            </div>
+
+
+        </div>
+    </main>
+</body>
+</html>
