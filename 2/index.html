@@ -314,49 +314,13 @@
             </div>
         </div>
 
+
+
         <p>
             We then applied this technique to a few more pictures and we will use that in some case the hybrid image works but in some case it does not work where the last case is failed case.
         </p>
 
         
-        <div class="row">
-            <div class="column">
-                <img src="images//tam_image_aligned.png" alt="Image of Tam Aligned" style="width: 100%;">
-                <figcaption>
-                    Image of Tam Aligned
-                </figcaption>
-            </div>
-
-            <div class="column">
-                <img src="images//moo_deng_aligned.png" alt="Image of Moo Deng Aligned" style="width: 100%;">
-                <figcaption>
-                    Image of Moo Deng Aligned
-                </figcaption>
-            </div>
-        </div>
-
-         <div class="row">
-            <div class="column">
-                <img src="images//low_frequency_tam.png" alt="Low Frequency of Tam" style="width: 100%;">
-                <figcaption>
-                    Image of Tam with Low Frequency
-                </figcaption>
-            </div>
-
-            <div class="column">
-                <img src="images//high_frequency_moo_deng.png" alt="High Frequency of Moo Deng" style="width: 100%;">
-                <figcaption>
-                    Image of Moo Deng with High Frequency
-                </figcaption>
-            </div>
-
-            <div class="column">
-                <img src="images//hybrid_image_2.png" alt="Hybrid Image of Tam and Moo Deng" style="width: 100%;">
-                <figcaption>
-                    Hybrid Image of Tam and Moo Deng
-                </figcaption>
-            </div>
-        </div>
 
          <div class="row">
             <div class="column">
@@ -436,43 +400,82 @@
             </div>
         </div>
 
+         <div class="row">
+            <div class="column">
+                <img src="images//tam_image_aligned.png" alt="Image of Tam Aligned" style="width: 100%;">
+                <figcaption>
+                    Image of Tam Aligned
+                </figcaption>
+            </div>
+
+            <div class="column">
+                <img src="images//moo_deng_aligned.png" alt="Image of Moo Deng Aligned" style="width: 100%;">
+                <figcaption>
+                    Image of Moo Deng Aligned
+                </figcaption>
+            </div>
+        </div>
+
+         <div class="row">
+            <div class="column">
+                <img src="images//low_frequency_tam.png" alt="Low Frequency of Tam" style="width: 100%;">
+                <figcaption>
+                    Image of Tam with Low Frequency (Failed Case)
+                </figcaption>
+            </div>
+
+            <div class="column">
+                <img src="images//high_frequency_moo_deng.png" alt="High Frequency of Moo Deng" style="width: 100%;">
+                <figcaption>
+                    Image of Moo Deng with High Frequency (Failed Case)
+                </figcaption>
+            </div>
+
+            <div class="column">
+                <img src="images//hybrid_image_2.png" alt="Hybrid Image of Tam and Moo Deng" style="width: 100%;">
+                <figcaption>
+                    Hybrid Image of Tam and Moo Deng (Failed Case)
+                </figcaption>
+            </div>
+        </div>
+
         <p>
             Then we show the log magnitude of the Fourier Transform of the two input images, the filter images and the hybrid image.
         </p>
 
          <div class="row">
             <div class="column">
-                <img src="images//fourier_transfom_tam_aliged.png" alt="Fourier Transform of Tam Aligned" style="width: 100%;">
+                <img src="images//fourier_transform_elderly.png" alt="Fourier Transform of Elderly" style="width: 100%;">
                 <figcaption>
-                    Image of Fourier Transform of Tam Aligned
+                    Image of Fourier Transform of Elderly Aligned
                 </figcaption>
             </div>
 
             <div class="column">
-                <img src="images//fourier_transfom_moo_deng.png" alt="Fourier Transform of Moo Deng" style="width: 100%;">
+                <img src="images//fourier_transform_young.png" alt="Fourier Transform of Young" style="width: 100%;">
                 <figcaption>
-                    Image of Fourier Transform of Moo Deng
+                    Image of Fourier Transform of Young Aligned
                 </figcaption>
             </div>
 
             <div class="column">
-                <img src="images//fourier_transfom_tam_low_frequency.png" alt="Fourier Transform of Low Frequency Tam" style="width: 100%;">
+                <img src="images//fourier_low_frequency_elderly.png" alt="Fourier Transform of Low Frequency Elderly" style="width: 100%;">
                 <figcaption>
-                    Image of Fourier Transform of Low Frequency Tam
+                    Image of Fourier Transform of Low Frequency Elderly
                 </figcaption>
             </div>
 
             <div class="column">
-                <img src="images//fourier_transfom_moo_deng_high_freq.png" alt="Fourier Transform of High Frequency Moo Deng" style="width: 100%;">
+                <img src="images//fourier_high_frequency_young.png" alt="Fourier Transform of High Frequency Young" style="width: 100%;">
                 <figcaption>
-                    Image of Fourier Transform of High Frequency Moo Deng
+                    Image of Fourier Transform of High Frequency Young
                 </figcaption>
             </div>
 
             <div class="column">
-                <img src="images//fourier_transfom_hybrid.png" alt="Fourier Transform of Hybrid Image of Tam and Moo Deng" style="width: 100%;">
+                <img src="images//fourier_hybrid.png" alt="Fourier Transform of Hybrid Image of Elderly and Young" style="width: 100%;">
                 <figcaption>
-                    Image of Fourier Transform of Hybrid Image of Tam and Moo Deng
+                    Image of Fourier Transform of Hybrid Image of Elderly and Young
                 </figcaption>
             </div>
         </div>
@@ -481,7 +484,8 @@
         <h2>Part 2.3 : Gaussian and Laplacian Stacks </h2>
 
         <p>
-            We implement a Gaussian and Laplacian stack and we apply it to the apple and orange image where we use kernel size to be 18 and sigma to be 3 for both of the images. 
+            We implement a Gaussian and Laplacian stack and we apply it to the apple and orange image where we use kernel size to be 18 and sigma to be 3 for both of the images. We also apply the gaussian stack to the 
+            mask as well to get the blened image.
         </p>     
         
         <div class="row">
