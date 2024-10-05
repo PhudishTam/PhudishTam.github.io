@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CS 280A Project 3</title>
+    <style>
+        .row {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+        }
+        .column {
+            flex: 1;
+            padding: 5px;
+        }
+        .centered-gif {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        img {
+            width: 100%;
+            height: auto;
+        }
+        figcaption {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>CS 280A Project 3 : Face Morphing by Phudish Prateepamornkul</h1>
+    </header>
+    <main>
+        <h2>Part 1: Defining Correspondences </h2>
+        <p> We define the Correspondences points between my image to the target image which is the portrait of George using the tool from last year. 
+            I did have to cropped and rescaled myself a little bit. At the end I used 43 points to correspond between Georege and my face.
+            Finally, I then generated the Delaunay triangulations of the mean of the two sets of the Correspondences points using the Delaunay function.
+            First we show the result of the raw of image of me and georege first then we show the result with the triangulations.
+        </p>
+
+         <div class="row">
+        
+            <div class="column">
+                <img src="images//george_small.jpg" alt="Georege image" style="width: 100%;">
+                <figcaption>
+                    Image of George
+                </figcaption> 
+            </div>
+            
+            <div class="column">
+                <img src="images//tam_resize_2.jpg" alt="Tam image" style="width: 100%;">
+                <figcaption>
+                    Image of Tam
+                </figcaption> 
+            </div>
+        </div>
+         
+        <div class="row">
+        
+            <div class="column">
+                <img src="images//george_tri.jpg" alt="Georege image with Triangulations" style="width: 100%;">
+                <figcaption>
+                    Image of George with Triangulations
+                </figcaption> 
+            </div>
+            
+            <div class="column">
+                <img src="images//tam_tri.png" alt="Tam image with Triangulations" style="width: 100%;">
+                <figcaption>
+                    Image of Tam with Triangulations
+                </figcaption> 
+            </div>
+        </div>
+        
+        <h2>Part 2: Computing the "Mid-way Face"</h2>
+        <p> 
+            Now to compute the mid-way face for the two images, I used the following steps 1. We first compute the average shape from the two set of Correspondences points (which is something that I already did in previous part). 
+            2. Then we compute the affine transformation matrix taht can warp the triangle from the Georege image to the corresponding triangle which is the midpoint shape and we also do that for Tam image as well. 
+            We then compute the inverse of these affine matrix to warp the midpoint shape to the original shape of Georege and Tam this is done.  
+            Then 3. Finally, we did the cross-disolve by averging the warped images of Georege and Tam.
+        </p>
+        
+         <div class="row">
+        
+            <div class="column">
+                <img src="images//george_small.jpg" alt="Georege image " style="width: 100%;">
+                <figcaption>
+                    Image of George 
+                </figcaption> 
+            </div>
+            
+
+            <div class="column">
+                <img src="images//mid_image.jpg" alt="Mid image " style="width: 100%;">
+                <figcaption>
+                    Image of Mid 
+                </figcaption>
+            </div>
+            
+            <div class="column">
+                <img src="images//tam_resize_2.jpg" alt="Tam image " style="width: 100%;">
+                <figcaption>
+                    Image of Tam 
+                </figcaption> 
+            </div>
+        </div>
+        
+        <h2>Part 3: The Morph Sequence</h2>
+        <p>
+            We then applied the morphing algorithm to generate the morph sequence. We generate 45 frames of the morph with 30 fps and then save it as a gif file.
+        </p>
+
+        <figure class="centered-gif">
+            <img src="images/morph.gif" alt="Morph Sequence" style="width: 50%;">
+            <figcaption>Morph Sequence</figcaption>
+        </figure>
+
+        <h2> 
+            Part 4: The "Mean face" of a Population
+        </h2>
+
+        <p>
+            I decided to use the Danes dataset and computed the average face shape of the whole population by computing the corresponding points that I extracted from the .asf file.
+            Then I warped each of the faces in the dataset to the average face shaoe and also get the average of the warped images as well.
+        </p>
+        
+        <div class="row">
+        
+            <div class="column">
+                <img src="images//example_0.jpg" alt="First Example from Danes dataset" style="width: 100%;">
+                <figcaption>
+                    Image of First Example from Danes dataset
+                </figcaption> 
+            </div>
+            
+
+            <div class="column">
+                <img src="images//example_1.jpg" alt="Second Example from Danes dataset" style="width: 100%;">
+                <figcaption>
+                    Image of Second Example from Danes dataset
+                </figcaption>
+            </div>
+
+            <div class="column">
+                <img src="images//example_2.jpg" alt="Third Example from Danes dataset" style="width: 100%;">
+                <figcaption>
+                    Image of Third Example from Danes dataset
+                </figcaption>
+            </div>
+
+            <div class="column">
+                <img src="images//example_3.jpg" alt="Fourth Example from Danes dataset" style="width: 100%;">
+                <figcaption>
+                    Image of Fourth Example from Danes dataset
+                </figcaption>
+            </div>
+
+            <div class="column">
+                <img src="images//average_image.jpg" alt="Average Image of the warped images" style="width: 100%;">
+                <figcaption>
+                    Average Image of the warped images
+                </figcaption>
+            </div>
+
+
+        </div>
+       
+        <p>
+            We then apply this to my image and show the image from me to average face of the Danes dataset and from the average face of the Danes dataset to me
+        </p>
+
+        <div class="row">
+        
+            <div class="column">
+                <img src="images//tam_resize_3.jpg" alt="Tam image " style="width: 100%;">
+                <figcaption>
+                    Image of Tam 
+                </figcaption> 
+            </div>
+            
+
+            <div class="column">
+                <img src="images//tam_to_average.jpg" alt="Tam image to Average Image" style="width: 100%;">
+                <figcaption>
+                    Image of Tam to Average Image Warped
+                </figcaption>
+            </div>
+
+            <div class="column">
+                <img src="images//average_to_tam.jpg" alt="Average Image to Tam image" style="width: 100%;">
+                <figcaption>
+                    Image of Average Image Warped to Tam image
+                </figcaption>
+            </div>
+        
+    
+
+        </div>
+    
+        <h2> 
+            Part 5: Caricatures 
+        </h2>
+
+        <p>
+            We then apply the caricature by extrapolating from the population mean in the previous part. We use 4 different values of alpha to generate the caricatures which were -0.5, 0, 0.5, and 1.1.
+        </p>
+
+         <div class="row">
+        
+            <div class="column">
+                <img src="images//caricatures_0.jpg" alt="Image of Caricatures with alpha -0.5 " style="width: 100%;">
+                <figcaption>
+                    Image of Caricatures with alpha -0.5
+                </figcaption> 
+            </div>
+            
+
+            <div class="column">
+                <img src="images//caricatures_1.jpg" alt="Image of Caricatures with alpha 0 " style="width: 100%;">
+                <figcaption>
+                    Image of Caricatures with alpha 0
+                </figcaption>
+            </div>
+        
+            <div class="column">
+                <img src="images//caricatures_2.jpg" alt="Image of Caricatures with alpha 0.5 " style="width: 100%;">
+                <figcaption>
+                    Image of Caricatures with alpha 0.5
+                </figcaption>
+            </div>
+    
+            <div class="column">
+                <img src="images//caricatures_3.jpg" alt="Image of Caricatures with alpha 1.1 " style="width: 100%;">
+                <figcaption>
+                    Image of Caricatures with alpha 1.1
+                </figcaption>
+            </div>
+
+        </div>
+    
+        <h2> 
+            Part 6: Bells and Whistles
+        </h2>
+
+        <p>
+            We try to change the gender of me using the Thai Female dataset. We first find the average of Female Thai dataset and then warp my image to the average of Thai Female.
+            I also did the opposite that is cross-disolve from the average of Female Thai to me. At the end I also did the mid image of me and the average of Thai Female.
+        </p>
+
+        <div class="row">
+        
+            <div class="column">
+                <img src="images//tam_resize_4.jpg" alt="Tam image " style="width: 100%;">
+                <figcaption>
+                    Image of Tam 
+                </figcaption> 
+            </div>
+            
+            <div class="column">
+                <img src="images//thaiwoman.jpg" alt="Average Thai Women" style="width: 100%;">
+                <figcaption>
+                    Image of Average Thai Women 
+                </figcaption> 
+            </div>
+
+            <div class="column">
+                <img src="images//tam_to_woman.jpg" alt="Tam image to Average Thai" style="width: 100%;">
+                <figcaption>
+                    Image of Tam to Average Thai Women
+                </figcaption>
+            </div>
+
+             <div class="column">
+                <img src="images//woman_to_tam.jpg" alt="Woman image to Tam" style="width: 100%;">
+                <figcaption>
+                    Image of Average Thai Women to Tam
+                </figcaption>
+            </div>
+
+             <div class="column">
+                <img src="images//tam_mid_woman.jpg" alt="Mid image of tam and women" style="width: 100%;">
+                <figcaption>
+                    Image of Mid image of Tam and Averge Thai Women
+                </figcaption>
+            </div>
+
+ 
+
+          
+
+    </div>
+
+
+    </main>
+</body>
+</html>
