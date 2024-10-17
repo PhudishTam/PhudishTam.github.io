@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CS 280A Project 4</title>
+    <style>
+        .row {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+        }
+        .column {
+            flex: 1;
+            padding: 5px;
+        }
+        .centered-gif {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        img {
+            width: 100%;
+            height: auto;
+        }
+        figcaption {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>CS 280A Project 4 : Image Warping and Mosaicing by Phudish Prateepamornkul</h1>
+    </header>
+    <main>
+        <h2>Part 1: Shoot the Pictures </h2>
+        <p> 
+            We took a few images of the scenes around Berkeley campus and the images are show below     
+        </p>
+
+         <div class="row">
+        
+            <div class="column">
+                <img src="images//example_1_1.jpg" alt="First Example First Image" style="width: 100%;">
+                <figcaption>
+                    First Example First Image
+                </figcaption> 
+            </div>
+            
+            <div class="column">
+                <img src="images//example_1_2.jpg" alt="First Example Second Image" style="width: 100%;">
+                <figcaption>
+                    First Example Second Image
+                </figcaption> 
+            </div>
+        </div>
+         
+        <div class="row">
+        
+            <div class="column">
+                <img src="images//example_2_1.jpg" alt="Second Example First Image" style="width: 100%;">
+                <figcaption>
+                    Second Example First Image
+                </figcaption> 
+            </div>
+            
+            <div class="column">
+                <img src="images//example_2_2.jpg" alt="Second Example Second Image" style="width: 100%;">
+                <figcaption>
+                    Second Example Second Image
+                </figcaption> 
+            </div>
+        </div>
+        
+        <div class="row">
+        
+            <div class="column">
+                <img src="images//example_3_1.jpg" alt="Third Example First Image" style="width: 100%;">
+                <figcaption>
+                    Third Example First Image
+                </figcaption> 
+            </div>
+            
+            <div class="column">
+                <img src="images//example_3_3.jpg" alt="Third Example Second Image" style="width: 100%;">
+                <figcaption>
+                    Third Example Second Image
+                </figcaption> 
+            </div>
+        </div>
+    
+        <div class="row">
+        
+            <div class="column">
+                <img src="images//example_4_1.jpg" alt="Fourth Example First Image" style="width: 100%;">
+                <figcaption>
+                    Fourth Example First Image
+                </figcaption> 
+            </div>
+            
+            <div class="column">
+                <img src="images//example_4_2.jpg" alt="Third Example Second Image" style="width: 100%;">
+                <figcaption>
+                    Fourth Example Second Image
+                </figcaption> 
+            </div>
+        </div>
+
+    <h2>Part 2: Recover Homographies </h2>
+        <p> 
+            So the first thing we have to do is to find the correponding points between the images. This was done by using the tool from last year. 
+            Then we can use the corresponding points to find the homography matrix by using the least square method. 
+            This is done by using the equation that was set up in the class and the expandsion of the solution I look into 
+            <a href="https://inst.eecs.berkeley.edu/~cs180/fa23/upload/files/proj4B/alec.li/">Alec Li</a> last year project.
+            The image below show the result of correponding points for each image. 
+        </p>
+        <div class="row">
+        
+            <div class="column">
+                <img src="images//example_1_1_corresponding_points.png" alt="First Example First Image with Corresponding Points" style="width: 100%;">
+                <figcaption>
+                    First Example First Image with Corresponding Points
+                </figcaption> 
+            </div>
+            
+            <div class="column">
+                <img src="images//example_1_2_corresponding_points.png" alt="First Example Second Image with Corresponding Points" style="width: 100%;">
+                <figcaption>
+                    First Example Second Image with Corresponding Points
+                </figcaption> 
+            </div>
+        </div>
+
+        <div class="row">       
+            <div class="column">
+                <img src="images//example_2_1_corresponding_points.png" alt="Second Example First Image with Corresponding Points" style="width: 100%;">
+                <figcaption>
+                    Second Example First Image with Corresponding Points
+                </figcaption> 
+            </div>
+            
+            <div class="column">
+                <img src="images//example_2_2_corresponding_points.png" alt="Second Example Second Image with Corresponding Points" style="width: 100%;">
+                <figcaption>
+                    Second Example Second Image with Corresponding Points
+                </figcaption> 
+            </div>
+        </div>
+
+        <div class="row">       
+            <div class="column">
+                <img src="images//example_3_1_corresponding_points.png" alt="Third Example First Image with Corresponding Points" style="width: 100%;">
+                <figcaption>
+                    Third Example First Image with Corresponding Points
+                </figcaption> 
+            </div>
+            
+            <div class="column">
+                <img src="images//example_3_2_corresponding_points.png" alt="Third Example Second Image with Corresponding Points" style="width: 100%;">
+                <figcaption>
+                    Third Example Second Image with Corresponding Points
+                </figcaption> 
+            </div>
+        </div>
+    
+         <div class="row">       
+            <div class="column">
+                <img src="images//example_4_1_corresponding_points.png" alt="Fourth Example First Image with Corresponding Points" style="width: 100%;">
+                <figcaption>
+                    Fourth Example First Image with Corresponding Points
+                </figcaption> 
+            </div>
+            
+            <div class="column">
+                <img src="images//example_4_2_corresponding_points.png" alt="Fourth Example Second Image with Corresponding Points" style="width: 100%;">
+                <figcaption>
+                    Fourth Example Second Image with Corresponding Points
+                </figcaption> 
+            </div>
+        </div>
+    
+    <h2>Part 3: Image Warping </h2>
+    <p>
+        Now that we have the homography matrix, we can use it to warp the image and this is done by firstly we have to map the corners of
+        the source image to the target image so that we can find the size of the warped image.
+        Then we have to get the new canvas where this is calculated from the target corners. 
+        Then we use something that is very similar to the previous project where we do the inverse warping and then use the 
+        grid data to get the pixel value and return the pixel value to the new canvas.
+        The image belows show the result of the warped image where I warp the first image to the second and 
+        I also showed the second image warped to the first image as well.
+    </p>
+
+    <div class="row">
+        
+        <div class="column">
+            <img src="images//example_1_warped_2.jpg" alt="First Example First Image Warped to Second Image" style="width: 100%;">
+            <figcaption>
+                First Example First Image Warped to Second Image
+            </figcaption> 
+        </div>
+        
+        <div class="column">
+            <img src="images//example_1_warped_1.jpg" alt="First Example Second Image Warped to Fist Image" style="width: 100%;">
+            <figcaption>
+                First Example Second Image Warped to Fist Image
+            </figcaption> 
+        </div>
+    </div>
+
+    <div class="row">
+
+        <div class="column">
+            <img src="images//example_2_warped_2.jpg" alt="Second Example First Image Warped to Second Image" style="width: 100%;">
+            <figcaption>
+                Second Example First Image Warped to Second Image
+            </figcaption> 
+        </div>
+        
+        <div class="column">
+            <img src="images//example_2_warped_1.jpg" alt="Second Example Second Image Warped to Fist Image" style="width: 100%;">
+            <figcaption>
+                Second Example Second Image Warped to Fist Image
+            </figcaption> 
+        </div>
+    </div>
+
+    <div class="row">
+
+        <div class="column">
+            <img src="images//example_3_warped_2.jpg" alt="Third Example First Image Warped to Second Image" style="width: 100%;">
+            <figcaption>
+                Third Example First Image Warped to Second Image
+            </figcaption> 
+        </div>
+        
+        <div class="column">
+            <img src="images//example_3_warped_1.jpg" alt="Third Example Second Image Warped to Fist Image" style="width: 100%;">
+            <figcaption>
+                Second Example Second Image Warped to Fist Image
+            </figcaption> 
+        </div>
+    </div>
+
+    <div class="row">
+
+        <div class="column">
+            <img src="images//example_4_warped_2.jpg" alt="Fourth Example First Image Warped to Second Image" style="width: 100%;">
+            <figcaption>
+                Fourth Example First Image Warped to Second Image
+            </figcaption> 
+        </div>
+        
+        <div class="column">
+            <img src="images//example_4_warped_1.jpg" alt="Fourth Example Second Image Warped to Fist Image" style="width: 100%;">
+            <figcaption>
+                Fourth Example Second Image Warped to Fist Image
+            </figcaption> 
+        </div>
+    </div>
+
+    <h2>Part 4: Image Rectification </h2>
+    <p>
+        Now that we have the homography matrix, we can use it to rectify the image. 
+        However, as we can see that there is only one image therefore I decided to define the corresponding points to the same image itself.
+        The image below show the immediate result where the red points are representing the source point and the 
+        blue point represent where we want to map the source point to. Addtionally we also show the result of the rectified image.
+    </p>
+
+    <div class="row">
+        <div class="column">
+            <img src="images//book.jpg" alt="First Example before rectification" style="width: 100%;">
+            <figcaption>
+                First Example before rectification
+            </figcaption> 
+        </div>
+        
+        <div class="column">
+            <img src="images//book_mid.png" alt="First Example correponding points " style="width: 100%;">
+            <figcaption>
+                First Example correponding points
+            </figcaption> 
+        </div>
+        
+        <div class="column">
+            <img src="images//book_warped.jpg" alt="First Example after rectification" style="width: 100%;">
+            <figcaption>
+                First Example after rectification
+            </figcaption> 
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="column">
+            <img src="images//package.jpg" alt="Second Example before rectification" style="width: 100%;">
+            <figcaption>
+                Second Example before rectification
+            </figcaption> 
+        </div>
+        
+        <div class="column">
+            <img src="images//package_mid.png" alt="Second Example correponding points" style="width: 100%;">
+            <figcaption>
+                Second Example correponding points
+            </figcaption> 
+        </div>
+         
+        <div class="column">
+            <img src="images//package_warped.jpg" alt="Second Example after rectification" style="width: 100%;">
+            <figcaption>
+                Second Example after rectification
+            </figcaption> 
+        </div>
+    </div>
+
+     <h2>Part 5: Image Rectification </h2>
+    <p>
+        Now that we have the homography matrix, we can use it to rectify the image. 
+        The first thing we have to do is that since the image that is being warped is not the same size as the sorce image,
+        which therefore mean that we have to pad the image so that it is the same size and also we want to make sure that
+        the image is also align with each other as well. Note that in our case we use the left image as the base and the right image 
+        to warp to the left image.
+        The image below show the result of the padded image for each image and as we can see that the image is align and also same size.
+    </p>
+
+    <div class="row">
+        <div class="column">
+            <img src="images//first_mosaic_canvas_1.jpg" alt="First Mosaic First Image Padded" style="width: 100%;">
+            <figcaption>
+                First Mosaic First Image Padded
+            </figcaption> 
+        </div>
+        
+        <div class="column">
+            <img src="images//first_mosaic_canvas_2.jpg" alt="First Mosaic Second Image Padded" style="width: 100%;">
+            <figcaption>
+                First Mosaic Second Image Padded
+            </figcaption> 
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="column">
+            <img src="images//second_mosaic_canvas_1.jpg" alt="Second Mosaic First Image Padded" style="width: 100%;">
+            <figcaption>
+                Second Mosaic First Image Padded
+            </figcaption> 
+        </div>
+        
+        <div class="column">
+            <img src="images//second_mosaic_canvas_2.jpg" alt="Second Mosaic Second Image Padded" style="width: 100%;">
+            <figcaption>
+                Second Mosaic Second Image Padded
+            </figcaption> 
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="column">
+            <img src="images//third_mosaic_canvas_1.jpg" alt="Third Mosaic First Image Padded" style="width: 100%;">
+            <figcaption>
+                Third Mosaic First Image Padded
+            </figcaption> 
+        </div>
+        
+        <div class="column">
+            <img src="images//third_mosaic_canvas_2.jpg" alt="Third Mosaic Second Image Padded" style="width: 100%;">
+            <figcaption>
+                Third Mosaic Second Image Padded
+            </figcaption> 
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="column">
+            <img src="images//fourth_mosaic_canvas_1.jpg" alt="Fourth Mosaic First Image Padded" style="width: 100%;">
+            <figcaption>
+                Fourth Mosaic First Image Padded
+            </figcaption> 
+        </div>
+        
+        <div class="column">
+            <img src="images//fourth_mosaic_canvas_2.jpg" alt="Fourth Second Image Padded" style="width: 100%;">
+            <figcaption>
+                Fourth Mosaic Second Image Padded
+            </figcaption> 
+        </div>
+
+    </div>
+
+
+    <p>
+        We then tried to use the mask in the lecture that is wherever there is only pixel from first image we set that to be 1 and
+        whenever there are intersection between the two images then we set the mask to be 0. Then after that we 
+        do the interpolation of this mask with the base image and the warped image. 
+        The image below shows the result of both the mask and the mosaic image.
+    </p>
+    
+    <div class="row">
+        <div class="column">
+            <img src="images//first_mosaic_mask.jpg" alt=" First Mosaic Mask" style="width: 100%;">
+            <figcaption>
+                First Mosaic Mask
+            </figcaption> 
+        </div>    
+        <div class="column">
+            <img src="images//first_mosaic.jpg" alt=" First Mosaic" style="width: 100%;">
+            <figcaption>
+                First Mosaic
+            </figcaption> 
+        </div> 
+    </div>
+
+    <div class="row">
+        <div class="column">
+            <img src="images//second_mosaic_mask.jpg" alt=" Second Mosaic Mask" style="width: 100%;">
+            <figcaption>
+                Second Mosaic Mask
+            </figcaption> 
+        </div>    
+        <div class="column">
+            <img src="images//second_mosaic.jpg" alt=" Second Mosaic" style="width: 100%;">
+            <figcaption> 
+                Second Mosaic
+            </figcaption> 
+        </div> 
+    </div>
+
+    <div class="row">
+        <div class="column">
+            <img src="images//third_mosaic_mask.jpg" alt=" Third Mosaic Mask" style="width: 100%;">
+            <figcaption>
+                Third Mosaic Mask
+            </figcaption> 
+        </div>    
+        <div class="column">
+            <img src="images//third_mosaic.jpg" alt=" Third Mosaic" style="width: 100%;">
+            <figcaption> 
+                Third Mosaic
+            </figcaption> 
+        </div> 
+    </div>
+
+     <div class="row">
+        <div class="column">
+            <img src="images//fourth_mosaic_mask.jpg" alt=" Fourth Mosaic Mask" style="width: 100%;">
+            <figcaption>
+                Fourth Mosaic Mask
+            </figcaption> 
+        </div>    
+        <div class="column">
+            <img src="images//fourth_mosaic.jpg" alt=" Fourth Mosaic" style="width: 100%;">
+            <figcaption> 
+                Fourth Mosaic
+            </figcaption> 
+        </div>
+    </div>
+
+    <p>
+        However, as we can see that the image is not as clear as it should be and also there seems to be some artifacts in the image.
+        Therefore, we will try to fix this by using the bwdist function that was given in the lecture where we create the two mask 
+        base on the bwdist and then the last mask is the one such that the pixel value is closer to the first image. Then after that 
+        we used the gaussian pyramid to blend the image together and we show the final mask and also the final mosaic image.
+    </p>
+
+    <div class="row">
+       
+        <div class="column">
+            <img src="images//final_mask_one_distance_1.jpg" alt=" Final First example first bwdist mask" style="width: 100%;">
+            <figcaption>
+                Final First example first bwdist mask
+            </figcaption> 
+        </div>    
+        
+        <div class="column">
+            <img src="images//final_mask_one_distance_2.jpg" alt=" Final First example second bwdist mask" style="width: 100%;">
+            <figcaption>
+                Final First example second bwdist mask
+            </figcaption> 
+        </div>    
+      
+        <div class="column">
+            <img src="images//final_mask_one.jpg" alt=" Final First Mosaic Mask" style="width: 100%;">
+            <figcaption>
+                Final First Mosaic Mask
+            </figcaption> 
+        </div>        
+    </div>
+
+    <div class="column">
+            <img src="images//final_mosaic_1.jpg" alt=" Final First Mosaic" style="width: 100%;">
+            <figcaption>
+                Final First Mosaic
+            </figcaption> 
+    
+    </div> 
+
+
+     <div class="row">
+       
+        <div class="column">
+            <img src="images//final_mask_second_distance_1.jpg" alt=" Final Second example first bwdist mask" style="width: 100%;">
+            <figcaption>
+                Final Second example first bwdist mask
+            </figcaption> 
+        </div>    
+        
+        <div class="column">
+            <img src="images//final_mask_second_distance_2.jpg" alt=" Final Second example second bwdist mask" style="width: 100%;">
+            <figcaption>
+                Final Second example second bwdist mask
+            </figcaption> 
+        </div>    
+      
+        <div class="column">
+            <img src="images//final_mask_two.jpg" alt=" Final Second Mosaic Mask" style="width: 100%;">
+            <figcaption>
+                Final Second Mosaic Mask
+            </figcaption> 
+        </div>        
+    </div>
+
+    <div class="column">
+            <img src="images//final_mosaic_2.jpg" alt=" Final Second Mosaic" style="width: 100%;">
+            <figcaption>
+                Final Second Mosaic
+            </figcaption> 
+    
+    </div>
+    
+       <div class="row">
+        
+            <div class="column">
+                <img src="images//final_mask_third_distance_1.jpg" alt=" Final Third example first bwdist mask" style="width: 100%;">
+                <figcaption>
+                    Final Third example first bwdist mask
+                </figcaption> 
+            </div>    
+            
+            <div class="column">
+                <img src="images//final_mask_third_distance_2.jpg" alt=" Final Third example second bwdist mask" style="width: 100%;">
+                <figcaption>
+                    Final Third example second bwdist mask
+                </figcaption> 
+            </div>    
+        
+            <div class="column">
+                <img src="images//final_mask_three.jpg" alt=" Final Third Mosaic Mask" style="width: 100%;">
+                <figcaption>
+                    Final Third Mosaic Mask
+                </figcaption> 
+            </div>
+        </div>
+    
+    <div class="column">
+            <img src="images//final_mosaic_3.jpg" alt=" Final Third Mosaic" style="width: 100%;">
+            <figcaption>
+                Final Third Mosaic
+            </figcaption> 
+        </div>
+
+    <div class="row">
+        
+            <div class="column">
+                <img src="images//final_mask_fourth_distance_1.jpg" alt=" Final Fourth example first bwdist mask" style="width: 100%;">
+                <figcaption>
+                    Final Fourth example first bwdist mask
+                </figcaption> 
+            </div>    
+            
+            <div class="column">
+                <img src="images//final_mask_fourth_distance_2.jpg" alt=" Final Fourth example second bwdist mask" style="width: 100%;">
+                <figcaption>
+                    Final Fourth example second bwdist mask
+                </figcaption> 
+            </div>    
+        
+            <div class="column">
+                <img src="images//final_mask_four.jpg" alt=" Final Fourth Mosaic Mask" style="width: 100%;">
+                <figcaption>
+                    Final Fourth Mosaic Mask
+                </figcaption> 
+            </div>
+    </div>
+    <div class="column">
+            <img src="images//final_mosaic_4.jpg" alt=" Final Fourth Mosaic" style="width: 100%;">
+            <figcaption>
+                Final Fourth Mosaic
+            </figcaption> 
+        </div> 
+
+   </div>
