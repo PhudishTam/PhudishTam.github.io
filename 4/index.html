@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <title>CS 280A Project 4</title>
     <style>
         .row {
@@ -113,8 +115,69 @@
             So the first thing we have to do is to find the correponding points between the images. This was done by using the tool from last year. 
             Then we can use the corresponding points to find the homography matrix by using the least square method. 
             This is done by using the equation that was set up in the class and the expandsion of the solution I look into 
-            <a href="https://inst.eecs.berkeley.edu/~cs180/fa23/upload/files/proj4B/alec.li/">Alec Li</a> last year project.
-            The image below show the result of correponding points for each image. 
+            <a href="https://inst.eecs.berkeley.edu/~cs180/fa23/upload/files/proj4B/alec.li/">Alec Li</a> last year project. 
+            Specially, we need to find the homography matrix that map the source image to the target image and the equation is shown below.
+    <p>
+        \[
+        \begin{bmatrix}
+        a & b & c \\
+        d & e & f \\
+        g & h & 1
+        \end{bmatrix}
+        \begin{bmatrix}
+        x \\
+        y \\
+        1
+        \end{bmatrix}
+        =
+        \begin{bmatrix}
+        wx' \\
+        wy' \\
+        w
+        \end{bmatrix}
+        \]
+
+    
+        \begin{align*}
+        ax + by + c &= wx' \\
+        dx + ey + f &= wy' \\
+        gx + hy + 1 &= w
+        \end{align*}
+    </p>
+    by substituing the value of w back into the equation we get the following equation.
+    <p>
+        \[
+        \begin{align*}
+        ax + by + c &= (gx + hy + 1)x' \\
+        dx + ey + f &= (gx + hy + 1)y' \\
+        ax + by + c - gx'x - hy'x &= x' \\
+        dx + ey + f - gx'y - hy'y &= y' \\
+        \begin{bmatrix}
+        x & y & 1 & 0 & 0 & 0 & -x'x & -x'y \\
+        0 & 0 & 0 & x & y & 1 & -y'x & -y'y
+        \end{bmatrix}
+        \begin{bmatrix}
+        a \\
+        b \\
+        c \\
+        d \\
+        e \\
+        f \\
+        g \\
+        h
+        \end{bmatrix}
+        &=
+        \begin{bmatrix}
+        x' \\
+        y'
+        \end{bmatrix}
+        \end{align*}        
+        \]
+    </p>
+    
+    We can then stack all the points together and then use  
+    the least square method to solve for the homography matrix and get the solution.
+    The image below show the result of correponding points for each image. 
         </p>
         <div class="row">
         
