@@ -30,6 +30,9 @@
         figcaption {
             text-align: center;
         }
+        .equation{
+            text-align: center;
+        }
     </style>
 </head>
 <body>
@@ -254,7 +257,6 @@
         The image belows show the result of the warped image where I warp the first image to the second and 
         I also showed the second image warped to the first image as well.
     </p>
-
     <div class="row">
         
         <div class="column">
@@ -657,6 +659,410 @@
             <figcaption>
                 Final Fourth Mosaic
             </figcaption>
-        </div>
-    
+        </div>    
    </div>
+   <h2>
+    Project 4B
+   </h2>
+   <p>
+    For this part we will do feature matching for autostitching. We will start first with
+    Harris Intterest Point Detector then we implement the Adaptive Non-Maximal Suppression
+    and then we implement feature descriptor extraction then we implement the feature matching
+    and at the end we use the RANSAC for more robust matching and then we make the image mosaic.
+   </p>
+   <h2>
+    Part 1: Harris Interest Point Detector
+   </h2>
+   <p>
+    I started to get the Harris Interest Point Detector by first using the code that was given.
+    Where we set the edge discard to be more than 20. Then running the result on the image we get
+    that there were too many points that were detected. Therefore, I decide to set a threshold 
+    for the corner response to be 0.1 and then we get that there are only about 11,000 points.
+    The image below shows the result of the Harris Interest Point Detector.
+    </p>
+    
+    <div class="row">
+        <div class="column">
+            <img src="images//harris_points_image_1_1.png" alt="First Example First Image with Harris Points" style="width: 100%;">
+            <figcaption>
+                First Example First Image with Harris Points
+            </figcaption> 
+        </div>
+        
+        <div class="column">
+            <img src="images//harris_points_image_1_2.png" alt="First Example Second Image with Harris Points" style="width: 100%;">
+            <figcaption>
+                First Example Second Image with Harris Points 
+            </figcaption> 
+        </div>
+    </div>
+    
+     <div class="row">
+        <div class="column">
+            <img src="images//harris_points_image_2_1.png" alt="Second Example First Image with Harris Points" style="width: 100%;">
+            <figcaption>
+                Second Example First Image with Harris Points
+            </figcaption> 
+        </div>
+        
+        <div class="column">
+            <img src="images//harris_points_image_2_2.png" alt="Second Example Second Image with Harris Points" style="width: 100%;">
+            <figcaption>
+                Second Example Second Image with Harris Points 
+            </figcaption> 
+        </div>
+    </div>
+    
+    
+    <div class="row">
+        <div class="column">
+            <img src="images//harris_points_image_3_1.png" alt="Third Example First Image with Harris Points" style="width: 100%;">
+            <figcaption>
+                Third Example First Image with Harris Points
+            </figcaption> 
+        </div>
+        
+        <div class="column">
+            <img src="images//harris_points_image_3_2.png" alt="Third Example Second Image with Harris Points" style="width: 100%;">
+            <figcaption>
+                Third Example Second Image with Harris Points 
+            </figcaption> 
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="column">
+            <img src="images//harris_points_image_4_1.png" alt="Fourth Example First Image with Harris Points" style="width: 100%;">
+            <figcaption>
+                Fourth Example First Image with Harris Points
+            </figcaption> 
+        </div>
+        
+        <div class="column">
+            <img src="images//harris_points_image_4_2.png" alt="Fourth Example Second Image with Harris Points" style="width: 100%;">
+            <figcaption>
+                Fourth Example Second Image with Harris Points 
+            </figcaption> 
+        </div>
+    </div>
+
+    <h2>
+        Part 2: Adaptive Non-Maximal Suppression
+    </h2>
+
+    <p>
+        Now that we have the Harris Interest Point, we can see that there are still too many points
+        that are detected. Therefore, we will still have to do the Adaptive Non-Maximal Suppression to
+        filter the number of key points that we have. 
+        Essentially, the algorithm will assign every key point an r score where the function f is the 
+        corresponds to the corrner response. We have the following equation.
+       <p>Here is the equation:</p>
+        <div class="equation">
+        \[
+        r_i = \min_j |\mathbf{x}_i - \mathbf{x}_j|, \text{s.t. } f(\mathbf{x}_i) < c_{\text{robust}} f(\mathbf{x}_j), \mathbf{x}_j \in \mathcal{I}
+        \]
+        </div>
+    </p>
+    <p>
+        Then we pick the 500 points that has the highest r scores as the output.
+        The image below shows the result of the Adaptive Non-Maximal Suppression.
+    </p>
+    
+     <div class="row">
+        <div class="column">
+            <img src="images//anms_points_image_1_1.png" alt="First Example First Image with Adaptive Non-Maximal Suppression" style="width: 100%;">
+            <figcaption>
+                First Example First Image with Adaptive Non-Maximal Suppression
+            </figcaption> 
+        </div>
+        
+        <div class="column">
+            <img src="images//anms_points_image_1_2.png" alt="First Example Second Image with Adaptive Non-Maximal Suppression" style="width: 100%;">
+            <figcaption>
+                First Example Second Image with Adaptive Non-Maximal Suppression
+            </figcaption> 
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="column">
+            <img src="images//anms_points_image_2_1.png" alt="Second Example First Image with Adaptive Non-Maximal Suppression" style="width: 100%;">
+            <figcaption>
+                Second Example First Image with Adaptive Non-Maximal Suppression
+            </figcaption> 
+        </div>
+        
+        <div class="column">
+            <img src="images//anms_points_image_2_2.png" alt="Second Example Second Image with Adaptive Non-Maximal Suppression" style="width: 100%;">
+            <figcaption>
+                Second Example Second Image with Adaptive Non-Maximal Suppression
+            </figcaption> 
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="column">
+            <img src="images//anms_points_image_3_1.png" alt="Third Example First Image with Adaptive Non-Maximal Suppression" style="width: 100%;">
+            <figcaption>
+                Third Example First Image with Adaptive Non-Maximal Suppression
+            </figcaption> 
+        </div>
+        
+        <div class="column">
+            <img src="images//anms_points_image_3_2.png" alt="Third Example Second Image with Adaptive Non-Maximal Suppression" style="width: 100%;">
+            <figcaption>
+                Third Example Second Image with Adaptive Non-Maximal Suppression
+            </figcaption> 
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="column">
+            <img src="images//anms_points_image_4_1.png" alt="Fourth Example First Image with Adaptive Non-Maximal Suppression" style="width: 100%;">
+            <figcaption>
+                Fourth Example First Image with Adaptive Non-Maximal Suppression
+            </figcaption> 
+        </div>
+        
+        <div class="column">
+            <img src="images//anms_points_image_4_2.png" alt="Fourth Second Image with Adaptive Non-Maximal Suppression" style="width: 100%;">
+            <figcaption>
+                Fourth Example Second Image with Adaptive Non-Maximal Suppression
+            </figcaption> 
+        </div>
+    </div>
+    
+   <h2>
+        Part 3: Feature Descriptor Extraction
+    </h2>
+    <p>
+    Now after we have the 500 points from the Adaptive Non-Maximal Suppression, 
+    we still need something more than just a single pixel of information. Therefore, we will
+    look into extracting the local information about the image around the key points.
+    We captured 40x40 patch center around each key point and then we downsampled this image to 
+    8x8 patch and we also did the normalization of the image.
+    The image below shows the result of the Feature Descriptor Extraction.
+    </p>
+
+    <div class="row">
+            <div class="column">
+                <img src="images//example_1_1_feature_descriptor_0.png" alt="Example of Feature Descriptor" style="width: 100%;">
+                <figcaption>
+                    Example of Feature Descriptor 
+                </figcaption> 
+            </div>
+    </div>
+
+
+    <h2> 
+        Part 4: Feature Matching
+    </h2>
+    <p>
+        Once we get the image descriptor, then we have to use this to get the matched key
+        points between the pairs of images. In order for us to do this, we have to use the 
+        L2 distance to find the closest key points between the two images using the Lowe's
+        ratio. The Lowe's ratio is defined as the ratio of the distance between the closest
+        key point and the second closest key point. If the ratio is less than 0.4 then we 
+        consider this to be a match. The image below shows the result of the Feature Matching.
+
+    </p>
+    
+    <div class="row">
+        <div class="column">
+            <img src="images//feature_matching_points_image_1_1.png" alt="First Example First Image with feature matching " style="width: 100%;">
+            <figcaption>
+                First Example First Image with feature matching
+            </figcaption> 
+        </div>
+        
+        <div class="column">
+            <img src="images//feature_matching_points_image_1_2.png" alt="First Example Second Image with feature matching" style="width: 100%;">
+            <figcaption>
+                First Example Second Image with feature matching 
+            </figcaption> 
+        </div>
+    </div>
+    
+     <div class="row">
+        <div class="column">
+            <img src="images//feature_matching_points_image_2_1.png" alt="Second Example First Image with feature matching " style="width: 100%;">
+            <figcaption>
+                Second Example First Image with feature matching
+            </figcaption> 
+        </div>
+        
+        <div class="column">
+            <img src="images//feature_matching_points_image_2_2.png" alt="Second Example Second Image with feature matching" style="width: 100%;">
+            <figcaption>
+                Second Example Second Image with feature matching 
+            </figcaption> 
+        </div>
+    </div>
+
+     <div class="row">
+        <div class="column">
+            <img src="images//feature_matching_points_image_3_1.png" alt="Third Example First Image with feature matching " style="width: 100%;">
+            <figcaption>
+                Third Example First Image with feature matching
+            </figcaption> 
+        </div>
+        
+        <div class="column">
+            <img src="images//feature_matching_points_image_3_2.png" alt="Third Example Second Image with feature matching" style="width: 100%;">
+            <figcaption>
+                Third Example Second Image with feature matching 
+            </figcaption> 
+        </div>
+    </div>
+
+     <div class="row">
+        <div class="column">
+            <img src="images//feature_matching_points_image_4_1.png" alt="Fourth Example First Image with feature matching " style="width: 100%;">
+            <figcaption>
+                Fourth Example First Image with feature matching
+            </figcaption> 
+        </div>
+        
+        <div class="column">
+            <img src="images//feature_matching_points_image_4_2.png" alt="Fourth Second Image with feature matching" style="width: 100%;">
+            <figcaption>
+                Fourth Example Second Image with feature matching 
+            </figcaption> 
+        </div>
+    </div>
+
+    <h2>
+        Part 5: RANSAC
+    </h2>
+
+    <p>
+        Now that we have the matched key points, we still do have that the there are still some outlier 
+        therefore we have to use the RANSAC to get the more robust matching. Using the following steps 
+        <ul>
+            <li>
+               We select 4 random points from the matched key points  
+            </li>
+            <li>
+                We then calculate the homography matrix using the 4 points
+            </li>
+            <li>
+                We then use the homography matrix to warp the points from the first image to the second image and 
+                we find the inliers point pairs such that the distance between the warped points and the second image is less 
+                than 1 pixel.
+            </li>
+            <li>
+                We then repeat the above steps for 2000 times and then we select the homography matrix that has the most inliers.
+            </li>
+        </ul>
+        The image below shows the result of the RANSAC.
+    </p>
+
+    <div class="row">
+        <div class="column">
+            <img src="images//ransac_points_image_1_1.png" alt="First Example First Image with RANSAC " style="width: 100%;">
+            <figcaption>
+                First Example First Image with RANSAC
+            </figcaption> 
+        </div>
+        
+        <div class="column">
+            <img src="images//ransac_points_image_1_2.png" alt="First Example Second Image with RANSAC" style="width: 100%;">
+            <figcaption>
+                First Example Second Image with RANSAC 
+            </figcaption> 
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="column">
+            <img src="images//ransac_points_image_2_1.png" alt="Second Example First Image with RANSAC " style="width: 100%;">
+            <figcaption>
+                Second Example First Image with RANSAC
+            </figcaption> 
+        </div>
+        
+        <div class="column">
+            <img src="images//ransac_points_image_2_2.png" alt="Second Example Second Image with RANSAC" style="width: 100%;">
+            <figcaption>
+                Second Example Second Image with RANSAC 
+            </figcaption> 
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="column">
+            <img src="images//ransac_points_image_3_1.png" alt="Third Example First Image with RANSAC " style="width: 100%;">
+            <figcaption>
+                Third Example First Image with RANSAC
+            </figcaption> 
+        </div>
+        
+        <div class="column">
+            <img src="images//ransac_points_image_3_2.png" alt="Third Example Second Image with RANSAC" style="width: 100%;">
+            <figcaption>
+                Third Example Second Image with RANSAC 
+            </figcaption> 
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="column">
+            <img src="images//ransac_points_image_4_1.png" alt="Fourth Example First Image with RANSAC " style="width: 100%;">
+            <figcaption>
+                Fourth Example First Image with RANSAC
+            </figcaption> 
+        </div>
+        
+        <div class="column">
+            <img src="images//ransac_points_image_4_2.png" alt="Fourth Example Second Image with RANSAC" style="width: 100%;">
+            <figcaption>
+                Fourth Example Second Image with RANSAC 
+            </figcaption> 
+        </div>
+    </div>
+
+    <h2>
+        Part 6: Image Mosaic
+    </h2>
+    <p>
+        We then use the same method as the previous part of the project to get the final mosaic image.
+        The image below shows the result of the Image Mosaic.
+    </p>
+
+    <div class="row">
+        <div class="column">
+            <img src="images//first_mosaic_auto_correrospondence.jpg" alt="First Example with Image Mosaic " style="width: 100%;">
+            <figcaption>
+                First Example with Image Mosaic using Auto Correspondence
+            </figcaption> 
+        </div>
+        
+        <div class="column">
+            <img src="images//second_mosaic_auto_correrospondence.jpg" alt="Second Example with Image Mosaic" style="width: 100%;">
+            <figcaption>
+                Second Example with Image Mosaic using Auto Correspondence
+            </figcaption> 
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="column">
+            <img src="images//third_mosaic_auto_correrospondence.jpg" alt="Third Example with Image Mosaic " style="width: 100%;">
+            <figcaption>
+                Third Example with Image Mosaic using Auto Correspondence
+            </figcaption> 
+        </div>
+        
+        <div class="column">
+            <img src="images//fourth_mosaic_auto_correrospondence.jpg" alt="Fourth Example with Image Mosaic" style="width: 100%;">
+            <figcaption>
+                Fourth Example with Image Mosaic using Auto Correspondence
+            </figcaption> 
+        </div>
+    </div>
+
+
+
+
+
+ 
