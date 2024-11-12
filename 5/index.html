@@ -1,0 +1,2906 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <title>CS 280A Project 5</title>
+    <style>
+        .row {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+        }
+        .column {
+            flex: 1;
+            padding: 5px;
+        }
+        .centered-gif {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        img {
+            width: 100%;
+            height: auto;
+        }
+        figcaption {
+            text-align: center;
+        }
+        .equation{
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>CS 280A Project 5 : The Power of Diffusion Models! by Phudish Prateepamornkul</h1>
+    </header>
+    <main>
+        <h2>Part 0: Setup </h2>
+        <p> 
+            We start first with some setup where we are using the DeepFloyd IF diffusion model and we are showing the 3 text prompts and display the caption and
+            the output of the model. We have that the first set of image has the number of inference steps are 20
+        </p>
+
+        <div class="row">
+        
+            <div class="column">
+                <img src="images//sampling_from_model_64_0.jpg" alt="First Example from model" style="width: 100%;">
+                <figcaption>
+                    First Example from model with the following prompt an oil painting of a snowy mountain village with number of inference steps are 20 and 64x64
+                </figcaption> 
+            </div>
+            
+            <div class="column">
+                <img src="images//sampling_from_model_64_1.jpg" alt="Second Example Second Image" style="width: 100%;">
+                <figcaption>
+                    Second Example from model with the following prompt a man wearing a hat with number of inference steps are 20 and 64x64
+                </figcaption> 
+            </div>
+
+            
+            <div class="column">
+                <img src="images//sampling_from_model_64_2.jpg" alt="Third Example Second Image" style="width: 100%;">
+                <figcaption>
+                    Third Example from model with the following prompt a rocket ship with number of inference steps are 20 and 64x64
+                </figcaption> 
+            </div>
+
+        </div>
+
+        <div class="row">
+        
+            <div class="column">
+                <img src="images//sampling_from_model_256_0.jpg" alt="First Example from model" style="width: 100%;">
+                <figcaption>
+                    First Example from model with the following prompt an oil painting of a snowy mountain village with number of inference steps are 20 and 256x256
+                </figcaption> 
+            </div>
+            
+            <div class="column">
+                <img src="images//sampling_from_model_256_1.jpg" alt="Second Example Second Image" style="width: 100%;">
+                <figcaption>
+                    Second Example from model with the following prompt a man wearing a hat with number of inference steps are 20 and 256x256
+                </figcaption> 
+            </div>
+
+            
+            <div class="column">
+                <img src="images//sampling_from_model_256_2.jpg" alt="Third Example Second Image" style="width: 100%;">
+                <figcaption>
+                    Third Example from model with the following prompt a rocket ship with number of inference steps are 20 and 256x256
+                </figcaption> 
+            </div>
+
+        </div>
+
+        <div class="row">
+        
+            <div class="column">
+                <img src="images//sampling_from_model_64_num_steps_400.jpg" alt="First Example from model" style="width: 100%;">
+                <figcaption>
+                    First Example from model with the following prompt an oil painting of a snowy mountain village with number of inference steps are 40 and 64x64
+                </figcaption> 
+            </div>
+            
+            <div class="column">
+                <img src="images//sampling_from_model_64_num_steps_401.jpg" alt="Second Example Second Image" style="width: 100%;">
+                <figcaption>
+                    Second Example from model with the following prompt a man wearing a hat with number of inference steps are 40 and 64x64
+                </figcaption> 
+            </div>
+
+            
+            <div class="column">
+                <img src="images//sampling_from_model_64_num_steps_402.jpg" alt="Third Example Second Image" style="width: 100%;">
+                <figcaption>
+                    Third Example from model with the following prompt a rocket ship with number of inference steps are 40 and 64x64
+                </figcaption> 
+            </div>
+        </div>
+
+        <div class="row">
+        
+            <div class="column">
+                <img src="images//sampling_from_model_256_num_steps_400.jpg" alt="First Example from model" style="width: 100%;">
+                <figcaption>
+                    First Example from model with the following prompt an oil painting of a snowy mountain village with number of inference steps are 40 and 256x256
+                </figcaption> 
+            </div>
+            
+            <div class="column">
+                <img src="images//sampling_from_model_256_num_steps_401.jpg" alt="Second Example Second Image" style="width: 100%;">
+                <figcaption>
+                    Second Example from model with the following prompt a man wearing a hat with number of inference steps are 40 and 256x256
+                </figcaption> 
+            </div>
+
+            
+            <div class="column">
+                <img src="images//sampling_from_model_256_num_steps_402.jpg" alt="Third Example Second Image" style="width: 100%;">
+                <figcaption>
+                    Third Example from model with the following prompt a rocket ship with number of inference steps are 40 and 256x256
+                </figcaption> 
+            </div>
+
+        </div>
+
+        <div class="row">
+        
+            <div class="column">
+                <img src="images//sampling_from_model_64_num_steps_10_0.jpg" alt="First Example from model" style="width: 100%;">
+                <figcaption>
+                    First Example from model with the following prompt an oil painting of a snowy mountain village with number of inference steps are 10 and 64x64
+                </figcaption> 
+            </div>
+            
+            <div class="column">
+                <img src="images//sampling_from_model_64_num_steps_10_1.jpg" alt="Second Example Second Image" style="width: 100%;">
+                <figcaption>
+                    Second Example from model with the following prompt a man wearing a hat with number of inference steps are 10 and 64x64
+                </figcaption> 
+            </div>
+
+            
+            <div class="column">
+                <img src="images//sampling_from_model_64_num_steps_10_2.jpg" alt="Third Example Second Image" style="width: 100%;">
+                <figcaption>
+                    Third Example from model with the following prompt a rocket ship with number of inference steps are 10 and 64x64
+                </figcaption> 
+            </div>
+        </div>
+
+        <div class="row">
+        
+            <div class="column">
+                <img src="images//sampling_from_model_256_num_steps_10_0.jpg" alt="First Example from model" style="width: 100%;">
+                <figcaption>
+                    First Example from model with the following prompt an oil painting of a snowy mountain village with number of inference steps are 10 and 256x256
+                </figcaption> 
+            </div>
+            
+            <div class="column">
+                <img src="images//sampling_from_model_256_num_steps_10_1.jpg" alt="Second Example Second Image" style="width: 100%;">
+                <figcaption>
+                    Second Example from model with the following prompt a man wearing a hat with number of inference steps are 10 and 256x256
+                </figcaption> 
+            </div>
+
+            
+            <div class="column">
+                <img src="images//sampling_from_model_256_num_steps_10_2.jpg" alt="Third Example Second Image" style="width: 100%;">
+                <figcaption>
+                    Third Example from model with the following prompt a rocket ship with number of inference steps are 10 and 256x256
+                </figcaption> 
+            </div>
+
+        </div>
+
+        From this we see that as the number of inference steps increase the image seems to be sharper. The seed I am setting is 180.
+    
+        <h2>
+            Part 1: Sampling Loops
+        </h2>
+        <h3>
+            1.1 Implementing the Forward Process
+        </h3>
+
+        <p>
+            The first step I did is to write the forward process where we use the equation that was given to us sepcifically I use the following equation 
+        </p>
+        <p>
+            \[
+            x_t = \sqrt{\bar{\alpha}_t} x_0 + \sqrt{1 - \bar{\alpha}_t} \epsilon \quad \text{where} \quad \epsilon \sim \mathcal{N}(0, 1)
+            \]
+    
+        
+           
+        </p>
+        which is essentially given a clean image (\x_0\) we will get a noisy image (\x_t\) at time step (\t\) by sampling 
+        from a Gaussian noise with mean (\sqrt{\bar{\alpha}_t}) and variance (\sqrt{1 - \bar{\alpha}_t}). We implement the forward(im,t) function and 
+        the result below show the test image at noise level [0, 250, 500, 750]
+
+        <div class="row">
+        
+            <div class="column">
+                <img src="images//noisy_im_time_step_0.jpg" alt="Original Campnile" style="width: 100%;">
+                <figcaption>
+                    Original Berkeley Campnile
+                </figcaption> 
+            </div>
+            
+            <div class="column">
+                <img src="images//noisy_im_time_step_250.jpg" alt="Noisy Image at t=250" style="width: 100%;">
+                <figcaption>
+                    Noisy Campanile image at t = 250
+                </figcaption> 
+            </div>
+
+            
+            <div class="column">
+                <img src="images//noisy_im_time_step_500.jpg" alt="Noisy Image at t = 500" style="width: 100%;">
+                <figcaption>
+                    Noisy Campanile image at t = 500
+                </figcaption> 
+            </div>
+
+            <div class="column">
+                <img src="images//noisy_im_time_step_750.jpg" alt="Noisy Image at t = 750" style="width: 100%;">
+                <figcaption>
+                    Noisy Campanile image at t = 750
+                </figcaption> 
+            </div>
+
+        </div>
+
+
+        <h3>
+            1.2 Classical Denoising 
+        </h3>
+
+        <p>
+            Given now that we have the noisy images we want to try to denoise these images the first thing we can try is to us the Gaussian blur filtering to try to remove the noise the result below 
+            shows the result of applying gaussian blur at each time step [250, 500, 750]
+        </p>
+
+        <div class="row">
+                    
+            <div class="column">
+                <img src="images//noisy_im_time_step_250.jpg" alt="Noisy Image at t=250" style="width: 100%;">
+                <figcaption>
+                    Noisy Campanile image at t = 250
+                </figcaption> 
+            </div>
+
+            
+            <div class="column">
+                <img src="images//noisy_im_time_step_500.jpg" alt="Noisy Image at t = 500" style="width: 100%;">
+                <figcaption>
+                    Noisy Campanile image at t = 500
+                </figcaption> 
+            </div>
+
+            <div class="column">
+                <img src="images//noisy_im_time_step_750.jpg" alt="Noisy Image at t = 750" style="width: 100%;">
+                <figcaption>
+                    Noisy Campanile image at t = 750
+                </figcaption> 
+            </div>
+
+        </div>
+
+        <div class="row">
+                    
+            <div class="column">
+                <img src="images//gaussian_blur_denoising_img_250.jpg" alt="Gaussian Blur Denoising at t = 250" style="width: 100%;">
+                <figcaption>
+                    Gaussian Blur Denoising at t = 250
+                </figcaption> 
+            </div>
+
+            
+            <div class="column">
+                <img src="images//gaussian_blur_denoising_img_500.jpg" alt="Gaussian Blur Denoising at t = 500" style="width: 100%;">
+                <figcaption>
+                    Gaussian Blur Denoising at t = 500 
+                </figcaption> 
+            </div>
+
+            <div class="column">
+                <img src="images//gaussian_blur_denoising_img_750.jpg" alt="Gaussain Blur Denoising at t = 750" style="width: 100%;">
+                <figcaption>
+                    Gaussian Blur Denoising at t = 750
+                </figcaption> 
+            </div>
+
+        </div>
+        <p>
+            As we can see from this that this is not looking good at all so we will try to use other method instead
+        </p>
+
+        <h3>
+            1.3 One-Step Denoising
+        </h3>
+        
+        <p>
+            We will use the pretraiend diffusion model to denoise the image we can use this to recover the Gaussian noise from the image the image below show the result of the 3
+            noisy image at time step [250, 500, 750] and also the one-step denoised for each of the image
+        </p>
+
+        <div class="row">
+                    
+            <div class="column">
+                <img src="images//noisy_im_time_step_250.jpg" alt="Noisy Image at t=250" style="width: 100%;">
+                <figcaption>
+                    Noisy Campanile image at t = 250
+                </figcaption> 
+            </div>
+
+            
+            <div class="column">
+                <img src="images//noisy_im_time_step_500.jpg" alt="Noisy Image at t = 500" style="width: 100%;">
+                <figcaption>
+                    Noisy Campanile image at t = 500
+                </figcaption> 
+            </div>
+
+            <div class="column">
+                <img src="images//noisy_im_time_step_750.jpg" alt="Noisy Image at t = 750" style="width: 100%;">
+                <figcaption>
+                    Noisy Campanile image at t = 750
+                </figcaption> 
+            </div>
+        </div>
+
+        <div class="row">
+                    
+            <div class="column">
+                <img src="images//one_step_denoised_250.jpg" alt="One-Step Denoised Campanile at t = 250" style="width: 100%;">
+                <figcaption>
+                    One-Step Denoised Campanile at t = 250
+                </figcaption> 
+            </div>
+
+            
+            <div class="column">
+                <img src="images//one_step_denoised_500.jpg" alt="One-Step Denoised Campanile at t = 500" style="width: 100%;">
+                <figcaption>
+                    One-Step Denoised Campanile at t = 500
+                </figcaption> 
+            </div>
+
+            <div class="column">
+                <img src="images//one_step_denoised_750.jpg" alt="One-Step Denoised Campanile at t = 750" style="width: 100%;">
+                <figcaption>
+                    One-Step Denoised Campanile at t = 750
+                </figcaption> 
+            </div>
+        </div>
+
+        <p>
+            Again this look not the best however, it is still better than the gaussian blur earlier that we did now the next section we will do the iterative denoising
+        </p>
+
+        <h3>
+            1.4 Iterative Denoising
+        </h3>
+
+        <p>
+            Instead of doing one step denoising we can do a much better job by denoising each step and get the clear image at the end. 
+            To do this we first need to create a list of timesteps that we will call it as stided_timesteps where the first item in the list correspond to the noisiest image 
+            and then the last timesteps is the one that is a clean image so we used the stided_timesteps from T = 990 to T = 0 in steps of 30. Once we do that then for each of
+            the timestep we use the following formula and we implement the function iterative_denois(image, i_start)
+        </p>
+
+        <p>
+            \[
+            x_t = \frac{\sqrt{\bar{\alpha}_t \beta_t}}{1 - \bar{\alpha}_t} x_0 + \frac{\sqrt{\alpha_t (1 - \bar{\alpha}_t)}}{1 - \bar{\alpha}_t} x_t + v_\sigma
+            \]
+        </p>
+        <p>Where:</p>
+        <ul>
+            <li>\( x_t \) is your image at timestep \( t \)</li>
+            <li>\( x_{t'} \) is your noisy image at timestep \( t' \) where \( t' < t \) (less noisy)</li>
+            <li>\( \bar{\alpha}_t \) is defined by <code>alphas_cumprod</code>, as explained above.</li>
+            <li>\( \alpha_t = \frac{\bar{\alpha}_t}{\bar{\alpha}_{t'}} \)</li>
+            <li>\( \beta_t = 1 - \alpha_t \)</li>
+            <li>\( x_0 \) is our current estimate of the clean image using equation 2 just like in section 1.3</li>
+            <li>\( v_\sigma \) is random noise, which in the case of DeepFloyd is also predicted.</li>
+        </ul>
+
+        <p>
+            We started first with i_start = 10 and the images below show the result of the noisy image of 5th loop of denoising and the final predicted clean image using iterative 
+            denoising, predicted clean image using single denoising step annd predicted clean image using gaussing bluring 
+        </p>
+
+        <div class="row">
+                    
+            <div class="column">
+                <img src="images//noisy_time_step_1_4_136.png" alt="Noisy Image at t=136" style="width: 100%;">
+                <figcaption>
+                    Noisy Campanile image at t = 136
+                </figcaption> 
+            </div>
+
+            
+            <div class="column">
+                <img src="images//noisy_time_step_1_4_238.png" alt="Noisy Image at t = 238" style="width: 100%;">
+                <figcaption>
+                    Noisy Campanile image at t = 238
+                </figcaption> 
+            </div>
+
+            <div class="column">
+                <img src="images//noisy_time_step_1_4_307.png" alt="Noisy Image at t = 307" style="width: 100%;">
+                <figcaption>
+                    Noisy Campanile image at t = 307
+                </figcaption> 
+            </div>
+
+            
+            <div class="column">
+                <img src="images//noisy_time_step_1_4_477.png" alt="Noisy Image at t = 477" style="width: 100%;">
+                <figcaption>
+                    Noisy Campanile image at t = 477
+                </figcaption> 
+            </div>
+
+            
+            <div class="column">
+                <img src="images//noisy_time_step_1_4_648.png" alt="Noisy Image at t = 648" style="width: 100%;">
+                <figcaption>
+                    Noisy Campanile image at t = 648
+                </figcaption> 
+            </div>
+        </div>
+
+        <div class="row">
+                    
+            <div class="column">
+                <img src="images//noisy_im_time_step_0.jpg" alt="Original Image" style="width: 100%;">
+                <figcaption>
+                    Original Image 
+                </figcaption> 
+            </div>
+
+            
+            <div class="column">
+                <img src="images//iterative_denoised_1_4.jpg" alt="Iterative Denoised Campanile" style="width: 100%;">
+                <figcaption>
+                    Iterative Denoised Campanile
+                </figcaption> 
+            </div>
+
+            <div class="column">
+                <img src="images//one_step_denoised_1_4.jpg" alt="One Step Denoised Campanile" style="width: 100%;">
+                <figcaption>
+                    One Step Denoised Campanile
+                </figcaption> 
+            </div>
+
+            
+            <div class="column">
+                <img src="images//gaussin_blur_denoised_1_4.jpg" alt="Gaussian Blurred Campanile" style="width: 100%;">
+                <figcaption>
+                    Gaussain Blurred Campanile
+                </figcaption> 
+            </div>
+
+           
+        </div>
+
+        <h3>
+            1.5 Diffusion Model Sampling 
+        </h3>
+
+        <p>
+            Once we get everything working now we can started to do some sampling image completely from the noise that is we set the i_start to be 0 the images below some sample 5 images
+        </p>
+
+        <div class="row">
+                    
+            <div class="column">
+                <img src="images//generated_image_0.jpg" alt="Sample 1" style="width: 100%;">
+                <figcaption>
+                    Sample 1 
+                </figcaption> 
+            </div>
+
+            
+            <div class="column">
+                <img src="images//generated_image_1.jpg" alt="Sample 2" style="width: 100%;">
+                <figcaption>
+                    Sample 2 
+                </figcaption> 
+            </div>
+
+            <div class="column">
+                <img src="images//generated_image_3.jpg" alt="Sample 3" style="width: 100%;">
+                <figcaption>
+                    Sample 3 
+                </figcaption> 
+            </div>
+
+            
+            <div class="column">
+                <img src="images//generated_image_4.jpg" alt="Sample 4" style="width: 100%;">
+                <figcaption>
+                    Sample 4
+                </figcaption> 
+            </div>
+
+            
+            <div class="column">
+                <img src="images//generated_image_5.jpg" alt="Sample 5" style="width: 100%;">
+                <figcaption>
+                    Sample 5
+                </figcaption> 
+            </div>
+
+            <div class="column">
+                <img src="images//generated_image_2.jpg" alt="Sample 6" style="width: 100%;">
+                <figcaption>
+                    Sample 6
+                </figcaption> 
+            </div>
+            
+        </div>
+
+        <h3>
+            1.6 Classifier-Free Guidance
+        </h3>
+
+        <p>
+            One thing we note here is that the image generated is not very good so we have that we can do better by applying the classifier free guidance that is 
+            we compute the noise estimage of both a conditional and unconditional and then we denote the final noise as where (\epsilon_{c}) denote the epsilon noised
+            estimated conditional and (\epsilon_{u}) denote the epsilon noised estimated unconditional
+        </p>
+
+        <p>
+            \[
+                \epsilon = \epsilon_{u} + \gamma (\epsilon_{c} - \epsilon_{u})
+            \]
+        </p>
+
+        <p>
+            We implemented the iterative denoise cfg function and using the scale factor of 7 and show the images of 5 sample the images are below 
+        </p>
+
+        <div class="row">
+                    
+            <div class="column">
+                <img src="images//sample_cfg_6.jpg" alt="Sample 1 with CFG" style="width: 100%;">
+                <figcaption>
+                    Sample 1 with CFG
+                </figcaption> 
+            </div>
+
+            
+            <div class="column">
+                <img src="images//sample_cfg_1.jpg" alt="Sample 2 with CFG" style="width: 100%;">
+                <figcaption>
+                    Sample 2 with CFG
+                </figcaption> 
+            </div>
+
+            <div class="column">
+                <img src="images//sample_cfg_2.jpg" alt="Sample 3 with CFG" style="width: 100%;">
+                <figcaption>
+                    Sample 3 with CFG
+                </figcaption> 
+            </div>
+
+            
+            <div class="column">
+                <img src="images//sample_cfg_3.jpg" alt="Sample 4 with CFG" style="width: 100%;">
+                <figcaption>
+                    Sample 4 with CFG
+                </figcaption> 
+            </div>
+
+            
+            <div class="column">
+                <img src="images//sample_cfg_4.jpg" alt="Sample 5 with CFG" style="width: 100%;">
+                <figcaption>
+                    Sample 5 with CFG
+                </figcaption> 
+            </div>
+
+            <div class="column">
+                <img src="images//sample_cfg_5.jpg" alt="Sample 6 with CFG" style="width: 100%;">
+                <figcaption>
+                    Sample 6 with CFG
+                </figcaption> 
+            </div>
+            
+        </div>
+
+        <h3>
+            1.7 Image-to-Image Translation
+        </h3>
+
+        <p>
+             From the previous part we have that we take a real image and we add noise to it and then denoise but this part we will try to take the original image 
+             noise a little bit and force it back onto the image manifold without any conditioning. We use the iterative_denoise_cfg function using a starting index of 
+             [1, 3, 5,7,10,20] steps and show the results 
+        </p>
+
+        <div class="row">
+                    
+            <div class="column">
+                <img src="images//sde_edit_test_im_i_start_1.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    First example of SDEdit with i_start = 1 
+                </figcaption> 
+            </div>
+
+            
+            <div class="column">
+                <img src="images//sde_edit_test_im_i_start_3.jpg" alt="SDEdit with i_start = 3" style="width: 100%;">
+                <figcaption>
+                    First example of SDEdit with i_start = 3
+                </figcaption> 
+            </div>
+
+            <div class="column">
+                <img src="images//sde_edit_test_im_i_start_5.jpg" alt="Sample 3 with CFG" style="width: 100%;">
+                <figcaption>
+                    First example of SDEdit with i_start = 5 
+                </figcaption> 
+            </div>
+
+            
+            <div class="column">
+                <img src="images//sde_edit_test_im_i_start_7.jpg" alt="Sample 4 with CFG" style="width: 100%;">
+                <figcaption>
+                    First example of SDEdit with i_start = 7 
+                </figcaption> 
+            </div>
+
+            
+            <div class="column">
+                <img src="images//sde_edit_test_im_i_start_10.jpg" alt="Sample 5 with CFG" style="width: 100%;">
+                <figcaption>
+                    First example of SDEdit with i_start = 10
+                </figcaption> 
+            </div>
+
+            <div class="column">
+                <img src="images//sde_edit_test_im_i_start_20.jpg" alt="Sample 6 with CFG" style="width: 100%;">
+                <figcaption>
+                    First example of SDEdit with i_start = 20 
+                </figcaption> 
+            </div>
+            
+            
+            <div class="column">
+                <img src="images//noisy_im_time_step_0.jpg" alt="Campanile" style="width: 100%;">
+                <figcaption>
+                    Campanile 
+                </figcaption> 
+            </div>
+
+        </div>
+
+        <div class="row">
+                    
+            <div class="column">
+                <img src="images//sde_edit_test_im_i_start_capybara1.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Second example of SDEdit with i_start = 1 
+                </figcaption> 
+            </div>
+
+            
+            <div class="column">
+                <img src="images//sde_edit_test_im_i_start_capybara3.jpg" alt="SDEdit with i_start = 3" style="width: 100%;">
+                <figcaption>
+                    Second example of SDEdit with i_start = 3
+                </figcaption> 
+            </div>
+
+            <div class="column">
+                <img src="images//sde_edit_test_im_i_start_capybara5.jpg" alt="Sample 3 with CFG" style="width: 100%;">
+                <figcaption>
+                    Second example of SDEdit with i_start = 5 
+                </figcaption> 
+            </div>
+
+            
+            <div class="column">
+                <img src="images//sde_edit_test_im_i_start_capybara7.jpg" alt="Sample 4 with CFG" style="width: 100%;">
+                <figcaption>
+                    Second example of SDEdit with i_start = 7 
+                </figcaption> 
+            </div>
+
+            
+            <div class="column">
+                <img src="images//sde_edit_test_im_i_start_capybara10.jpg" alt="Sample 5 with CFG" style="width: 100%;">
+                <figcaption>
+                    Second example of SDEdit with i_start = 10
+                </figcaption> 
+            </div>
+
+            <div class="column">
+                <img src="images//sde_edit_test_im_i_start_capybara20.jpg" alt="Sample 6 with CFG" style="width: 100%;">
+                <figcaption>
+                    Second example of SDEdit with i_start = 20 
+                </figcaption> 
+            </div>
+            
+            
+            <div class="column">
+                <img src="images//capybara_image.jpg" alt="Campanile" style="width: 100%;">
+                <figcaption>
+                    Capybara 
+                </figcaption> 
+            </div>
+
+        </div>
+
+        <div class="row">
+                    
+            <div class="column">
+                <img src="images//sde_edit_test_im_i_start_golden_gate1.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Third example of SDEdit with i_start = 1 
+                </figcaption> 
+            </div>
+
+            
+            <div class="column">
+                <img src="images//sde_edit_test_im_i_start_golden_gate3.jpg" alt="SDEdit with i_start = 3" style="width: 100%;">
+                <figcaption>
+                    Third example of SDEdit with i_start = 3
+                </figcaption> 
+            </div>
+
+            <div class="column">
+                <img src="images//sde_edit_test_im_i_start_golden_gate5.jpg" alt="Sample 3 with CFG" style="width: 100%;">
+                <figcaption>
+                    Third example of SDEdit with i_start = 5 
+                </figcaption> 
+            </div>
+
+            
+            <div class="column">
+                <img src="images//sde_edit_test_im_i_start_golden_gate7.jpg" alt="Sample 4 with CFG" style="width: 100%;">
+                <figcaption>
+                    Third example of SDEdit with i_start = 7 
+                </figcaption> 
+            </div>
+
+            
+            <div class="column">
+                <img src="images//sde_edit_test_im_i_start_golden_gate10.jpg" alt="Sample 5 with CFG" style="width: 100%;">
+                <figcaption>
+                    Third example of SDEdit with i_start = 10
+                </figcaption> 
+            </div>
+
+            <div class="column">
+                <img src="images//sde_edit_test_im_i_start_golden_gate20.jpg" alt="Sample 6 with CFG" style="width: 100%;">
+                <figcaption>
+                    Third example of SDEdit with i_start = 20 
+                </figcaption> 
+            </div>
+            
+            
+            <div class="column">
+                <img src="images//golden_gate.jpg" alt="Campanile" style="width: 100%;">
+                <figcaption>
+                    Golden Gate 
+                </figcaption> 
+            </div>
+
+        </div>
+
+        <h3>
+            Editing Hand-Drawn and Web Image
+        </h3>
+
+        Now we will try to use it to the web images and also the  Hand-Drawn the images below show the result 
+
+        <div class="row">
+                    
+            <div class="column">
+                <img src="images//moodeng_at_1.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Moodeng at i_start = 1
+                </figcaption> 
+            </div>
+
+            <div class="column">
+                <img src="images//moodeng_at_3.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Moodeng at i_start = 3
+                </figcaption> 
+            </div>
+
+            <div class="column">
+                <img src="images//moodeng_at_5.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Moodeng at i_start = 5
+                </figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//moodeng_at_7.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Moodeng at i_start = 7
+                </figcaption> 
+            </div>
+
+            <div class="column">
+                <img src="images//moodeng_at_10.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Moodeng at i_start = 10
+                </figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//moodeng_at_20.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Moodeng at i_start = 20
+                </figcaption> 
+            </div>
+
+            <div class="column">
+                <img src="images//moodeng.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Moodeng 
+                </figcaption> 
+            </div>
+            
+        </div>
+
+        <div class="row">
+                    
+            <div class="column">
+                <img src="images//house_people1.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    House at i_start = 1
+                </figcaption> 
+            </div>
+
+            <div class="column">
+                <img src="images//house_people3.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    House at i_start = 3
+                </figcaption> 
+            </div>
+
+            <div class="column">
+                <img src="images//house_people5.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    House at i_start = 5
+                </figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//house_people7.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    House at i_start = 7
+                </figcaption> 
+            </div>
+
+            <div class="column">
+                <img src="images//house_people10.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    House at i_start = 10
+                </figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//house_people20.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    House at i_start = 20
+                </figcaption> 
+            </div>
+
+            <div class="column">
+                <img src="images//drawn_im.png" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    House
+                </figcaption> 
+            </div>
+            
+        </div>
+
+        <div class="row">
+                    
+            <div class="column">
+                <img src="images//crab1.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Crab at i_start = 1
+                </figcaption> 
+            </div>
+
+            <div class="column">
+                <img src="images//crab3.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Crab at i_start = 3
+                </figcaption> 
+            </div>
+
+            <div class="column">
+                <img src="images//crab5.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Crab at i_start = 5
+                </figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//crab7.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Crab at i_start = 7
+                </figcaption> 
+            </div>
+
+            <div class="column">
+                <img src="images//crab10.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Crab at i_start = 10
+                </figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//crab20.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Crab at i_start = 20
+                </figcaption> 
+            </div>
+
+            <div class="column">
+                <img src="images//drawn_im_2.png" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Crab
+                </figcaption> 
+            </div>
+            
+        </div>
+
+        <h3>
+            1.7.2 Inpainting
+        </h3>
+
+        <p>
+            We then apply this process with the inpaint below show some of the results
+        </p>
+
+        <div class="row">
+                    
+            <div class="column">
+                <img src="images//noisy_im_time_step_0.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Campanile
+                </figcaption> 
+            </div>
+
+            <div class="column">
+                <img src="images//first_mask.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    First Mask
+                </figcaption> 
+            </div>
+
+            <div class="column">
+                <img src="images//first_to_replace.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    First Hole to Fill
+                </figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//inpaint_3.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Campanile Inpainted
+                </figcaption> 
+            </div>
+
+        </div>
+
+        <div class="row">
+                    
+            <div class="column">
+                <img src="images//beach_image.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Beach Image
+                </figcaption> 
+            </div>
+
+            <div class="column">
+                <img src="images//second_mask.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Second Mask
+                </figcaption> 
+            </div>
+
+            <div class="column">
+                <img src="images//second_to_replace.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Second Hole to Fill
+                </figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//inpaint_beach_5.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Beach Inpainted
+                </figcaption> 
+            </div>
+
+        </div>
+
+        <div class="row">
+                    
+            <div class="column">
+                <img src="images//bigben.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    BigBen Image
+                </figcaption> 
+            </div>
+
+            <div class="column">
+                <img src="images//third_mask.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Third Mask
+                </figcaption> 
+            </div>
+
+            <div class="column">
+                <img src="images//third_to_replace.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Third Hole to Fill
+                </figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//inpaint_bigben_14.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Beach Inpainted
+                </figcaption> 
+            </div>
+
+        </div>
+
+        <h3>
+            1.7.3 Text-Conditional Image-to-Image Translation
+        </h3>
+
+        <p>
+            We show some images below 
+        </p>
+
+        <div class="row">
+                    
+            <div class="column">
+                <img src="images//rocket_ship_noise_level_1.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Rocket Ship at noise level 1 
+                </figcaption> 
+            </div>
+
+            <div class="column">
+                <img src="images//rocket_ship_noise_level_3.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Rocket Ship at noise level 3
+                </figcaption> 
+            </div>
+
+            <div class="column">
+                <img src="images//rocket_ship_noise_level_5.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Rocket Ship at noise level 5
+                </figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//rocket_ship_noise_level_7.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Rocket Ship at noise level 7
+                </figcaption> 
+            </div>
+
+            <div class="column">
+                <img src="images//rocket_ship_noise_level_10.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Rocket Ship at noise level 10
+                </figcaption> 
+            </div>
+
+            
+            <div class="column">
+                <img src="images//rocket_ship_noise_level_20.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Rocket Ship at noise level 20
+                </figcaption> 
+            </div>
+
+            
+            <div class="column">
+                <img src="images//noisy_im_time_step_0.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Campanile
+                </figcaption> 
+            </div>
+        </div>
+    
+        <div class="row">
+                    
+            <div class="column">
+                <img src="images//robot_face_1.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Robot Face at noise level 1 
+                </figcaption> 
+            </div>
+
+            <div class="column">
+                <img src="images//robot_face_3.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Robot Face at noise level 3
+                </figcaption> 
+            </div>
+
+            <div class="column">
+                <img src="images//robot_face_5.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Robot Face at noise level 5
+                </figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//robot_face_7.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Robot Face at noise level 7
+                </figcaption> 
+            </div>
+
+            <div class="column">
+                <img src="images//robot_face_10.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Robot Face at noise level 10
+                </figcaption> 
+            </div>
+
+            
+            <div class="column">
+                <img src="images//robot_face_20.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Robot Face at noise level 20
+                </figcaption> 
+            </div>
+
+            
+            <div class="column">
+                <img src="images//human_head.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Human Head
+                </figcaption> 
+            </div>
+        </div>
+    
+
+        <div class="row">
+                    
+            <div class="column">
+                <img src="images//strawberry_1.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Strawberry at noise level 1 
+                </figcaption> 
+            </div>
+
+            <div class="column">
+                <img src="images//strawberry_3.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Strawberry at noise level 3
+                </figcaption> 
+            </div>
+
+            <div class="column">
+                <img src="images//strawberry_5.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Strawberry at noise level 5
+                </figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//strawberry_7.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Strawberry at noise level 7
+                </figcaption> 
+            </div>
+
+            <div class="column">
+                <img src="images//strawberry_10.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Strawberry at noise level 10
+                </figcaption> 
+            </div>
+
+            
+            <div class="column">
+                <img src="images//strawberry_20.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Strawberry at noise level 20
+                </figcaption> 
+            </div>
+
+            
+            <div class="column">
+                <img src="images//apple.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Apple
+                </figcaption> 
+            </div>
+        </div>
+
+        <h3>
+            1.8 Visual Anagrams
+        </h3>
+
+        <div class="row">
+                    
+            <div class="column">
+                <img src="images//first_example_anagrams_4.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    An Oil Painting of an Old Man 
+                </figcaption> 
+            </div>
+
+            <div class="column">
+                <img src="images//first_example_anagrams_flip_4.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    An Oil Painting of People around a Campfire 
+                </figcaption> 
+            </div>
+        </div>
+
+        
+        <div class="row">
+                    
+            <div class="column">
+                <img src="images//second_example_anagrams_3.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    A sleeping cat
+                </figcaption> 
+            </div>
+
+            <div class="column">
+                <img src="images//second_example_anagrams_flip_3.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    A mountain landscape 
+                </figcaption> 
+            </div>
+        </div>
+
+        <div class="row">
+                    
+            <div class="column">
+                <img src="images//third_example_anagrams_0.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    An oil painting of a snowy mountain village
+                </figcaption> 
+            </div>
+
+            <div class="column">
+                <img src="images//third_example_anagrams_flip_0.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    An oil painting of penguin
+                </figcaption> 
+            </div>
+        </div>
+
+        <h3>
+            1.9 Hybrid Images 
+        </h3>
+
+        <div class="row">
+                    
+            <div class="column">
+                <img src="images//hybrid_first_images_sample_12.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Hybrid Image of a skull and waterfall
+                </figcaption> 
+            </div>
+
+            <div class="column">
+                <img src="images//hybrid_second_images_sample_2.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Hybrid Image of a tiger and lion
+                </figcaption> 
+            </div>
+
+            <div class="column">
+                <img src="images//hybrid_third_images_sample_4.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Hybrid Image of a rocket ship and clock tower 
+                </figcaption> 
+            </div>
+
+        </div>
+
+
+        <h2>
+            Part B: Diffusion Models from Scratch!
+        </h2>
+        
+        <h3>
+            1.2 Using the UNet to Train a Denoiser 
+        </h3>
+
+        <div class="row">
+                    
+            <div class="column">
+                <img src="images//example_noisy_image_0_at_sigma_0.0.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    First example of image at sigma level is 0.0
+                </figcaption> 
+            </div>
+
+            <div class="column">
+                <img src="images//example_noisy_image_0_at_sigma_0.2.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    First example of image at sigma level is 0.2
+                </figcaption> 
+            </div>
+
+            <div class="column">
+                <img src="images//example_noisy_image_0_at_sigma_0.4.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    First example of image at sigma level is 0.4
+                </figcaption> 
+            </div>
+            
+              
+            <div class="column">
+                <img src="images//example_noisy_image_0_at_sigma_0.5.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    First example of image at sigma level is 0.5
+                </figcaption> 
+            </div>
+
+            <div class="column">
+                <img src="images//example_noisy_image_0_at_sigma_0.6.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    First example of image at sigma level is 0.6
+                </figcaption> 
+            </div>
+
+            <div class="column">
+                <img src="images//example_noisy_image_0_at_sigma_0.8.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    First example of image at sigma level is 0.8
+                </figcaption> 
+            </div>
+
+            <div class="column">
+                <img src="images//example_noisy_image_0_at_sigma_1.0.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    First example of image at sigma level is 1.0
+                </figcaption> 
+            </div>
+
+        </div>
+
+        <div class="row">
+                    
+            <div class="column">
+                <img src="images//example_noisy_image_1_at_sigma_0.0.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Second example of image at sigma level is 0.0
+                </figcaption> 
+            </div>
+
+            <div class="column">
+                <img src="images//example_noisy_image_1_at_sigma_0.2.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Second example of image at sigma level is 0.2
+                </figcaption> 
+            </div>
+
+            <div class="column">
+                <img src="images//example_noisy_image_1_at_sigma_0.4.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Second example of image at sigma level is 0.4
+                </figcaption> 
+            </div>
+            
+              
+            <div class="column">
+                <img src="images//example_noisy_image_1_at_sigma_0.5.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Second example of image at sigma level is 0.5
+                </figcaption> 
+            </div>
+
+            <div class="column">
+                <img src="images//example_noisy_image_1_at_sigma_0.6.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Second example of image at sigma level is 0.6
+                </figcaption> 
+            </div>
+
+            <div class="column">
+                <img src="images//example_noisy_image_1_at_sigma_0.8.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Second example of image at sigma level is 0.8
+                </figcaption> 
+            </div>
+
+            <div class="column">
+                <img src="images//example_noisy_image_1_at_sigma_1.0.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Second example of image at sigma level is 1.0
+                </figcaption> 
+            </div>
+
+        </div>
+
+        <div class="row">
+                    
+            <div class="column">
+                <img src="images//example_noisy_image_2_at_sigma_0.0.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Third example of image at sigma level is 0.0
+                </figcaption> 
+            </div>
+
+            <div class="column">
+                <img src="images//example_noisy_image_2_at_sigma_0.2.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Third example of image at sigma level is 0.2
+                </figcaption> 
+            </div>
+
+            <div class="column">
+                <img src="images//example_noisy_image_2_at_sigma_0.4.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Third example of image at sigma level is 0.4
+                </figcaption> 
+            </div>
+            
+              
+            <div class="column">
+                <img src="images//example_noisy_image_2_at_sigma_0.5.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Third example of image at sigma level is 0.5
+                </figcaption> 
+            </div>
+
+            <div class="column">
+                <img src="images//example_noisy_image_2_at_sigma_0.6.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Third example of image at sigma level is 0.6
+                </figcaption> 
+            </div>
+
+            <div class="column">
+                <img src="images//example_noisy_image_2_at_sigma_0.8.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Third example of image at sigma level is 0.8
+                </figcaption> 
+            </div>
+
+            <div class="column">
+                <img src="images//example_noisy_image_2_at_sigma_1.0.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Third example of image at sigma level is 1.0
+                </figcaption> 
+            </div>
+
+        </div>
+
+        <div class="row">
+                    
+            <div class="column">
+                <img src="images//example_noisy_image_3_at_sigma_0.0.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Fourth example of image at sigma level is 0.0
+                </figcaption> 
+            </div>
+
+            <div class="column">
+                <img src="images//example_noisy_image_3_at_sigma_0.2.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Fourth example of image at sigma level is 0.2
+                </figcaption> 
+            </div>
+
+            <div class="column">
+                <img src="images//example_noisy_image_3_at_sigma_0.4.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Fourth example of image at sigma level is 0.4
+                </figcaption> 
+            </div>
+            
+              
+            <div class="column">
+                <img src="images//example_noisy_image_3_at_sigma_0.5.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Fourth example of image at sigma level is 0.5
+                </figcaption> 
+            </div>
+
+            <div class="column">
+                <img src="images//example_noisy_image_3_at_sigma_0.6.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Fourth example of image at sigma level is 0.6
+                </figcaption> 
+            </div>
+
+            <div class="column">
+                <img src="images//example_noisy_image_3_at_sigma_0.8.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Fourth example of image at sigma level is 0.8
+                </figcaption> 
+            </div>
+
+            <div class="column">
+                <img src="images//example_noisy_image_3_at_sigma_1.0.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Fourth example of image at sigma level is 1.0
+                </figcaption> 
+            </div>
+
+        </div>
+
+        
+        <div class="row">
+                    
+            <div class="column">
+                <img src="images//example_noisy_image_4_at_sigma_0.0.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Fifth example of image at sigma level is 0.0
+                </figcaption> 
+            </div>
+
+            <div class="column">
+                <img src="images//example_noisy_image_4_at_sigma_0.2.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Fifth example of image at sigma level is 0.2
+                </figcaption> 
+            </div>
+
+            <div class="column">
+                <img src="images//example_noisy_image_4_at_sigma_0.4.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Fifth example of image at sigma level is 0.4
+                </figcaption> 
+            </div>
+            
+              
+            <div class="column">
+                <img src="images//example_noisy_image_4_at_sigma_0.5.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Fifth example of image at sigma level is 0.5
+                </figcaption> 
+            </div>
+
+            <div class="column">
+                <img src="images//example_noisy_image_4_at_sigma_0.6.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Fifth example of image at sigma level is 0.6
+                </figcaption> 
+            </div>
+
+            <div class="column">
+                <img src="images//example_noisy_image_4_at_sigma_0.8.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Fifth example of image at sigma level is 0.8
+                </figcaption> 
+            </div>
+
+            <div class="column">
+                <img src="images//example_noisy_image_4_at_sigma_1.0.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Fifth example of image at sigma level is 1.0
+                </figcaption> 
+            </div>
+
+        </div>
+
+        <h3>
+            1.2.1 Training 
+        </h3>
+
+        <div class="row">
+                    
+            <div class="column">
+                <img src="images//training_losses_first_training.png" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Training Loss Curve
+                </figcaption> 
+            </div>
+
+        </div>
+
+        <div class="row">
+                    
+            <div class="column">
+                <img src="images//epoch_0_example_0_sigma_0.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Epoch 1 test set first example at sigma = 0
+                </figcaption> 
+            </div>
+
+            <div class="column">
+                <img src="images//epoch_0_example_0_sigma_0.5.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Epoch 1 test set first example at sigma = 0.5
+                </figcaption> 
+            </div>
+
+            <div class="column">
+                <img src="images//epoch_0_example_0_output.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Epoch 1 test set first example output
+                </figcaption> 
+            </div>
+
+        </div>
+
+        <div class="row">
+                    
+            <div class="column">
+                <img src="images//epoch_0_example_1_sigma_0.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Epoch 1 test set second example at sigma = 0
+                </figcaption> 
+            </div>
+
+            <div class="column">
+                <img src="images//epoch_0_example_1_sigma_0.5.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Epoch 1 test set second example at sigma = 0.5
+                </figcaption> 
+            </div>
+
+            <div class="column">
+                <img src="images//epoch_0_example_1_output.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Epoch 1 test set second example output
+                </figcaption> 
+            </div>
+
+        </div>
+
+        <div class="row">
+                    
+            <div class="column">
+                <img src="images//epoch_0_example_2_sigma_0.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Epoch 1 test set third example at sigma = 0
+                </figcaption> 
+            </div>
+
+            <div class="column">
+                <img src="images//epoch_0_example_2_sigma_0.5.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Epoch 1 test set third example at sigma = 0.5
+                </figcaption> 
+            </div>
+
+            <div class="column">
+                <img src="images//epoch_0_example_2_output.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Epoch 1 test set third example output
+                </figcaption> 
+            </div>
+
+        </div>
+
+        
+        <div class="row">
+                    
+            <div class="column">
+                <img src="images//epoch_4_example_0_sigma_0.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Epoch 5 test set first example at sigma = 0
+                </figcaption> 
+            </div>
+
+            <div class="column">
+                <img src="images//epoch_4_example_0_sigma_0.5.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Epoch 5 test set first example at sigma = 0.5
+                </figcaption> 
+            </div>
+
+
+            <div class="column">
+                <img src="images//epoch_4_example_0_output.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Epoch 5 test set first example output
+                </figcaption> 
+            </div>
+
+        </div>
+
+        <div class="row">
+                    
+            <div class="column">
+                <img src="images//epoch_4_example_1_sigma_0.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Epoch 5 test set second example at sigma = 0
+                </figcaption> 
+            </div>
+
+            <div class="column">
+                <img src="images//epoch_4_example_1_sigma_0.5.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Epoch 5 test set second example at sigma = 0.5
+                </figcaption> 
+            </div>
+
+            
+            <div class="column">
+                <img src="images//epoch_4_example_1_output.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Epoch 5 test set second example output
+                </figcaption> 
+            </div>
+
+        </div>
+
+        <div class="row">
+                    
+            <div class="column">
+                <img src="images//epoch_4_example_2_sigma_0.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Epoch 5 test set third example at sigma = 0
+                </figcaption> 
+            </div>
+
+            <div class="column">
+                <img src="images//epoch_4_example_2_sigma_0.5.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Epoch 5 test set third example at sigma = 0.5
+                </figcaption> 
+            </div>
+
+            
+            <div class="column">
+                <img src="images//epoch_4_example_2_output.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Epoch 5 test set third example output
+                </figcaption> 
+            </div>
+
+        </div>
+
+        <h3>
+            1.2.2 Out-of-Distribution Testing
+        </h3>
+
+        <div class="row">
+                    
+            <div class="column">
+                <img src="images//noisy_image_with_sigma_0.0.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Noisy image with sigma = 0.0
+                </figcaption> 
+            </div>
+
+            <div class="column">
+                <img src="images//noisy_image_with_sigma_0.2.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Noisy image with sigma = 0.2
+                </figcaption> 
+            </div>
+
+            
+            <div class="column">
+                <img src="images//noisy_image_with_sigma_0.4.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Noisy image with sigma = 0.4
+                </figcaption> 
+            </div>
+
+            
+            <div class="column">
+                <img src="images//noisy_image_with_sigma_0.5.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Noisy image with sigma = 0.5
+                </figcaption> 
+            </div>
+
+            
+            <div class="column">
+                <img src="images//noisy_image_with_sigma_0.6.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Noisy image with sigma = 0.6
+                </figcaption> 
+            </div>
+
+            
+            <div class="column">
+                <img src="images//noisy_image_with_sigma_0.8.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Noisy image with sigma = 0.8
+                </figcaption> 
+            </div>
+
+            
+            <div class="column">
+                <img src="images//noisy_image_with_sigma_1.0.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Noisy image with sigma = 1.0
+                </figcaption> 
+            </div>
+
+        </div>
+
+
+        <div class="row">
+                    
+            <div class="column">
+                <img src="images//noisy_image_with_sigma_0.0_output.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Denoised output image with sigma = 0.0
+                </figcaption> 
+            </div>
+
+            <div class="column">
+                <img src="images//noisy_image_with_sigma_0.2_output.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Denoised output image with sigma = 0.2
+                </figcaption> 
+            </div>
+
+            
+            <div class="column">
+                <img src="images//noisy_image_with_sigma_0.4_output.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Denoised output image with sigma = 0.4
+                </figcaption> 
+            </div>
+
+            
+            <div class="column">
+                <img src="images//noisy_image_with_sigma_0.5_output.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Denoised output image with sigma = 0.5
+                </figcaption> 
+            </div>
+
+            
+            <div class="column">
+                <img src="images//noisy_image_with_sigma_0.6_output.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Denoised output image with sigma = 0.6
+                </figcaption> 
+            </div>
+
+            
+            <div class="column">
+                <img src="images//noisy_image_with_sigma_0.8_output.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Denoised output image with sigma = 0.8
+                </figcaption> 
+            </div>
+
+            
+            <div class="column">
+                <img src="images//noisy_image_with_sigma_1.0_output.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Denoised output image with sigma = 1.0
+                </figcaption> 
+            </div>
+            
+        </div>
+
+
+        <h2>
+            Part 2
+        </h2>
+
+        <h3>
+            2.3 Putting It all together 
+        </h3>
+
+
+
+        <div class="row">
+                    
+            <div class="column">
+                <img src="images//second_train_losses.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Second Train losses
+                </figcaption> 
+            </div>
+        </div>
+
+        <div class="row">
+                    
+            <div class="column">
+                <img src="images//sample_epoch_0_sample_0_digit_0.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Epoch 1 digit 0 first sample 
+                </figcaption> 
+            </div>
+
+            <div class="column">
+                <img src="images//sample_epoch_0_sample_0_digit_1.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Epoch 1 digit 1 first sample 
+                </figcaption> 
+            </div>
+
+            <div class="column">
+                <img src="images//sample_epoch_0_sample_0_digit_2.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Epoch 1 digit 2 first sample 
+                </figcaption> 
+            </div>
+
+            <div class="column">
+                <img src="images//sample_epoch_0_sample_0_digit_3.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Epoch 1 digit 3 first sample 
+                </figcaption> 
+            </div>
+
+            <div class="column">
+                <img src="images//sample_epoch_0_sample_0_digit_4.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Epoch 1 digit 4 first sample 
+                </figcaption> 
+            </div>
+
+            <div class="column">
+                <img src="images//sample_epoch_0_sample_0_digit_5.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Epoch 1 digit 5 first sample 
+                </figcaption> 
+            </div>
+
+            <div class="column">
+                <img src="images//sample_epoch_0_sample_0_digit_6.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Epoch 1 digit 6 first sample 
+                </figcaption> 
+            </div>
+
+            <div class="column">
+                <img src="images//sample_epoch_0_sample_0_digit_7.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Epoch 1 digit 7 first sample 
+                </figcaption> 
+            </div>
+
+            <div class="column">
+                <img src="images//sample_epoch_0_sample_0_digit_8.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Epoch 1 digit 8 first sample 
+                </figcaption> 
+            </div>
+
+            <div class="column">
+                <img src="images//sample_epoch_0_sample_0_digit_9.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Epoch 1 digit 9 first sample 
+                </figcaption> 
+            </div>
+        </div>
+
+        <div class="row">
+                    
+            <div class="column">
+                <img src="images//sample_epoch_0_sample_1_digit_0.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Epoch 1 digit 0 second sample 
+                </figcaption> 
+            </div>
+
+            <div class="column">
+                <img src="images//sample_epoch_0_sample_1_digit_1.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Epoch 1 digit 1 second sample 
+                </figcaption> 
+            </div>
+
+            <div class="column">
+                <img src="images//sample_epoch_0_sample_1_digit_2.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Epoch 1 digit 2 second sample 
+                </figcaption> 
+            </div>
+
+            <div class="column">
+                <img src="images//sample_epoch_0_sample_1_digit_3.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Epoch 1 digit 3 second sample 
+                </figcaption> 
+            </div>
+
+            <div class="column">
+                <img src="images//sample_epoch_0_sample_1_digit_4.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Epoch 1 digit 4 second sample 
+                </figcaption> 
+            </div>
+
+            <div class="column">
+                <img src="images//sample_epoch_0_sample_1_digit_5.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Epoch 1 digit 5 second sample 
+                </figcaption> 
+            </div>
+
+            <div class="column">
+                <img src="images//sample_epoch_0_sample_1_digit_6.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Epoch 1 digit 6 secpnd sample 
+                </figcaption> 
+            </div>
+
+            <div class="column">
+                <img src="images//sample_epoch_0_sample_1_digit_7.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Epoch 1 digit 7 second sample 
+                </figcaption> 
+            </div>
+
+            <div class="column">
+                <img src="images//sample_epoch_0_sample_1_digit_8.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Epoch 1 digit 8 second sample 
+                </figcaption> 
+            </div>
+
+            <div class="column">
+                <img src="images//sample_epoch_0_sample_1_digit_9.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Epoch 1 digit 9 second sample 
+                </figcaption> 
+            </div>
+        </div>
+
+        <div class="row">
+                    
+            <div class="column">
+                <img src="images//sample_epoch_0_sample_2_digit_0.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Epoch 1 digit 0 third sample 
+                </figcaption> 
+            </div>
+        
+            <div class="column">
+                <img src="images//sample_epoch_0_sample_2_digit_1.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Epoch 1 digit 1 third sample 
+                </figcaption> 
+            </div>
+        
+            <div class="column">
+                <img src="images//sample_epoch_0_sample_2_digit_2.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Epoch 1 digit 2 third sample 
+                </figcaption> 
+            </div>
+        
+            <div class="column">
+                <img src="images//sample_epoch_0_sample_2_digit_3.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Epoch 1 digit 3 third sample 
+                </figcaption> 
+            </div>
+        
+            <div class="column">
+                <img src="images//sample_epoch_0_sample_2_digit_4.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Epoch 1 digit 4 third sample 
+                </figcaption> 
+            </div>
+        
+            <div class="column">
+                <img src="images//sample_epoch_0_sample_2_digit_5.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Epoch 1 digit 5 third sample 
+                </figcaption> 
+            </div>
+        
+            <div class="column">
+                <img src="images//sample_epoch_0_sample_2_digit_6.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Epoch 1 digit 6 third sample 
+                </figcaption> 
+            </div>
+        
+            <div class="column">
+                <img src="images//sample_epoch_0_sample_2_digit_7.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Epoch 1 digit 7 third sample 
+                </figcaption> 
+            </div>
+        
+            <div class="column">
+                <img src="images//sample_epoch_0_sample_2_digit_8.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Epoch 1 digit 8 third sample 
+                </figcaption> 
+            </div>
+        
+            <div class="column">
+                <img src="images//sample_epoch_0_sample_2_digit_9.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Epoch 1 digit 9 third sample 
+                </figcaption> 
+            </div>
+        </div>
+        
+        <div class="row">
+                    
+            <div class="column">
+                <img src="images//sample_epoch_0_sample_3_digit_0.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Epoch 1 digit 0 fourth sample 
+                </figcaption> 
+            </div>
+        
+            <div class="column">
+                <img src="images//sample_epoch_0_sample_3_digit_1.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Epoch 1 digit 1 fourth sample 
+                </figcaption> 
+            </div>
+        
+            <div class="column">
+                <img src="images//sample_epoch_0_sample_3_digit_2.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Epoch 1 digit 2 fourth sample 
+                </figcaption> 
+            </div>
+        
+            <div class="column">
+                <img src="images//sample_epoch_0_sample_3_digit_3.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Epoch 1 digit 3 fourth sample 
+                </figcaption> 
+            </div>
+        
+            <div class="column">
+                <img src="images//sample_epoch_0_sample_3_digit_4.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Epoch 1 digit 4 fourth sample 
+                </figcaption> 
+            </div>
+        
+            <div class="column">
+                <img src="images//sample_epoch_0_sample_3_digit_5.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Epoch 1 digit 5 fourth sample 
+                </figcaption> 
+            </div>
+        
+            <div class="column">
+                <img src="images//sample_epoch_0_sample_3_digit_6.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Epoch 1 digit 6 fourth sample 
+                </figcaption> 
+            </div>
+        
+            <div class="column">
+                <img src="images//sample_epoch_0_sample_3_digit_7.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Epoch 1 digit 7 fourth sample 
+                </figcaption> 
+            </div>
+        
+            <div class="column">
+                <img src="images//sample_epoch_0_sample_3_digit_8.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Epoch 1 digit 8 fourth sample 
+                </figcaption> 
+            </div>
+        
+            <div class="column">
+                <img src="images//sample_epoch_0_sample_3_digit_9.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>
+                    Epoch 1 digit 9 fourth sample 
+                </figcaption> 
+            </div>
+        </div>
+        
+
+        <div class="row">
+            <div class="column">
+                <img src="images//sample_epoch_4_sample_0_digit_0.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 5 digit 0 first sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_4_sample_0_digit_1.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 5 digit 1 first sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_4_sample_0_digit_2.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 5 digit 2 first sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_4_sample_0_digit_3.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 5 digit 3 first sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_4_sample_0_digit_4.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 5 digit 4 first sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_4_sample_0_digit_5.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 5 digit 5 first sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_4_sample_0_digit_6.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 5 digit 6 first sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_4_sample_0_digit_7.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 5 digit 7 first sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_4_sample_0_digit_8.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 5 digit 8 first sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_4_sample_0_digit_9.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 5 digit 9 first sample</figcaption> 
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="column">
+                <img src="images//sample_epoch_4_sample_1_digit_0.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 5 digit 0 second sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_4_sample_1_digit_1.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 5 digit 1 second sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_4_sample_1_digit_2.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 5 digit 2 second sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_4_sample_1_digit_3.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 5 digit 3 second sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_4_sample_1_digit_4.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 5 digit 4 second sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_4_sample_1_digit_5.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 5 digit 5 second sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_4_sample_1_digit_6.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 5 digit 6 second sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_4_sample_1_digit_7.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 5 digit 7 second sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_4_sample_1_digit_8.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 5 digit 8 second sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_4_sample_1_digit_9.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 5 digit 9 second sample</figcaption> 
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="column">
+                <img src="images//sample_epoch_4_sample_2_digit_0.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 5 digit 0 third sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_4_sample_2_digit_1.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 5 digit 1 third sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_4_sample_2_digit_2.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 5 digit 2 third sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_4_sample_2_digit_3.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 5 digit 3 third sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_4_sample_2_digit_4.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 5 digit 4 third sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_4_sample_2_digit_5.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 5 digit 5 third sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_4_sample_2_digit_6.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 5 digit 6 third sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_4_sample_2_digit_7.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 5 digit 7 third sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_4_sample_2_digit_8.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 5 digit 8 third sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_4_sample_2_digit_9.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 5 digit 9 third sample</figcaption>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="column">
+                <img src="images//sample_epoch_4_sample_3_digit_0.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 5 digit 0 fourth sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_4_sample_3_digit_1.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 5 digit 1 fourth sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_4_sample_3_digit_2.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 5 digit 2 fourth sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_4_sample_3_digit_3.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 5 digit 3 fourth sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_4_sample_3_digit_4.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 5 digit 4 fourth sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_4_sample_3_digit_5.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 5 digit 5 fourth sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_4_sample_3_digit_6.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 5 digit 6 fourth sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_4_sample_3_digit_7.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 5 digit 7 fourth sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_4_sample_3_digit_8.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 5 digit 8 fourth sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_4_sample_3_digit_9.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 5 digit 9 fourth sample</figcaption> 
+            </div>
+        </div>
+
+        
+        <div class="row">
+            <div class="column">
+                <img src="images//sample_epoch_9_sample_0_digit_0.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 10 digit 0 first sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_9_sample_0_digit_1.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 10 digit 1 first sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_9_sample_0_digit_2.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 10 digit 2 first sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_9_sample_0_digit_3.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 10 digit 3 first sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_9_sample_0_digit_4.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 10 digit 4 first sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_9_sample_0_digit_5.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 10 digit 5 first sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_9_sample_0_digit_6.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 10 digit 6 first sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_9_sample_0_digit_7.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 10 digit 7 first sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_9_sample_0_digit_8.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 10 digit 8 first sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_9_sample_0_digit_9.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 10 digit 9 first sample</figcaption> 
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="column">
+                <img src="images//sample_epoch_9_sample_1_digit_0.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 10 digit 0 second sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_9_sample_1_digit_1.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 10 digit 1 second sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_9_sample_1_digit_2.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 10 digit 2 second sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_9_sample_1_digit_3.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 10 digit 3 second sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_9_sample_1_digit_4.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 10 digit 4 second sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_9_sample_1_digit_5.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 10 digit 5 second sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_9_sample_1_digit_6.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 10 digit 6 second sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_9_sample_1_digit_7.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 10 digit 7 second sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_9_sample_1_digit_8.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 10 digit 8 second sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_9_sample_1_digit_9.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 10 digit 9 second sample</figcaption> 
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="column">
+                <img src="images//sample_epoch_9_sample_2_digit_0.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 10 digit 0 third sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_9_sample_2_digit_1.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 10 digit 1 third sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_9_sample_2_digit_2.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 10 digit 2 third sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_9_sample_2_digit_3.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 10 digit 3 third sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_9_sample_2_digit_4.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 10 digit 4 third sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_9_sample_2_digit_5.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 10 digit 5 third sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_9_sample_2_digit_6.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 10 digit 6 third sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_9_sample_2_digit_7.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 10 digit 7 third sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_9_sample_2_digit_8.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 10 digit 8 third sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_9_sample_2_digit_9.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 10 digit 9 third sample</figcaption> 
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="column">
+                <img src="images//sample_epoch_9_sample_3_digit_0.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 10 digit 0 fourth sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_9_sample_3_digit_1.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 10 digit 1 fourth sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_9_sample_3_digit_2.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 10 digit 2 fourth sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_9_sample_3_digit_3.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 10 digit 3 fourth sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_9_sample_3_digit_4.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 10 digit 4 fourth sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_9_sample_3_digit_5.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 10 digit 5 fourth sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_9_sample_3_digit_6.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 10 digit 6 fourth sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_9_sample_3_digit_7.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 10 digit 7 fourth sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_9_sample_3_digit_8.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 10 digit 8 fourth sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_9_sample_3_digit_9.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 10 digit 9 fourth sample</figcaption> 
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="column">
+                <img src="images//sample_epoch_14_sample_0_digit_0.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 15 digit 0 first sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_14_sample_0_digit_1.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 15 digit 1 first sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_14_sample_0_digit_2.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 15 digit 2 first sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_14_sample_0_digit_3.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 15 digit 3 first sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_14_sample_0_digit_4.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 15 digit 4 first sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_14_sample_0_digit_5.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 15 digit 5 first sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_14_sample_0_digit_6.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 15 digit 6 first sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_14_sample_0_digit_7.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 15 digit 7 first sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_14_sample_0_digit_8.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 15 digit 8 first sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_14_sample_0_digit_9.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 15 digit 9 first sample</figcaption> 
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="column">
+                <img src="images//sample_epoch_14_sample_1_digit_0.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 15 digit 0 second sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_14_sample_1_digit_1.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 15 digit 1 second sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_14_sample_1_digit_2.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 15 digit 2 second sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_14_sample_1_digit_3.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 15 digit 3 second sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_14_sample_1_digit_4.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 15 digit 4 second sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_14_sample_1_digit_5.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 15 digit 5 second sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_14_sample_1_digit_6.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 15 digit 6 second sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_14_sample_1_digit_7.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 15 digit 7 second sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_14_sample_1_digit_8.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 15 digit 8 second sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_14_sample_1_digit_9.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 15 digit 9 second sample</figcaption> 
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="column">
+                <img src="images//sample_epoch_14_sample_2_digit_0.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 15 digit 0 third sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_14_sample_2_digit_1.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 15 digit 1 third sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_14_sample_2_digit_2.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 15 digit 2 third sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_14_sample_2_digit_3.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 15 digit 3 third sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_14_sample_2_digit_4.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 15 digit 4 third sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_14_sample_2_digit_5.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 15 digit 5 third sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_14_sample_2_digit_6.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 15 digit 6 third sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_14_sample_2_digit_7.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 15 digit 7 third sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_14_sample_2_digit_8.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 15 digit 8 third sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_14_sample_2_digit_9.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 15 digit 9 third sample</figcaption> 
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="column">
+                <img src="images//sample_epoch_14_sample_3_digit_0.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 15 digit 0 fourth sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_14_sample_3_digit_1.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 15 digit 1 fourth sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_14_sample_3_digit_2.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 15 digit 2 fourth sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_14_sample_3_digit_3.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 15 digit 3 fourth sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_14_sample_3_digit_4.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 15 digit 4 fourth sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_14_sample_3_digit_5.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 15 digit 5 fourth sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_14_sample_3_digit_6.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 15 digit 6 fourth sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_14_sample_3_digit_7.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 15 digit 7 fourth sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_14_sample_3_digit_8.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 15 digit 8 fourth sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_14_sample_3_digit_9.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 15 digit 9 fourth sample</figcaption> 
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="column">
+                <img src="images//sample_epoch_19_sample_0_digit_0.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 20 digit 0 first sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_19_sample_0_digit_1.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 20 digit 1 first sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_19_sample_0_digit_2.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 20 digit 2 first sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_19_sample_0_digit_3.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 20 digit 3 first sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_19_sample_0_digit_4.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 20 digit 4 first sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_19_sample_0_digit_5.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 20 digit 5 first sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_19_sample_0_digit_6.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 20 digit 6 first sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_19_sample_0_digit_7.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 20 digit 7 first sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_19_sample_0_digit_8.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 20 digit 8 first sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_19_sample_0_digit_9.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 20 digit 9 first sample</figcaption> 
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="column">
+                <img src="images//sample_epoch_19_sample_1_digit_0.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 20 digit 0 second sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_19_sample_1_digit_1.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 20 digit 1 second sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_19_sample_1_digit_2.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 20 digit 2 second sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_19_sample_1_digit_3.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 20 digit 3 second sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_19_sample_1_digit_4.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 20 digit 4 second sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_19_sample_1_digit_5.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 20 digit 5 second sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_19_sample_1_digit_6.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 20 digit 6 second sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_19_sample_1_digit_7.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 20 digit 7 second sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_19_sample_1_digit_8.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 20 digit 8 second sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_19_sample_1_digit_9.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 20 digit 9 second sample</figcaption> 
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="column">
+                <img src="images//sample_epoch_19_sample_2_digit_0.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 20 digit 0 third sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_19_sample_2_digit_1.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 20 digit 1 third sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_19_sample_2_digit_2.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 20 digit 2 third sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_19_sample_2_digit_3.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 20 digit 3 third sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_19_sample_2_digit_4.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 20 digit 4 third sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_19_sample_2_digit_5.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 20 digit 5 third sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_19_sample_2_digit_6.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 20 digit 6 third sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_19_sample_2_digit_7.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 20 digit 7 third sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_19_sample_2_digit_8.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 20 digit 8 third sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_19_sample_2_digit_9.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 20 digit 9 third sample</figcaption>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="column">
+                <img src="images//sample_epoch_19_sample_3_digit_0.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 20 digit 0 fourth sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_19_sample_3_digit_1.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 20 digit 1 fourth sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_19_sample_3_digit_2.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 20 digit 2 fourth sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_19_sample_3_digit_3.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 20 digit 3 fourth sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_19_sample_3_digit_4.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 20 digit 4 fourth sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_19_sample_3_digit_5.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 20 digit 5 fourth sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_19_sample_3_digit_6.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 20 digit 6 fourth sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_19_sample_3_digit_7.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 20 digit 7 fourth sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_19_sample_3_digit_8.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 20 digit 8 fourth sample</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//sample_epoch_19_sample_3_digit_9.gif" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Epoch 20 digit 9 fourth sample</figcaption> 
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="column">
+                <img src="images//final_example_guidance_scale_0.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Final Epoch Example guidance scale 0</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//final_example_guidance_scale_5.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Final Epoch Example guidance scale 5</figcaption> 
+            </div>
+            <div class="column">
+                <img src="images//final_example_guidance_scale_10.jpg" alt="SDEdit with i_start = 1" style="width: 100%;">
+                <figcaption>Final Epoch Example guidance scale 10</figcaption> 
+            </div>
+        </div>
+
+        
