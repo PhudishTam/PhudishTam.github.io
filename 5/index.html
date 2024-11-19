@@ -572,8 +572,8 @@
 
         <p>
             One thing we note here is that the image generated is not very good so we have that we can do better by applying the classifier free guidance that is 
-            we compute the noise estimage of both a conditional and unconditional and then we denote the final noise as where (\epsilon_{c}) denote the epsilon noised
-            estimated conditional and (\epsilon_{u}) denote the epsilon noised estimated unconditional
+            we compute the noise estimage of both a conditional and unconditional and then we denote the final noise as where \( \epsilon_{c} \) denote the epsilon noised
+            estimated conditional and \( \epsilon_{u} \) denote the epsilon noised estimated unconditional
         </p>
 
         <p>
@@ -1333,7 +1333,11 @@
             \epsilon &= f_{\text{lowpass}}(\epsilon_{1}) + f_{\text{highpass}}(\epsilon_{2})
             \end{align}]
             where we have that that the we use the gaussian filter to get the low pass filter and high pass filter 
-            with kernel size of 33 and sigma of 2. The imaegs below show some of the result of the hybrid images.
+            with kernel size of 33 and sigma of 2. The images below show some of the result of the hybrid images. We get 
+            the inspiration of the caption from <a href="https://dangeng.github.io/factorized_diffusion/hybrid.html">here</a>
+            For the first set of images we use the following prompts "a lithograph of a skull" and "a lithograph of waterfalls",
+            for the second set of images we use the following prompts "a lithograph of a pig" and "a lithograph of waterfalls",
+            for the third set of images we use the following prompts "a lithograph of a panda" and "a lithograph of flowers".
         </p>
 
         <div class="row">
@@ -1356,32 +1360,26 @@
         <div class="row">
 
             <div class="column">
-                <img src="images//hybrid_second_images_sample_2.jpg" alt="SDEdit with i_start = 1"  class="resized-image">
+                <img src="images//hybrid_second_images_sample_5.jpg" alt="SDEdit with i_start = 1"  class="resized-image">
                 <figcaption>
-                    Hybrid Image of a fish and submarine
+                    Hybrid Image of a pig and waterfall
                 </figcaption> 
             </div>
 
-            <div class="column">
-                <img src="images//hybrid_second_images_sample_7.jpg" alt="SDEdit with i_start = 1"  class="resized-image">
-                <figcaption>
-                    Hybrid Image of a fish and submarine
-                </figcaption> 
-            </div>
         </div>
 
         <div class="row">
             <div class="column">
                 <img src="images//hybrid_third_images_sample_3.jpg" alt="SDEdit with i_start = 1"  class="resized-image">
                 <figcaption>
-                    Hybrid Image of a rocket ship and clock tower 
+                    Hybrid Image of a panda and flower  
                 </figcaption> 
             </div>
 
             <div class="column">
                 <img src="images//hybrid_third_images_sample_5.jpg" alt="SDEdit with i_start = 1"  class="resized-image">
                 <figcaption>
-                    Hybrid Image of a rocket ship and clock tower 
+                    Hybrid Image of a panda and flower 
                 </figcaption> 
             </div>
 
@@ -1678,9 +1676,9 @@
             1.2.1 Training 
         </h3>
         <p>
-            We then use the dataset and train our network for 5 epochs with the batch size of 256, hidden size of 128, and learning rate of 1e-4.
-            We also use the sigma to be 0.5 and we shows the train losses for every epoch. The images below show the training loss curve.
-            We lso show some sample of denosing at epoch 1 and epoch 5.
+            We then use the dataset and train our U-network for 5 epochs with the batch size of 256, hidden size of 128, and learning rate of 1e-4.
+            We also use the sigma to be 0.5 and we shows the train losses for mini batch in every epoch so that is every batch size of 256. The images below show the training loss curve.
+            We also show some sample of denosing at epoch 1 and epoch 5.
         </p>
 
         <div class="row">
@@ -1983,8 +1981,9 @@
         </h3>
         <p>
             Once we defined the newly FCBlock and as we can see that the one step denoising might not be the best so w will try to implent to denoise the image iteratively the first thing we do is to add 
-            the time condition and use that to train our model. Since I finished this befroe the spec got change so my hyperparameter is the same as the previous part and also the loss present here 
-            is the train losses per epoch. 
+            the time condition and use that to train our model. Since I finished this befroe the spec got change so my hyperparameter is the same as the previous part (that is batch size of 256, hidden size of 128, and learning rate of 1e-4) 
+            and also the loss present here 
+            is the train losses in every mini batch_size in every epoch that is every 256. 
         </p>
         <div class="row">
                     
