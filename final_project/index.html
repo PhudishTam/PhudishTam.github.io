@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script id="MathJax-script" async defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <title>CS 280A Final Project</title>
+    <style>
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+        .column {
+            flex: 1;
+            padding: 5px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        .centered-gif {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        img {
+            width: 100%;
+            height: auto;
+        }
+        .resized-image {
+            width: 256px; 
+            height: 256px; 
+        }
+        .resized-gif{
+            width: 128px; 
+            height: 128px; 
+        }
+        figcaption {
+            text-align: center;
+        }
+        .equation{
+            text-align: center;
+        }
+        .caption-space{
+            margin: 20px 0;
+            text-align: center;
+            background-color: white;
+            padding: 10px;
+        }
+        .center-image {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        margin: 20px 0;
+        }
+
+        .center-image img {
+            width: auto; 
+            max-width: 100%; 
+            height: auto; 
+        }
+
+    </style>
+</head>
+<body>
+    <header>
+        <h1>CS 280A Final Project image colorization with conditional GAN by Phudish Prateepamornkul</h1>
+    </header>
+    <main>
+        <h2>Part 1: Introduction </h2>
+        <p> 
+            Imagine we have a gray scale image and decide to enhance its visual appeal by adding color. How can we achieve this, considering there are potentially unlimited ways to apply color to the image?" 
+            This image colorization problem is a long standing problem in computer graphics which is illustrated in figure below where we are just trying to colorize the black and white image to color.
+
+        </p>
+
+        <div class="row">
+        
+            <div class="column">
+                <img src="images//Apple5_gray.jpg" alt="First Example from model" class="resized-image">
+                <figcaption>
+                    Example of gray scale apple image 
+                </figcaption> 
+            </div>
+            
+            <div class="column">
+                <img src="images//Apple5.jpg" alt="First Example from model" class="resized-image">
+                <figcaption>
+                    Example of color apple image 
+                </figcaption> 
+            </div>
+        </div>
+
+        <p>
+            Recent advances in deep learning, especially in Generative Adversarial Networks (GANs) <sup><a href="#ref1">[1]</a></sup> 
+             have shown promise in addressing this challenge. 
+            Specifically, conditional GANs which incorporate additional information as the input. In this project, explore how architectural choices in conditional GANs can influence the performance of this image colorization task. 
+            Specifically, we want to investigate three different approaches: a U-Net conditional GAN, a dynamic U-Net with a pre-trained ResNet-18 encoder, and a vector quantization U-Net (VQ-U-Net) designed to learn the discrete latent representation. 
+            By conducting experiments in the CIELAB color space, which separates the luminance from the chromatic components we reduce the task complexity and aim to enhance the model performance. 
+        </p>
+
+        <h2>
+            Part 2: Data 
+        </h2>
+
+        <p>
+            For the dataset we are planning to use the Microsoft Common Objects in Context (MS-COCO) dataset 2015 and 2017 version from the official <sup><a href="#ref4">[3]</a></sup>
+            MS-COCO is a large-scale dataset comprises over 200,000 images with 80 common object categories. This dataset is renowned for its diversity and complexity, featuring images with varied scenes, lighting conditions, and object interactions. By leveraging the rich and diverse data provided by MS-COCO, our conditional GAN based colorization method can generalize effectively across different types of images, enhancing both the visual appeal and semantic accuracy of the colorized outputs. The dataset consist of 241,690 for the train dataset, 40,670 for the test dataset and 5,000 validation dataset. 
+            The image itself does not come with gray scale but we can easy convert it to gray scale first to create the pair of gray scale and colorscale of each images. Below we show the images 
+            example from our dataset         
+        </p>
+
+        <div class="row">
+        
+            <div class="column">
+                <img src="images//example_data.jpg" alt="First Example from model" class="resized-image">
+                <figcaption>
+                    First Example from our dataset 
+                </figcaption> 
+            </div>
+            
+            <div class="column">
+                <img src="images//example_data_2.jpg" alt="First Example from model" class="resized-image">
+                <figcaption>
+                    Second Example from our dataset 
+                </figcaption> 
+            </div>
+
+
+            <div class="column">
+                <img src="images//example_data_3.jpg" alt="First Example from model" class="resized-image">
+                <figcaption>
+                    Third Example from our dataset 
+                </figcaption> 
+            </div>
+            
+            <div class="column">
+                <img src="images//example_data_4.jpg" alt="First Example from model" class="resized-image">
+                <figcaption>
+                    Fourth Example from our dataset 
+                </figcaption> 
+            </div>
+        </div>
+
+        <h2>
+            Part 3 : Method and Experiments
+        </h2>
+
+        <p>
+            
+            We first start with the fact that we have a color image of size 
+            <code>x ∈ ℝ<sup>3 × 256 × 256</sup></code>, then we convert that into a gray-scale image of size 
+            <code> ẋ ∈ ℝ<sup>1 × 256 × 256</sup></code>.
+            Note that the COCO dataset image does not come with all of them being <code>256 × 256</code>, 
+            so we have to reshape the image to become <code>256 × 256</code> using the interpolation mode of bicubic in PyTorch.
+            The first thing that we have to do is work with our image in the CIELAB color space, or the 
+            <em>L*a*b*</em> space. This is because the <em>L</em> channel for both the color image 
+            <code>x</code> and the gray-scale image <code>ẋ</code> is the same.
+            This means that instead of predicting 3 color channels in RGB, we reduce our task to predicting just 2 channels.
+            We also have:
+            <ul>
+                <li><code>L ∈ [0, 100]<sup>1 × 256 × 256</sup></code>: Represents the lightness, where <code>0</code> represents completely black and <code>100</code> represents white.</li>
+                <li><code>a ∈ [-110, 100]<sup>1 × 256 × 256</sup></code>: Represents the color-component dimensions from green to red, where negative values represent more green and positive values represent more red.</li>
+                <li><code>b ∈ [-110, 110]<sup>1 × 256 × 256</sup></code>: Represents the color-component dimensions from blue to yellow, where negative values represent more blue and positive values represent more yellow.</li>
+            </ul>
+            We will denote <code>x<sub>L</sub> ∈ ℝ<sup>1 × 256 × 256</sup></code> to be the <em>L</em> channel for both the color and gray-scale image.
+            We also denote <code>x<sub>ab</sub> ∈ ℝ<sup>2 × 256 × 256</sup></code> to be the <em>ab</em> channel for the color image (where we concatenate each of the <em>a</em> and <em>b</em> channels)
+            Finally, <code>ẋ<sub>ab</sub> ∈ ℝ<sup>2 × 256 × 256</sup></code> represents the generated <em>ab</em> channel.
+        </p>
+
+        <h3>
+            Part 3.1 : Experiment 1
+        </h3>
+        <p>
+            In this first experiment, we utilize the conditional GAN with a U-Net architecture, as describe in <sup><a href="#ref1">[2]</a></sup>
+            Figure below here show the summary of our first architecture 
+        </p>
+
+        <div class="center-image">
+            <img src="images/architecture.jpeg" alt="First Experiment Architecture Overview">
+        </div>
+        <figcaption>
+            First Experiment Architecture Overview
+        </figcaption>
+
+        <p>
+            Specifically, given an input condition image <code>x<sub>L</sub></code>, we pass it through a U-Net generator. 
+            The generator uses a standard convolutional encoder-decoder structure, where the encoder consists of convolution layers, 
+            and the decoder uses transposed convolution layers. 
+            This process then outputs a prediction <code>ẋ<sub>ab</sub></code>.
+            The predicted <code>ẋ<sub>ab</sub></code> is concatenated with the condition image 
+            <code>x<sub>L</sub></code> to form the "fake" image, denoted as <code>x<sub>fake</sub></code>. 
+            This fake image is then passed into the patch discriminator, which focuses on smaller regions of the image to determine whether the image is real or fake. 
+            The loss for the discriminator is defined as follows:
+        </p>
+
+        <div class="equation">
+            \[
+            \mathcal{L}_{\textit{real}} = -\mathbb{E}[\log D(x)]
+            \]
+        </div>
+        <div class="equation">
+            \[
+            \mathcal{L}_{\textit{fake}} = -\mathbb{E}[\log (1 - D(x_{\text{fake}}))]
+            \]
+        </div>
+    
+        <div class="equation">
+            \[
+            \mathcal{L} = \frac{\mathcal{L}_{\textit{real}} + \mathcal{L}_{\textit{fake}}}{2}
+            \]
+        </div>
+    
+        <p>
+            where <code>D(x)</code> represents the output of the discriminator.
+            For real samples, the discriminator aims to maximize the output probability, 
+            making it approach 1. Conversely, for fake samples, the discriminator minimizes the output probability, pushing it closer to 0. 
+            When implementing this in code, this is the same as computing binary cross-entropy loss.
+            For the generator, the goal is to fool the discriminator into classifying the "fake" image as real. 
+            The generator's loss function is defined as:
+        </p>
+        <div class="equation">
+            \[
+            \mathcal{L}_{\textit{bce}} = -\mathbb{E}[\log D(x_{\text{fake}})]
+            \]
+        </div>
+        <p>
+            This encourages the discriminator to classify fake images as real, thereby improving the quality of the generated images.
+            In addition to the adversarial loss, we incorporate an <code>L1</code> norm term to ensure that the generated image closely resembles the real image. 
+            Since we operate in the <em>ab</em> color space, the <code>L1</code> loss is also computed in this space. The total loss for the generator is given by:
+
+        </p>
+        <div class="equation">
+            \[
+            \mathcal{L} = \mathcal{L}_{\textit{bce}} + \lambda \|\hat{x}_{\textit{ab}} - x_{\textit{ab}}\|_{1}
+            \]
+        </div>
+        <p>
+            where <code>λ</code> is a hyperparameter that balances the adversarial loss and the reconstruction loss. In this experiment, 
+            we used the hyperparameters suggested in the paper, setting <code>λ = 100</code>. Our architecture was trained for <code>10</code> e
+            pochs with a learning rate of <code>0.0002</code>, using the Adam optimizer with <code>β<sub>1</sub> = 0.5</code> and <code>β<sub>2</sub> = 0.999</code>. 
+            We also initialized our weights with a normal distribution with a mean of <code>0</code> and a standard deviation of <code>0.02</code> for 
+            both the generator and discriminator. We utilized the entire dataset for training, but only <code>2000</code> images for testing. This decision was made to save time while running the experiment.
+        </p>
+
+        <h3>
+            Experiment 2 : Conditional GAN with dynamic U-Net
+        </h3>
+
+        <p>
+            To enhance the results, we use a well-know pre-trained model, specifically the ResNet-18 architecture, as the backbone for the U-Net encoder, paired 
+            with the Pixel Shuffle ICNR technique <sup><a href="#ref1">[5]</a></sup>for the decoder. This implementation is facilitated by the Fastai library 
+            <sup><a href="#ref1">[4]</a></sup> , making it straightforward to set up.
+
+            As an additional step, we first train the generator to understand the image colorization task. Specifically, b
+            efore performing full training, we pre-train the network on <em>L<sub>1</sub></em>  reconstruction. During this training, we use a learning rate of 0.0001 for 20 epochs with Adam optimizer 
+            and using the 2000 images from the train dataset. This staged approach aims to improve the network's ability to produce a better results.
+        </p>
+
+        <h3>
+            Experiment 3 : Conditional GAN with VQ-U-Net
+        </h3>
+
+        <p>
+            To explore further, I decide to utilize the Vector Quantization U-Net (VQ-U-Net) architecture as proposed by <sup><a href="#ref1">[6]</a></sup>
+            which is summarized in figure below 
+        </p>
+
+        <div class="center-image">
+            <img src="images/vq_unet.png" alt="First Experiment Architecture Overview">
+        </div>
+        <figcaption>
+            VQ-U-Net architecture overview
+        </figcaption>
+
+        <p>
+            While the dimensions show in the figure are not the exact ones used in our implementation, the core idea remains the same: after each encoder stage,the encoded output is quantized and stored to use in the U-Net decoder. The goal of incorporating vector quantization was to help the learning of discrete latent representations, which are expected to be more robust and informative. Additionally, this method introduces a discrete bottleneck which encouraging the generator to learn more compact and meaningful representations.
+            In this experiment, we utilize ResNet-34 as the backbone for the encoder and transpose convolution for the decoder. Similar to previews section, we followed the same approach during the pre-training process and used same hyper parameters. Additionally, we also set the number of embeddings to be 2048. 
+            Since we have 4 encoder layer and hence we would also need 4 quantization as well and each has the following embedding dimension 64,128,256 and 512.
+            We also have the VQ losses which is used to ensure effective learning of the discrete latent representations, where it encourages the encoder to commit to discrete code book entries and updates the code book to better represent the encoded data.
+        </p>
+
+        <h2>
+            Part 4 : Results
+        </h2>
+
+        <p>
+            We present the results from various experiments in figure below
+        </p>
+
+       
+        <div class="row">
+        
+            <div class="column">
+                <img src="images//real_image_1.png" alt="First Example from model" class="resized-image">
+                <figcaption>
+                    First real example
+                </figcaption> 
+            </div>
+            
+            <div class="column">
+                <img src="images//base_image_1.png" alt="First Example from model" class="resized-image">
+                <figcaption>
+                    First experiment first example
+                </figcaption> 
+            </div>
+
+
+            <div class="column">
+                <img src="images//pretrain_image_1.png" alt="First Example from model" class="resized-image">
+                <figcaption>
+                    Second experiment first example
+                </figcaption> 
+            </div>
+            
+            <div class="column">
+                <img src="images//vq_image_1.png" alt="First Example from model" class="resized-image">
+                <figcaption>
+                    Third experiment first example
+                </figcaption> 
+            </div>
+        </div>
+
+        <div class="row">
+        
+            <div class="column">
+                <img src="images//real_image_2.png" alt="First Example from model" class="resized-image">
+                <figcaption>
+                    Second real example
+                </figcaption> 
+            </div>
+            
+            <div class="column">
+                <img src="images//base_image_2.png" alt="First Example from model" class="resized-image">
+                <figcaption>
+                    First experiment second example
+                </figcaption> 
+            </div>
+
+
+            <div class="column">
+                <img src="images//pretrain_image_2.png" alt="First Example from model" class="resized-image">
+                <figcaption>
+                    Second experiment second example
+                </figcaption> 
+            </div>
+            
+            <div class="column">
+                <img src="images//vq_image_2.png" alt="First Example from model" class="resized-image">
+                <figcaption>
+                    Third experiment second example
+                </figcaption> 
+            </div>
+        </div>
+
+
+        <div class="row">
+        
+            <div class="column">
+                <img src="images//real_image_3.png" alt="First Example from model" class="resized-image">
+                <figcaption>
+                    Third real example
+                </figcaption> 
+            </div>
+            
+            <div class="column">
+                <img src="images//base_image_3.png" alt="First Example from model" class="resized-image">
+                <figcaption>
+                    First experiment third example
+                </figcaption> 
+            </div>
+
+
+            <div class="column">
+                <img src="images//pretrain_image_3.png" alt="First Example from model" class="resized-image">
+                <figcaption>
+                    Second experiment third example
+                </figcaption> 
+            </div>
+            
+            <div class="column">
+                <img src="images//vq_image_3.png" alt="First Example from model" class="resized-image">
+                <figcaption>
+                    Third experiment third example
+                </figcaption> 
+            </div>
+        </div>
+
+        <div class="row">
+        
+            <div class="column">
+                <img src="images//real_image_4.png" alt="First Example from model" class="resized-image">
+                <figcaption>
+                    Fourth real example
+                </figcaption> 
+            </div>
+            
+            <div class="column">
+                <img src="images//base_image_4.png" alt="First Example from model" class="resized-image">
+                <figcaption>
+                    First experiment fourth example
+                </figcaption> 
+            </div>
+
+
+            <div class="column">
+                <img src="images//pretrain_image_4.png" alt="First Example from model" class="resized-image">
+                <figcaption>
+                    Second experiment fourth example
+                </figcaption> 
+            </div>
+            
+            <div class="column">
+                <img src="images//vq_image_4.png" alt="First Example from model" class="resized-image">
+                <figcaption>
+                    Third experiment fourth example
+                </figcaption> 
+            </div>
+        </div>
+
+        <div class="row">
+        
+            <div class="column">
+                <img src="images//real_image_5.png" alt="First Example from model" class="resized-image">
+                <figcaption>
+                    Fifth real example
+                </figcaption> 
+            </div>
+            
+            <div class="column">
+                <img src="images//base_image_5.png" alt="First Example from model" class="resized-image">
+                <figcaption>
+                    First experiment fifth example
+                </figcaption> 
+            </div>
+
+
+            <div class="column">
+                <img src="images//pretrain_image_5.png" alt="First Example from model" class="resized-image">
+                <figcaption>
+                    Second experiment fifth example
+                </figcaption> 
+            </div>
+            
+            <div class="column">
+                <img src="images//vq_image_5.png" alt="First Example from model" class="resized-image">
+                <figcaption>
+                    Third experiment fifth example
+                </figcaption> 
+            </div>
+        </div>
+
+        <div class="row">
+        
+            <div class="column">
+                <img src="images//real_image_6.png" alt="First Example from model" class="resized-image">
+                <figcaption>
+                    Sixth real example
+                </figcaption> 
+            </div>
+            
+            <div class="column">
+                <img src="images//base_image_6.png" alt="First Example from model" class="resized-image">
+                <figcaption>
+                    First experiment sixth example
+                </figcaption> 
+            </div>
+
+
+            <div class="column">
+                <img src="images//pretrain_image_6.png" alt="First Example from model" class="resized-image">
+                <figcaption>
+                    Second experiment sixth example
+                </figcaption> 
+            </div>
+            
+            <div class="column">
+                <img src="images//vq_image_6.png" alt="First Example from model" class="resized-image">
+                <figcaption>
+                    Third experiment sixth example
+                </figcaption> 
+            </div>
+        </div>
+
+        <div class="row">
+        
+            <div class="column">
+                <img src="images//real_image_7.png" alt="First Example from model" class="resized-image">
+                <figcaption>
+                    Seventh real example
+                </figcaption> 
+            </div>
+            
+            <div class="column">
+                <img src="images//base_image_7.png" alt="First Example from model" class="resized-image">
+                <figcaption>
+                    First experiment seventh example
+                </figcaption> 
+            </div>
+
+
+            <div class="column">
+                <img src="images//pretrain_image_7.png" alt="First Example from model" class="resized-image">
+                <figcaption>
+                    Second experiment seventh example
+                </figcaption> 
+            </div>
+            
+            <div class="column">
+                <img src="images//vq_image_7.png" alt="First Example from model" class="resized-image">
+                <figcaption>
+                    Third experiment seventh example
+                </figcaption> 
+            </div>
+        </div>
+
+        <div class="row">
+        
+            <div class="column">
+                <img src="images//real_image_8.png" alt="First Example from model" class="resized-image">
+                <figcaption>
+                    Eighth real example
+                </figcaption> 
+            </div>
+            
+            <div class="column">
+                <img src="images//base_image_8.png" alt="First Example from model" class="resized-image">
+                <figcaption>
+                    First experiment eighth example
+                </figcaption> 
+            </div>
+
+
+            <div class="column">
+                <img src="images//pretrain_image_8.png" alt="First Example from model" class="resized-image">
+                <figcaption>
+                    Second experiment eighth example
+                </figcaption> 
+            </div>
+            
+            <div class="column">
+                <img src="images//vq_image_8.png" alt="First Example from model" class="resized-image">
+                <figcaption>
+                    Third experiment eighth example
+                </figcaption> 
+            </div>
+        </div>
+ 
+        <p>
+            The first column displays the real images we aim to colorize, the second column shows the result of the first experiment, third column represents the results of the second experiment, and the final column illustrates the results of the third experiment.
+            The results show that the second experiment, which utilizes the dynamic U-Net performs the best. This outcome is not surprising, as the dynamic U-Net features a more robust decoder. Moreover, it has the highest number of parameters compared to the other experiments. 
+            Also as we can see that the first experiment also perform reasonable already. Even though our VQ-U-Net does not yet achieve the best results. 
+            However, the VQ-U-Net shows some promising result where it was successfully predicts certain parts of the color image accurately showing that the model is capturing useful signals.
+
+        </p>
+
+        <h2>
+            Conclusion and future works 
+        </h2>
+
+        <p>
+            In this project, we explored various architecture options with conditional GANs to tackle image colorization task. Among to three different approaches, the dynamic U-Net outperformed the others, likely due to its robust decoder and pre-trained ResNet-18 encoder which contributed to better results. The VQ-U-Net, while not yielding the best overall performance showed promising potential by correctly predicting certain parts of the colorized images which indicating its ability to capture useful signals through the discrete latent representations.
+            In the future work we could focus on further refining the VQ-U-Net architecture by doing some hyper parameter search for the best number of 
+            embedding and also train it for much longer with more data. Additionally, it would be very interesting to see how using text can help to guide the result to be better.
+        </p>
+
+
+    
+
+        <h3>References</h3>
+        <ol>
+            <li>
+                Goodfellow, Ian J., Pouget-Abadie, Jean, Mirza, Mehdi, Xu, Bing, Warde-Farley, David, Ozair, Sherjil, Courville, Aaron, & Bengio, Yoshua (2014). <em>Generative Adversarial Networks</em>. 
+                <a href="https://arxiv.org/abs/1406.2661">arXiv:1406.2661</a>.
+            </li>
+
+            <li>
+                Isola, Phillip, Zhu, Jun-Yan, Zhou, Tinghui, & Efros, Alexei A. (2018). <em>Image-to-Image Translation with Conditional Adversarial Networks</em>. 
+                <a href="https://arxiv.org/abs/1611.07004">arXiv:1611.07004</a>.
+            </li>
+
+            <li>
+                Lin, Tsung-Yi, Maire, Michael, Belongie, Serge, Bourdev, Lubomir, Girshick, Ross, Hays, James, Perona, Pietro, Ramanan, Deva, Zitnick, C. Lawrence, & Dollár, Piotr (2015). <em>Microsoft COCO: Common Objects in Context</em>. 
+                <a href="https://arxiv.org/abs/1405.0312">arXiv:1405.0312</a>.
+            </li>
+
+            
+            <li>
+                Howard, Jeremy, et al. (2018). <em>fastai</em>. 
+                <a href="https://github.com/fastai/fastai">GitHub Repository</a>.
+            </li>
+
+            <li>
+                Shi, Wenzhe, Caballero, Jose, Huszár, Ferenc, Totz, Johannes, Aitken, Andrew P., Bishop, Rob, Rueckert, Daniel, & Wang, Zehan (2016). <em>Real-Time Single Image and Video Super-Resolution Using an Efficient Sub-Pixel Convolutional Neural Network</em>. 
+                <a href="https://arxiv.org/abs/1609.05158">arXiv:1609.05158</a>.
+            </li>
+
+           
+            <li>
+                He, Zhixun, & Singhal, Mukesh (2024). <em>VQUNet: Vector Quantization U-Net for Defending Adversarial Attacks by Regularizing Unwanted Noise</em>. In <em>Proceedings of the 2024 7th International Conference on Machine Vision and Applications</em> (ICMVA 2024). ACM. 
+                <a href="http://dx.doi.org/10.1145/3653946.3653957">DOI: 10.1145/3653946.3653957</a>.
+            </li>
+        </ol>
+
