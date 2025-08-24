@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Name</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --accent: #2563eb; 
+      --bg: #ffffff;     
+      --text: #111827;   
+      --muted: #6b7280;  
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: "Inter", sans-serif;
+      margin: 0;
+      background: var(--bg); 
+      color: var(--text);
+      line-height: 1.7;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 2rem 1rem;
+    }
+    h1, h2 {
+      font-weight: 700;
+      line-height: 1.3;
+      margin: 2rem 0 1rem;
+    }
+    h1 { font-size: 2.5rem; }
+    h2 { font-size: 1.5rem; }
+    ul { padding-left: 1rem; }
+    li { margin: 0.3rem 0; }
+
+    nav { margin-top: 1rem; }
+    nav a {
+      margin-right: 0.8rem;
+      text-decoration: none;
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    .hero {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 2rem;
+      margin: 2rem 0;
+    }
+
+    .hero img {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    header img {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .tagline {
+      font-size: 1.5rem;
+      font-weight: 300;
+      margin-top: -1rem;
+      margin-bottom: 1rem;
+    }
+
+    .hero div p {
+      font-size: 1.5rem;
+      font-weight: 300;
+    }
+
+    .news-item { margin: 0.5rem 0; }
+    .news-item span { font-weight: 600; margin-right: 0.4rem; }
+
+    footer {
+      margin: 3rem 0 1rem;
+      font-size: 0.9rem;
+      color: var(--muted);
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div>
+        <h1>Phudish Prateepamornkul</h1>
+        <p class="tagline">AI Scientist at <a href="https://www.data-x.ai/">SCB DataX</a></p>
+        <nav>
+          <a href="mailto:phudishp@gmail.com">Email</a>
+          <a href="https://scholar.google.com/citations?user=obgiWfUAAAAJ&hl=en">Google Scholar</a>
+          <a href="https://linkedin.com/in/phudish-prateepamornkul">LinkedIn</a>
+        </nav>
+      </div>
+      <img src="profile.png" alt="Profile photo">
+    </header>
+
+    <section>
+      <h2>About Me</h2>
+      <p>
+        Hi! My name is Tam and I am an AI Scientist at SCB DataX. I worked on various AI project both in academia and industry, including knowledge editing, text-to-sql and ASR.
+        I am passionate about developing AI systems that are not only powerful but also interpretable and do not stop learning.
+      </p>
+    </section>
+
+    <section>
+      <h2>Research&nbsp;Interests</h2>
+      <ul>
+        <li><a>Knowledge Editing &amp; Interpretability</a> [<a href="https://arxiv.org/abs/2502.01636">EMNLP'25 Finding</a>]</li>
+        <li>Continual Learning</li>
+        <li>ASR Quality Estimation</li>
+        <li>Agent Simulation</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>News</h2>
+      <div class="news-item"><span>Aug&nbsp;20,&nbsp;2025 —</span> My first paper in Editing Knowledge got accepted in EMNLP 2025</div>
+    </section>
+  </div>
+</body>
+</html>
